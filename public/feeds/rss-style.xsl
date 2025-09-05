@@ -71,7 +71,7 @@
           </div>
           <div class="divider"></div>
           <div class="description">
-            To subscribe, copy the URL from the address bar and add it to your feed reader.
+            Peace and Love
           </div>
 
           <div class="footer">

@@ -1,0 +1,65 @@
+---
+// src/pages/newsletter.astro
+import IndexLayout from "../layouts/IndexLayout.astro";
+---
+
+<IndexLayout title="Subscribe to Newsletter">
+  <h1>Subscribe</h1>
+
+  <form
+    action="https://buttondown.com/api/emails/embed-subscribe/junbo"
+    method="post"
+    target="popupwindow"
+    onsubmit="window.open('https://buttondown.com/junbo', 'popupwindow')"
+    class="embeddable-buttondown-form"
+  >
+    <label for="bd-email">Enter your email to receive article tweets! Updated from time to time!</label>
+    <input type="email" name="email" id="bd-email" required />
+
+    <input type="submit" value="Subscribe" />
+    <p>To subscribe by RSS, copy the URL from the Green Card below and add it to your feed reader!</p>
+    <div class="rss-section">
+      <a href="https://jackcooper.qzz.io/rss.xml">
+          <img alt="Static Badge" src="https://img.shields.io/badge/RSS-Feed">
+      </a>
+    </div>
+    <p>
+      <a href="https://buttondown.com/refer/junbo" target="_blank">
+        Powered by Buttondown.
+      </a>
+    </p>
+  </form>
+  
+</IndexLayout>
+
+<style>
+.embeddable-buttondown-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 400px;
+}
+
+.embeddable-buttondown-form input[type="email"] {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.embeddable-buttondown-form input[type="submit"] {
+  padding: 0.5rem;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.embeddable-buttondown-form a {
+  color: #888;         /* 灰色 */
+  text-decoration: none;  /* 去掉下划线（可选） */
+}
+
+.embeddable-buttondown-form a:hover {
+  color: #555;         /* 鼠标悬停时深一点的灰色 */
+}
+</style>

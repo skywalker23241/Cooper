@@ -1,0 +1,69 @@
+---
+title: 'First acquaintance with MCP'
+pubDate: '2025-04-24'
+---
+
+I'll document my experience with MCP based on this [blog post](https://www.datacamp.com/tutorial/mcp-model-context-protocol?utm_source=chatgpt.com).
+
+At first, I didn't understand MCP very well. I first learned about this concept from several of Den's [blogs](https://den.dev/blog/local-mcp-server-authorization/). After further research, I discovered that Anthropic had actually released it in 2024, but it didn't attract much attention...
+
+The fact that it's now trending proves that this technology has great potential. I basically spent an afternoon yesterday figuring it out so I can apply it better in the future.
+
+# What is MCP?
+
+MCP (Model Context Protocol) is a simple protocol for handling tool and resource calls through a dedicated server.
+
+**Model Context Protocol (MCP) is an open standard introduced by Anthropic to simplify the integration of large language models (LLMs) with external tools and data sources. You can think of MCP as the "USB-C interface" for AI applications: just as USB-C standardizes connections between devices, MCP provides a standardized way for AI models to access various data and tools.**
+
+The Model Context Protocol (MCP) is an open standard that enables large language models to interact dynamically with external tools, databases, and APIs through a standardized interface.
+
+The Model Context Protocol (MCP) is an open standard developed by Anthropic to enable easy and standardized integration between AI models and external tools. It acts as a universal connector, allowing large language models (LLMs) to interact dynamically with APIs, databases, and business applications.
+
+Originally built to improve Claude's ability to interact with external systems, Anthropic decided to [open-source MCP in early 2024](https://www.anthropic.com/news/model-context-protocol) to encourage industry-wide adoption. By making MCP publicly available, they aimed to create a standardized framework for AI-to-tool communication, reducing reliance on proprietary integrations and enabling greater modularity and interoperability across AI applications.
+
+> *This can be understood as a module that provides specific context to AI.*
+
+## My Understanding
+
+Initially, this felt somewhat like a "module" after flashing a phone, but after hands-on experience, I realized it's more like an interface that connects AI to third-party platforms through this protocol, giving it an "internet of everything" flavor.
+
+The article uses Notion and GitHub APIs to implement write and read operations. Let me summarize the principle of the entire operation with AI:
+
+## Core Principles of Building an MCP Server
+
+In the tutorial, the author demonstrates how to build an MCP server that can integrate with Claude Desktop to achieve the following functions:
+
+1. **Get PR details and changed files**: Through the GitHub API, the server can obtain detailed information about a specified PR, including the list of changed files.
+2. **Analyze code changes**: Using the Claude Desktop application, the server can analyze the content of code changes and generate review summaries and suggestions.
+3. **Save review results to Notion**: The generated review summaries and suggestions are saved to Notion for team members to view and track.
+4. **The entire process achieves standardized communication through MCP, making the interaction between the server and Claude Desktop more modular and scalable.**
+
+Overall, it's about first setting up the environment (Python), then creating relevant scripts to implement (Python), and finally configuring and debugging to use directly.
+
+Anthropic itself has many third-party platforms providing numerous MCP servers, which you can view at this [link](https://github.com/modelcontextprotocol/servers).
+
+**One important point to note: Claude's official** **[documentation for developers using MCP servers](https://modelcontextprotocol.io/quickstart/server#windows) contains the required code format for the initial configuration file.**
+
+Finally, the write was successful. PS: Notion needs to create an integration and create a page to write correctly.
+
+# Review
+
+MCP applications will definitely become more widespread in the future and could be a development direction for AGI. Cool.
+
+The fact that various AI companies are rushing to enter this field shows that this area is quite important.
+
+I'm now familiar with using MCP in VS Code and Claude. Some require use with Docker, while others can be installed directly locally. Currently in pre-release stage, many tools are a bit laggy during use, just like the Coze space recently launched domestically, similar to when DeepSeek first came out - "server busy, please try again later" haha.
+
+Overall, this technology is still valuable. I'll record these for now. Here are some reference documents:
+
+[Get started with the Model Context Protocol (MCP)]()
+
+[Model Context Protocol (MCP): A Guide With Demo Project](https://www.datacamp.com/tutorial/mcp-model-context-protocol?utm_source=chatgpt.com)
+
+[Secure Remote MCP Servers With Entra ID And Azure API Management](https://den.dev/blog/remote-mcp-server/)
+
+[The New Battlefield for Giants: AI Programming IDE (Including ByteDance Trae MCP Tutorial)](https://www.ruanyifeng.com/blog/2025/04/trae-mcp.html)
+
+[Model Context Protocol GITHUB page](https://github.com/modelcontextprotocol/servers) (Contains some third-party servers)
+
+[Use MCP servers in VS Code (Preview)](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)

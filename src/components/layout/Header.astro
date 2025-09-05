@@ -3,26 +3,59 @@ import { themeConfig } from '@/config'
 import ThemeToggle from '@/components/ui/ThemeToggle.astro'
 ---
 
+<!-- Top banner -->
+<div class="top-banner">
+  <p>🕊️ Free Palestinian! Ceasefire now! 🕊️</p>
+</div>
+
 <header>
   <nav>
     <a href="/">{themeConfig.site.title}</a>
-    <ThemeToggle />
+    <div class="right-section">
+      <a href="/newsletter">Subscribe</a>
+      <a href="https://hopp.bio/junbo-le" target="_blank" rel="noopener noreferrer">Social</a>
+      <ThemeToggle />
+    </div>
   </nav>
 </header>
+
 <style>
+  .top-banner {
+    background-color: #98FB98;
+    color: #006400;
+    font-weight: 600;
+    text-align: center;
+    padding: 2px 0;   /* 减小上下 padding */
+    font-size: 13px;  /* 调小字体 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+
   header {
     margin: 0;
   }
+
   nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+
   header a {
     font-weight: var(--font-weight-bold);
     color: var(--text-primary);
     text-decoration: none;
     min-width: 3rem;
     display: inline-block;
+  }
+
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 </style>

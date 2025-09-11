@@ -16,6 +16,8 @@ import { imageConfig } from './src/utils/image-config'
 import path from 'path'
 import netlify from '@astrojs/netlify'
 
+import react from '@astrojs/react';
+
 export default defineConfig({
   adapter: netlify(), // Set adapter for deployment, or set `linkCard` to `false` in `src/config.ts`
   site: themeConfig.site.website,
@@ -33,13 +35,9 @@ export default defineConfig({
     remarkPlugins: [remarkMath, remarkDirective, remarkEmbeddedMedia, remarkReadingTime, remarkTOC],
     rehypePlugins: [rehypeKatex, rehypeCleanup, rehypeImageProcessor, rehypeCopyCode]
   },
-  integrations: [
-    playformInline({
-      Exclude: [(file) => file.toLowerCase().includes('katex')]
-    }),
-    mdx(),
-    sitemap()
-  ],
+  integrations: [playformInline({
+    Exclude: [(file) => file.toLowerCase().includes('katex')]
+  }), mdx(), sitemap(), react()],
   vite: {
     resolve: {
       alias: {

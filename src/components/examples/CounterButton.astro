@@ -1,48 +1,34 @@
-<div class="like-card">
-  <div class="like-container">
-    <button id="like-btn" class="like-button">
-      👍 Like (<span id="like-value">0</span>)
+<div class="counter-card">
+  <div class="counter-container">
+    <button id="counter-btn" class="counter-button">
+      Click me (<span id="counter-value">0</span>)
     </button>
   </div>
 </div>
 
 <script is:inline>
-  function setupLikeCounter() {
-    const button = document.getElementById('like-btn')
-    const valueSpan = document.getElementById('like-value')
+  let count = 0
 
-    // 从 localStorage 读取点赞数和用户状态
-    let likes = parseInt(localStorage.getItem('likes') || '0', 10)
-    let alreadyLiked = localStorage.getItem('liked') === 'true'
+  function setupCounter() {
+    const button = document.getElementById('counter-btn')
+    const valueSpan = document.getElementById('counter-value')
 
     if (button && valueSpan) {
-      valueSpan.textContent = likes.toString()
-
-      if (alreadyLiked) {
-        button.disabled = true
-        button.textContent = `👍 Liked (${likes})`
-      }
-
+      valueSpan.textContent = count.toString()
       button.onclick = function () {
-        if (!alreadyLiked) {
-          likes++
-          valueSpan.textContent = likes.toString()
-          localStorage.setItem('likes', likes.toString())
-          localStorage.setItem('liked', 'true')
-
-          button.disabled = true
-          button.textContent = `👍 Liked (${likes})`
-        }
+        count++
+        valueSpan.textContent = count.toString()
       }
     }
   }
 
-  setupLikeCounter()
-  document.addEventListener('astro:page-load', setupLikeCounter)
+  setupCounter()
+
+  document.addEventListener('astro:page-load', setupCounter)
 </script>
 
 <style>
-  .like-card {
+  .counter-card {
     border: 1px solid var(--border);
     width: 100%;
     height: 12rem;
@@ -51,12 +37,12 @@
     justify-content: center;
     border-radius: 10px;
   }
-  .like-container {
+  .counter-container {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .like-button {
+  .counter-button {
     background-color: var(--text-primary);
     color: var(--bg);
     border: none;
@@ -64,16 +50,11 @@
     font-size: var(--font-size-s);
     border-radius: 12px;
     cursor: pointer;
-    width: 180px;
+    width: 160px;
     height: 44px;
     transition: all 0.15s ease-in-out;
   }
-  .like-button:hover:enabled {
+  .counter-button:hover {
     opacity: 0.9;
-    transform: scale(1.05);
-  }
-  .like-button:disabled {
-    background-color: gray;
-    cursor: not-allowed;
   }
 </style>

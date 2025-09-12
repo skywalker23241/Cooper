@@ -1,69 +1,40 @@
 ---
-title: 'Essay'
+title: '言论'
 pubDate: '2024-06-01'
 ---
 
-import Card from '@/components/Card.tsx';
-
-
-<Card client:load>
-
 >“我们的情况并不比美国轻，只是我们处在高速发展中，我们的老百姓没觉得疼。”
-<div style="text-align: right;"><cite>卢麒元</cite></div>
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>卢麒元</cite></div>
+<br/>
 
 >"Normalize silence, work out without music, walk without your phone, sit in a room with your thoughts and nothing else. Magic happens when you give it space to exist."
-<div style="text-align: right;"><cite>bookthing</cite></div>
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>bookthing</cite></div>
+<br/>
 
 >"Be the smartest people in life, + A loving heart was better and stronger than wisdom."
-<div style="text-align: right;"><cite>Dickens</cite></div>
-
-</Card>
-
-<Card client:load>
+>_两者结合起来就是要做有才有德之人。_
+<div style="text-align: right;">— <cite>Dickens</cite></div>
+<br/>
 
 >"The true delight is in the finding out rather than in the knowing."
 >
-<div style="text-align: right;"><cite>Isaac Asimov</cite></div>
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>Isaac Asimov</cite></div>
+<br/>
 
 >"Time is the coin of your life. It is the only coin you have, and only you can determine how it will be spent. Be careful lest you let other people spend it for you."
-<div style="text-align: right;"><cite>Carl Sandburg</cite></div>
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>Carl Sandburg</cite></div>
+<br/>
 
 >“共产主义者应该是那些从工业化的必然创伤中拯救人们的人，而不是那些因为必须快速追赶而造成创伤的人。”
-<div style="text-align: right;"><cite>Reddit</cite></div>
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>Reddit</cite></div>
+<br/>
 
 >“宇宙中存在两种可能性：要么我们是孤独的，要么我们并非孤独的。这两种可能性都同样令人恐惧。”
-<div style="text-align: right;"><cite>阿瑟·克拉克</cite></div>
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>阿瑟·克拉克</cite></div>
+<br/>
 
 >"If you want to, you can complain about anything."
-<div style="text-align: right;"><cite>Quarter Mile</cite></div> 
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>Quarter Mile</cite></div> 
 
 以下摘自刘慈欣2001年银河奖的获奖演说。
 
@@ -74,30 +45,20 @@ import Card from '@/components/Card.tsx';
 
 
 > 我们最应该羡幕的是自己，现在，国内的科幻读者都是八九点钟的太阳，甚至是六七点钟的太阳，中国科幻面对的是一个充满青春与希望的市场，这正是我们这些科幻人信心和力量的源泉。相比之下，幼稚真算不了什么。
-<div style="text-align: right;"><cite>刘慈欣</cite></div>
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>刘慈欣</cite></div>
+<br/>
 
 >[“我是悲观主义者。别人为胜利而战，我不是。我总是战斗，偶尔会赢。”](https://www.ruanyifeng.com/blog/2005/03/post_112.html)
-<div style="text-align: right;"><cite>理查德·斯托曼</cite></div>
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>理查德·斯托曼</cite></div>
+<br/>
 
 >“独裁者会死去，他们从人民手里夺去的权利即将归还人民。”
-<div style="text-align: right;"><cite>卓别林</cite></div>
-
-</Card>
-
-<Card client:load>
+<div style="text-align: right;">— <cite>卓别林</cite></div>
+<br/>
 
 >“我不去想来生彼岸，我只是活着，清醒的活着，我不说谎，也不投降”
- <div style="text-align: right;"><cite>加缪</cite></div>
+ <div style="text-align: right;">— <cite>加缪</cite></div>
 
-</Card>
 ---
 
 

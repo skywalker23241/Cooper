@@ -1,53 +1,174 @@
-<div class="callout-card">
-  <div class="callout-container">
-    <div class="callout">
-      <span class="callout-icon">🙊</span>
-      <span class="callout-text">Mostly Watching P*** Hub.</span>
-    </div>
+---
+interface Props {
+  type?: 'note' | 'info' | 'tip' | 'warning' | 'danger' | 'quote';
+  title?: string;
+  collapsible?: boolean;
+  open?: boolean;
+}
+
+const { type = "note", title = "", collapsible = false, open = true } = Astro.props as Props;
+
+const icons = {
+  note: "💡",
+  info: "ℹ️",
+  tip: "✅",
+  warning: "⚠️",
+  danger: "🔥",
+  quote: "💬",
+};
+---
+
+<details class={`callout ${type}`} {open} data-collapsible={collapsible}>
+  <summary class="callout-header">
+    <span class="callout-icon">{icons[type] || "💡"}</span>
+    <span class="callout-title">{title || type.toUpperCase()}</span>
+    {
+      collapsible && (
+        <span class="callout-toggle">▼</span>
+      )
+    }
+  </summary>
+  <div class="callout-content">
+    <slot />
   </div>
-</div>
+</details>
 
 <style>
-  .callout-card {
-    border: 1px solid var(--border);
-    width: 100%;
-    height: 12rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-  }
-
-  .callout-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 0 4rem;
-  }
-
   .callout {
-    background-color: var(--astro-code-background);
-    border: 1px solid var(--code-bg);
-    border-radius: 10px;
-    padding: 1rem;
+    border: 1px solid;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    padding: 0.75rem 1rem;
+    background: var(--callout-bg, #f8f9fa);
+    transition: all 0.2s ease;
+  }
+
+  .callout-header {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    width: 100%;
-    min-width: 13rem;
-  }
-
-  .callout-icon {
-    padding-right: 0.5rem;
-    font-size: 1.25rem;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-  }
-
-  .callout-text {
+    cursor: pointer;
+    font-weight: bold;
     color: var(--text-primary);
+  }
+
+  .callout-content {
+    margin-top: 0.5rem;
     line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  /* 折叠按钮样式 */
+  .callout-toggle {
+    margin-left: auto;
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+  }
+
+  /* 展开时旋转折叠按钮 */
+  details[open] .callout-toggle {
+    transform: rotate(180deg);
+  }
+
+  /* 类型样式 - 浅色模式 */
+  html:not(.dark) .callout.note {
+    border-color: #3b82f6;
+    background: #eff6ff;
+  }
+  html:not(.dark) .callout.info {
+    border-color: #6366f1;
+    background: #eef2ff;
+  }
+  html:not(.dark) .callout.tip {
+    border-color: #10b981;
+    background: #ecfdf5;
+  }
+  html:not(.dark) .callout.warning {
+    border-color: #f59e0b;
+    background: #fffbeb;
+  }
+  html:not(.dark) .callout.danger {
+    border-color: #ef4444;
+    background: #fef2f2;
+  }
+  html:not(.dark) .callout.quote {
+    border-color: #6b7280;
+    background: #f9fafb;
+    font-style: italic;
+  }
+
+  /* 类型样式 - 深色模式 */
+  html.dark .callout.note {
+    border-color: #60a5fa;
+    background: #1e3a8a;
+  }
+  html.dark .callout.info {
+    border-color: #818cf8;
+    background: #312e81;
+  }
+  html.dark .callout.tip {
+    border-color: #34d399;
+    background: #064e3b;
+  }
+  html.dark .callout.warning {
+    border-color: #fbbf24;
+    background: #78350f;
+  }
+  html.dark .callout.danger {
+    border-color: #f87171;
+    background: #7f1d1d;
+  }
+  html.dark .callout.quote {
+    border-color: #9ca3af;
+    background: #374151;
+    font-style: italic;
+  }
+
+  /* 不同类型标题颜色 - 浅色模式 */
+  html:not(.dark) .callout.note .callout-header {
+    color: #1e40af;
+  }
+  html:not(.dark) .callout.info .callout-header {
+    color: #4338ca;
+  }
+  html:not(.dark) .callout.tip .callout-header {
+    color: #047857;
+  }
+  html:not(.dark) .callout.warning .callout-header {
+    color: #b45309;
+  }
+  html:not(.dark) .callout.danger .callout-header {
+    color: #b91c1c;
+  }
+  html:not(.dark) .callout.quote .callout-header {
+    color: #4b5563;
+  }
+
+  /* 不同类型标题颜色 - 深色模式 */
+  html.dark .callout.note .callout-header {
+    color: #93c5fd;
+  }
+  html.dark .callout.info .callout-header {
+    color: #a5b4fc;
+  }
+  html.dark .callout.tip .callout-header {
+    color: #6ee7b7;
+  }
+  html.dark .callout.warning .callout-header {
+    color: #fcd34d;
+  }
+  html.dark .callout.danger .callout-header {
+    color: #fca5a5;
+  }
+  html.dark .callout.quote .callout-header {
+    color: #d1d5db;
+  }
+
+  /* 让 summary 的箭头靠左 */
+  .callout > summary {
+    list-style: none;
+  }
+  .callout > summary::-webkit-details-marker {
+    display: none;
   }
 </style>

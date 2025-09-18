@@ -2,7 +2,7 @@
 title: 'Preload vs. Prefetch vs. Prerender'
 pubDate: '2025-09-16'
 ---
-
+import Callout from '@/components/examples/Callout.astro';
 import Card from '@/components/Card.tsx';
 
 
@@ -10,9 +10,10 @@ import Card from '@/components/Card.tsx';
 
 在检查网站一些页面发现的问题：某个资源（字体、图片等）设置了预加载但是很长时间没有使用上，具体报错见下图。
 
-<Card client:load>
-⚠️ The resource **X** was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
-</Card>
+<Callout type="warning" title="Warning" collapsible close>
+The resource **X** was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+</Callout>
+
 
 后面查找互联网发现这类资源其实可以使用`prefetch`以及`prerender`类型来加载，所以想要写一篇博客来记录一下这几种加载方式之间的区别。
 

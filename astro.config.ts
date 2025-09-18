@@ -18,6 +18,8 @@ import netlify from '@astrojs/netlify'
 
 import react from '@astrojs/react';
 
+import robotsTxt from 'astro-robots-txt';
+
 export default defineConfig({
   adapter: netlify(), // Set adapter for deployment, or set `linkCard` to `false` in `src/config.ts`
   site: themeConfig.site.website,
@@ -37,7 +39,7 @@ export default defineConfig({
   },
   integrations: [playformInline({
     Exclude: [(file) => file.toLowerCase().includes('katex')]
-  }), mdx(), sitemap(), react()],
+  }), mdx(), sitemap(), react(), robotsTxt()],
   vite: {
     resolve: {
       alias: {

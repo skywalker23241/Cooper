@@ -3,6 +3,7 @@
 import IndexLayout from "../layouts/IndexLayout.astro";
 import CounterButton from "@/components/examples/CounterButton.astro";
 import CountdownCard from "@/components/examples/CountdownCard.tsx";
+import Card from '@/components/Card.tsx';
 ---
 
 <IndexLayout title="Now">
@@ -13,7 +14,9 @@ import CountdownCard from "@/components/examples/CountdownCard.tsx";
             <p>Shenzhen, Guangdong, China.</p>
         <h2>Working</h2>
             <p>I'm Working at <a href="https://www.isumsoft.com/">iSumsoft</a> now.</p>
+            <Card client:load>
             <CountdownCard client:load />
+            </Card>
         <h2>Learning</h2>
             <p>I'm learning <a href="https://docs.astro.build/en/tutorial/0-introduction/">Astro</a> and <b>SEO</b> now.</p>
         <h2>Playing</h2>

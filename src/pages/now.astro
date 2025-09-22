@@ -4,22 +4,28 @@ import IndexLayout from "../layouts/IndexLayout.astro";
 import CounterButton from "@/components/examples/CounterButton.astro";
 import CountdownCard from "@/components/examples/CountdownCard.tsx";
 import Card from '@/components/Card.tsx';
+import MapPinLine from 'phosphor-astro/MapPinLine.astro'
+import BuildingOffice from 'phosphor-astro/BuildingOffice.astro'
+import Notebook from 'phosphor-astro/Notebook.astro'
+import GameController from 'phosphor-astro/GameController.astro'
+import Clock from 'phosphor-astro/Clock.astro'
 ---
 
 <IndexLayout title="Now">
     <div class="now-page">
         <h1>Now</h1>
-            <p>This is a <a href="https://nownownow.com/about"><b>now</b></a> page.</p>
+            <p><Clock width={20} height={20} /> This is a <a href="https://nownownow.com/about"><b>now</b></a> page.</p>
         <h2>Living</h2>
-            <p>Shenzhen, Guangdong, China.</p>
+            <p><MapPinLine width={20} height={20} /> Shenzhen, Guangdong, China.</p>
         <h2>Working</h2>
-            <p>I'm Working at <a href="https://www.isumsoft.com/">iSumsoft</a> now.</p>
+            <p><BuildingOffice width={20} height={20} /> I'm Working at <a href="https://www.isumsoft.com/">iSumsoft</a> now.</p>
             <Card client:load>
             <CountdownCard client:load />
             </Card>
         <h2>Learning</h2>
-            <p>I'm learning <a href="https://docs.astro.build/en/tutorial/0-introduction/">Astro</a> and <b>SEO</b> now.</p>
+            <p><Notebook width={20} height={20} /> I'm learning <a href="https://docs.astro.build/en/tutorial/0-introduction/">Astro</a>, <b>SEO</b> and <b>Spanish</b> now.</p>
         <h2>Playing</h2>
+            <p><GameController width={20} height={20} /> I'm playing</p>
             <a href="https://steamcommunity.com/profiles/76561199002529456"><img alt="Static Badge" src="https://img.shields.io/badge/Steam-blue"></a>
             <a href="https://www.counter-strike.net/cs2"><img alt="Static Badge" src="https://img.shields.io/badge/CS2-orange"></a>
             <a href="https://valorant.qq.com/"><img alt="Static Badge" src="https://img.shields.io/badge/Valorant-red"></a>

@@ -1,11 +1,18 @@
 ---
 // src/pages/newsletter.astro
 import IndexLayout from "../layouts/IndexLayout.astro";
+import Check from 'phosphor-astro/Check.astro'
+import RssSimple from 'phosphor-astro/RssSimple.astro'
+import Callout from "@/components/examples/Callout.astro";
 ---
 
 <IndexLayout title="Subscribe to Newsletter">
+<div class="header-container">
   <h1>Subscribe</h1>
-
+  <a href="https://rss.beauty/rss?url=https%3A%2F%2Fjackcooper.qzz.io%2Frss.xml" class="rss-link">
+    <RssSimple width={32} height={32} />
+  </a>
+</div>
   <form
     action="https://buttondown.com/api/emails/embed-subscribe/junbo"
     method="post"
@@ -13,17 +20,14 @@ import IndexLayout from "../layouts/IndexLayout.astro";
     onsubmit="window.open('https://buttondown.com/junbo', 'popupwindow')"
     class="embeddable-buttondown-form"
   >
-    <label for="bd-email">Enter your email to receive article tweets! Updated from time to time!</label>
+    <label for="bd-email">Enter your email to receive New tweets!</label>
+    <Callout type="tip" title="Note: " collapsible open>
+      After subscribing, you’ll receive a confirmation email. Please check your inbox (and spam folder) to verify your subscription.
+    </Callout>
     <input type="email" name="email" id="bd-email" required />
-
-    <input type="submit" value="Subscribe" />
-    <p>To subscribe by RSS, copy the URL from the Green Card below and add it to your feed reader!</p>
-    <div class="rss-section">
-      <a href="https://rss.beauty/rss?url=https%3A%2F%2Fjackcooper.qzz.io%2Frss.xml">
-          <img alt="Static Badge" src="https://img.shields.io/badge/RSS-Feed">
-      </a>
-    </div>
-    <p>
+      <button type="submit" class="subscribe-button">
+        <Check width={20} height={20} />
+      </button>
       <a href="https://buttondown.com/refer/junbo" target="_blank">
         Powered by Buttondown.
       </a>
@@ -33,6 +37,19 @@ import IndexLayout from "../layouts/IndexLayout.astro";
 </IndexLayout>
 
 <style>
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.rss-link {
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.rss-link:hover {
+  color: #000;
+}
 .embeddable-buttondown-form {
   display: flex;
   flex-direction: column;
@@ -46,12 +63,29 @@ import IndexLayout from "../layouts/IndexLayout.astro";
   border-radius: 8px;
 }
 
-.embeddable-buttondown-form input[type="submit"] {
-  padding: 0.5rem;
-  background: black;
-  color: white;
+/* 订阅按钮样式 */
+.subscribe-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #666;
+  color: #fff;
+  border: none;
   border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.subscribe-button:hover {
+  background: #00a100;
+  transform: translateY(-2px);
+}
+
+.subscribe-button:active {
+  transform: translateY(0);
 }
 
 .embeddable-buttondown-form a {

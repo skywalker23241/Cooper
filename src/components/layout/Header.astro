@@ -1,6 +1,10 @@
 ---
 import { themeConfig } from '@/config'
 import ThemeToggle from '@/components/ui/ThemeToggle.astro'
+import EnvelopeSimple from 'phosphor-astro/EnvelopeSimple.astro'
+import GlobeSimple from 'phosphor-astro/GlobeSimple.astro'
+import User from 'phosphor-astro/User.astro'
+import NotePencil from 'phosphor-astro/NotePencil.astro'
 ---
 
 <!-- Top banner -->
@@ -10,11 +14,12 @@ import ThemeToggle from '@/components/ui/ThemeToggle.astro'
 
 <header>
   <nav>
-    <a href="/">{themeConfig.site.title}</a>
+    <a href="/" title="Blog"><NotePencil width={24} height={24} /></a>
     <div class="right-section">
-      <a href="/newsletter">Subscribe</a>
-      <a href="https://hopp.bio/junbo-le" target="_blank" rel="noopener noreferrer">Social</a>
-      <a href="/now">Now</a>
+      <p></p>
+      <a href="/newsletter" title="Newsletter"><EnvelopeSimple width={24} height={24} /></a>
+      <a href="https://hopp.bio/junbo-le" title="Social" target="_blank" rel="noopener noreferrer"><GlobeSimple width={24} height={24} /></a>
+      <a href="/now" title="Now"><User width={24} height={24} /></a>
       <ThemeToggle />
     </div>
   </nav>
@@ -50,7 +55,7 @@ import ThemeToggle from '@/components/ui/ThemeToggle.astro'
     font-weight: var(--font-weight-bold);
     color: var(--text-primary);
     text-decoration: none;
-    min-width: 3rem;
+    min-width: 2rem;
     display: inline-block;
   }
 

@@ -2,13 +2,14 @@
 title: YASB - A Light and Elegant Status Bar
 pubDate: '2025-09-05'
 ---
+
 import Callout from '@/components/examples/Callout.astro'
-import CodeSimple from 'phosphor-astro/CodeSimple.astro';
+import CodeSimple from 'phosphor-astro/CodeSimple.astro'
 
 # 别再用Windows默认的任务栏了，试试YASB吧
 
 <Callout type="warning" title="Warning" collapsible close>
-_超长文预警！_
+  _超长文预警！_
 </Callout>
 
 先上设置完毕的效果图片吧！
@@ -95,6 +96,7 @@ choco install yasb
 ```
 %USERPROFILE%\.config\yasb
 ```
+
 - 双击打开即可看见里面的所有配置了，大多数配置不用过度修改，放在那里即可，当然你也可以根据作者的注释进行调整。
 
 这里我给大家讲一下主要可以自定义的几个部分！
@@ -160,7 +162,7 @@ widgets:
 
 好了，如果你不喜欢折腾的话，YASB也提供了一些现成的主题。
 
-可以前往YASB的官方Github页面下载 
+可以前往YASB的官方Github页面下载
 
 [传送门](https://github.com/amnweb/yasb-themes)
 
@@ -178,25 +180,25 @@ widgets:
 
 ## 3. 一些常见的问题
 
- **Q**: 保存config文件之后提示unknown field`，如何解决？
+**Q**: 保存config文件之后提示unknown field`，如何解决？
 
- ![unknown field error](./_assets/unknow-field-error.png)
+![unknown field error](./_assets/unknow-field-error.png)
 
- **A**: 这是因为你的config文件某个地方的格式有误，可以参考下方的图片进行缩进的更改来修复！
- 
- (下图是错误的格式，注意active-windows和grouped_widgets的区别，需要调整到同一行缩进！)
+**A**: 这是因为你的config文件某个地方的格式有误，可以参考下方的图片进行缩进的更改来修复！
 
- ![fix config](./_assets/space-problem.png)
+(下图是错误的格式，注意active-windows和grouped_widgets的区别，需要调整到同一行缩进！)
 
-  **Q**: 保存config文件之后提示`null value not allowed`，如何解决？
+![fix config](./_assets/space-problem.png)
 
- ![null value not allowed error](./_assets/null-value-not-allowed-error.png)
+**Q**: 保存config文件之后提示`null value not allowed`，如何解决？
 
- **A**: 这是也是因为你的config某个地方的格式有误，可以参考下方的图片进行缩进的更改来修复！
- 
- (和上面一样，注意type的缩进！要在grouped_widgets的下一级！)
+![null value not allowed error](./_assets/null-value-not-allowed-error.png)
 
- ![fix config](./_assets/space-problem-2.png)
+**A**: 这是也是因为你的config某个地方的格式有误，可以参考下方的图片进行缩进的更改来修复！
+
+(和上面一样，注意type的缩进！要在grouped_widgets的下一级！)
+
+![fix config](./_assets/space-problem-2.png)
 
 更多问题可以前往 [issues](https://github.com/amnweb/yasb/issues) 进行反馈！和查找解决方案！也欢迎在该博客下方留言！有空会回复！(●'◡'●)
 
@@ -209,14 +211,14 @@ widgets:
 <details>
 <summary><CodeSimple width={20} height={20} /> 点击查看/折叠代码块</summary>
 
-```        
+```
     watch_stylesheet: true
     watch_config: true
     debug: false
     bars:
     primary-bar:
         enabled: true
-        screens: ['*'] 
+        screens: ['*']
         class_name: "yasb-bar"
         alignment:
         position: "top"
@@ -282,7 +284,7 @@ widgets:
         round_corners_type: "small"
         border_color: "system"
         distance: 5
-        container_padding: 
+        container_padding:
             top: 0
             left: 0
             bottom: 0
@@ -448,7 +450,7 @@ widgets:
             uptime: True
             blur: False
             blur_background: True
-            animation_duration: 250 # Milisecond 
+            animation_duration: 250 # Milisecond
             button_row: 5 # Number of buttons in row, min 1 max 5
             buttons:
             signout: ["\udb80\udf43","Sign out"]
@@ -466,7 +468,7 @@ widgets:
         callbacks:
             on_left: "toggle_notification"
             on_right: "toggle_label"
-            on_middle: "do_nothing" 
+            on_middle: "do_nothing"
     cpu:
         type: "yasb.cpu.CpuWidget"
         options:
@@ -505,7 +507,7 @@ widgets:
             top: 0
             left: 0
             bottom: 0
-            right: 8   
+            right: 8
     volumesound:
         type: "yasb.volume.VolumeWidget"
         options:
@@ -652,7 +654,7 @@ widgets:
             radius: 8
     obs:
         type: "yasb.obs.ObsWidget"
-        options:  
+        options:
         connection:
             host: "192.168.1.125"
             port: 4455
@@ -675,7 +677,7 @@ widgets:
             corner: "bottom_left" # Can be "top_left", "top_right", "bottom_left", "bottom_right"
             color: "red" # Can be hex color or string
             margin: [ 1, 1 ] # x and y margin for the dot
-        only_unread: false # Show only unread or all notifications; 
+        only_unread: false # Show only unread or all notifications;
         max_field_size: 54 # Max characters in title before truncation.
         update_interval: 300 # Check for new notification in seconds
         menu:
@@ -690,7 +692,7 @@ widgets:
             color: "black"
             radius: 3
             offset: [ 1, 1 ]
-```    
+```
 
 </details>
 
@@ -895,7 +897,7 @@ widgets:
         margin: 0;
         padding: 0;
         border: none;
-        outline: none;  
+        outline: none;
         border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
     .calendar .calendar-table::item:selected {
@@ -948,7 +950,7 @@ widgets:
     /* DISK DROPDOWN */
 
     .disk-group {
-        background-color: var(--menu_bg);    
+        background-color: var(--menu_bg);
     }
     .disk-group-row {
         min-width: 220px;
@@ -1009,7 +1011,7 @@ widgets:
     }
     .microphone-menu{
         background-color: var(--menu_bg);
-    }	
+    }
     .audio-container .device {
         font-family: var(--font);
         background-color: transparent;
@@ -1803,7 +1805,7 @@ widgets:
         max-width: 110px;
         min-width: 110px;
         min-height: 110px;
-        max-height: 110px; 
+        max-height: 110px;
     }
     .launchpad .app-icon:focus {
         border: 2px solid #89b4fa;
@@ -1885,7 +1887,7 @@ widgets:
     }
     .github-menu .contents .item .title {
         font-size: 14px;
-        font-weight: 600; 
+        font-weight: 600;
     }
     .github-menu .contents .item .description {
         font-size: 12px;
@@ -1907,23 +1909,6 @@ widgets:
     }
 ```
 
-   
 </details>
 
-
-_END..._
----
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## _END..._

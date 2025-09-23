@@ -7,8 +7,8 @@
 
   /* Typography */
   --sans:
-    AlanSans-Regular, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, MapleMono-CN-Regular, sans-serif;
+    AlanSans-Regular, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, MapleMono-CN-Regular, sans-serif;
   --serif: Besley, Baskerville, Georgia, Cambria, 'Times New Roman', Times, serif;
   --mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
@@ -108,7 +108,9 @@ html {
 /* 删除 text-autospace，改用更现代的写法 */
 body {
   font-family: var(--sans);
-  font-feature-settings: 'ss03' 1, 'palt' 1; /* 'palt' 有助于中日文标点挤压 */
+  font-feature-settings:
+    'ss03' 1,
+    'palt' 1; /* 'palt' 有助于中日文标点挤压 */
   font-size: var(--font-size-m);
   text-rendering: optimizeLegibility;
   line-height: 1.75;
@@ -125,7 +127,6 @@ body {
   overscroll-behavior-y: contain;
   transition: background-color 0.2s ease-out;
 }
-
 
 @media (max-width: 768px) {
   body {
@@ -247,7 +248,7 @@ main {
   color: var(--text-secondary);
 }
 
-.card div[style*="text-align: center"] {
+.card div[style*='text-align: center'] {
   text-align: center;
 }
 
@@ -264,11 +265,11 @@ summary {
 }
 
 summary::marker {
-  content: '';  /* 默认箭头符号 */
+  content: ''; /* 默认箭头符号 */
 }
 
 details[open] summary::marker {
-  content: '';  /* 展开时的箭头符号 */
+  content: ''; /* 展开时的箭头符号 */
 }
 
 svg {
@@ -277,23 +278,23 @@ svg {
 
 .chat-bubble {
   display: inline-block;
-  max-width: 80%;              /* 控制宽度 */
-  background: #f1f5f9;         /* 浅灰背景 */
-  border: 1px solid #e2e8f0;   /* 边框 */
-  border-radius: 1rem;         /* 圆角 */
+  max-width: 80%; /* 控制宽度 */
+  background: #f1f5f9; /* 浅灰背景 */
+  border: 1px solid #e2e8f0; /* 边框 */
+  border-radius: 1rem; /* 圆角 */
   padding: 0.75rem 1rem;
   margin: 0.5rem 0;
   font-size: 1rem;
   line-height: 1.5;
-  color: #1e293b;              /* 深灰文字 */
+  color: #1e293b; /* 深灰文字 */
   position: relative;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .chat-bubble::after {
-  content: "";
+  content: '';
   position: absolute;
-  bottom: -8px;                /* 气泡尖角位置 */
+  bottom: -8px; /* 气泡尖角位置 */
   left: 1.5rem;
   border-width: 8px;
   border-style: solid;

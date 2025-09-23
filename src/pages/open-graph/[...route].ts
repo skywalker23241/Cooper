@@ -45,7 +45,7 @@ export const { getStaticPaths, GET } = OGImageRoute({
       'public/fonts/AlanSans-Regular.ttf',
       'public/fonts/Besley-Italic.woff2',
       'public/fonts/MapleMono-CN-Regular.ttf',
-      'public/fonts/Inter.woff2',
+      'public/fonts/Inter.woff2'
     ]
   })
 })

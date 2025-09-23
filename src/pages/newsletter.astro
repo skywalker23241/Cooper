@@ -1,18 +1,18 @@
 ---
 // src/pages/newsletter.astro
-import IndexLayout from "../layouts/IndexLayout.astro";
+import IndexLayout from '../layouts/IndexLayout.astro'
 import Check from 'phosphor-astro/Check.astro'
 import RssSimple from 'phosphor-astro/RssSimple.astro'
-import Callout from "@/components/examples/Callout.astro";
+import Callout from '@/components/examples/Callout.astro'
 ---
 
 <IndexLayout title="Subscribe to Newsletter">
-<div class="header-container">
-  <h1>Subscribe</h1>
-  <a href="https://rss.beauty/rss?url=https%3A%2F%2Fjackcooper.qzz.io%2Frss.xml" class="rss-link">
-    <RssSimple width={32} height={32} />
-  </a>
-</div>
+  <div class="header-container">
+    <h1>Subscribe</h1>
+    <a href="https://rss.beauty/rss?url=https%3A%2F%2Fjackcooper.qzz.io%2Frss.xml" class="rss-link">
+      <RssSimple width={32} height={32} />
+    </a>
+  </div>
   <form
     action="https://buttondown.com/api/emails/embed-subscribe/junbo"
     method="post"
@@ -22,77 +22,77 @@ import Callout from "@/components/examples/Callout.astro";
   >
     <label for="bd-email">Enter your email to receive New tweets!</label>
     <Callout type="tip" title="Note: " collapsible open>
-      After subscribing, you’ll receive a confirmation email. Please check your inbox (and spam folder) to verify your subscription.
+      After subscribing, you’ll receive a confirmation email. Please check your inbox (and spam
+      folder) to verify your subscription.
     </Callout>
     <input type="email" name="email" id="bd-email" required />
-      <button type="submit" class="subscribe-button">
-        <Check width={20} height={20} />
-      </button>
-      <a href="https://buttondown.com/refer/junbo" target="_blank">
-        Powered by Buttondown.
-      </a>
+    <button type="submit" class="subscribe-button">
+      <Check width={20} height={20} />
+    </button>
+    <a href="https://buttondown.com/refer/junbo" target="_blank"> Powered by Buttondown. </a>
   </form>
-  
 </IndexLayout>
 
 <style>
-.header-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.rss-link {
-  color: #666;
-  transition: color 0.2s ease;
-}
+  .header-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .rss-link {
+    color: #666;
+    transition: color 0.2s ease;
+  }
 
-.rss-link:hover {
-  color: #000;
-}
-.embeddable-buttondown-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-width: 400px;
-}
+  .rss-link:hover {
+    color: #000;
+  }
+  .embeddable-buttondown-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 400px;
+  }
 
-.embeddable-buttondown-form input[type="email"] {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
+  .embeddable-buttondown-form input[type='email'] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
 
-/* 订阅按钮样式 */
-.subscribe-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #666;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
+  /* 订阅按钮样式 */
+  .subscribe-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #666;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      transform 0.1s ease;
+  }
 
-.subscribe-button:hover {
-  background: #00a100;
-  transform: translateY(-2px);
-}
+  .subscribe-button:hover {
+    background: #00a100;
+    transform: translateY(-2px);
+  }
 
-.subscribe-button:active {
-  transform: translateY(0);
-}
+  .subscribe-button:active {
+    transform: translateY(0);
+  }
 
-.embeddable-buttondown-form a {
-  color: #888;         /* 灰色 */
-  text-decoration: none;  /* 去掉下划线（可选） */
-}
+  .embeddable-buttondown-form a {
+    color: #888; /* 灰色 */
+    text-decoration: none; /* 去掉下划线（可选） */
+  }
 
-.embeddable-buttondown-form a:hover {
-  color: #555;         /* 鼠标悬停时深一点的灰色 */
-}
+  .embeddable-buttondown-form a:hover {
+    color: #555; /* 鼠标悬停时深一点的灰色 */
+  }
 </style>

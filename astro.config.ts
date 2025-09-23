@@ -16,9 +16,9 @@ import { imageConfig } from './src/utils/image-config'
 import path from 'path'
 import netlify from '@astrojs/netlify'
 
-import react from '@astrojs/react';
+import react from '@astrojs/react'
 
-import robotsTxt from 'astro-robots-txt';
+import robotsTxt from 'astro-robots-txt'
 
 export default defineConfig({
   adapter: netlify(), // Set adapter for deployment, or set `linkCard` to `false` in `src/config.ts`
@@ -37,9 +37,15 @@ export default defineConfig({
     remarkPlugins: [remarkMath, remarkDirective, remarkEmbeddedMedia, remarkReadingTime, remarkTOC],
     rehypePlugins: [rehypeKatex, rehypeCleanup, rehypeImageProcessor, rehypeCopyCode]
   },
-  integrations: [playformInline({
-    Exclude: [(file) => file.toLowerCase().includes('katex')]
-  }), mdx(), sitemap(), react(), robotsTxt()],
+  integrations: [
+    playformInline({
+      Exclude: [(file) => file.toLowerCase().includes('katex')]
+    }),
+    mdx(),
+    sitemap(),
+    react(),
+    robotsTxt()
+  ],
   vite: {
     resolve: {
       alias: {

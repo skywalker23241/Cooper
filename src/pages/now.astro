@@ -1,9 +1,9 @@
 ---
 // src/pages/now.astro
-import IndexLayout from "../layouts/IndexLayout.astro";
-import CounterButton from "@/components/examples/CounterButton.astro";
-import CountdownCard from "@/components/examples/CountdownCard.tsx";
-import Card from '@/components/Card.tsx';
+import IndexLayout from '../layouts/IndexLayout.astro'
+import CounterButton from '@/components/examples/CounterButton.astro'
+import CountdownCard from '@/components/examples/CountdownCard.tsx'
+import Card from '@/components/Card.tsx'
 import MapPinLine from 'phosphor-astro/MapPinLine.astro'
 import BuildingOffice from 'phosphor-astro/BuildingOffice.astro'
 import Notebook from 'phosphor-astro/Notebook.astro'
@@ -12,30 +12,52 @@ import PersonSimpleHike from 'phosphor-astro/PersonSimpleHike.astro'
 ---
 
 <IndexLayout title="Now">
-    <div class="now-page">
-        <h1>Now</h1>
-            <p><PersonSimpleHike width={20} height={20} /> This is a <a href="https://nownownow.com/about"><b>now</b></a> page.</p>
-        <h2>Living</h2>
-            <p><MapPinLine width={20} height={20} /> Shenzhen, Guangdong, China.</p>
-        <h2>Working</h2>
-            <p><BuildingOffice width={20} height={20} /> I'm Working at <a href="https://www.isumsoft.com/">iSumsoft</a> now.</p>
-            <Card client:load>
-            <CountdownCard client:load />
-            </Card>
-        <h2>Learning</h2>
-            <p><Notebook width={20} height={20} /> I'm learning <a href="https://docs.astro.build/en/tutorial/0-introduction/">Astro</a>, <b>SEO</b> and <b>Spanish</b> now.</p>
-        <h2>Playing</h2>
-            <p><GameController width={20} height={20} /> I'm playing</p>
-            <a href="https://steamcommunity.com/profiles/76561199002529456"><img alt="Static Badge" src="https://img.shields.io/badge/Steam-blue"></a>
-            <a href="https://www.counter-strike.net/cs2"><img alt="Static Badge" src="https://img.shields.io/badge/CS2-orange"></a>
-            <a href="https://valorant.qq.com/"><img alt="Static Badge" src="https://img.shields.io/badge/Valorant-red"></a>
-            <a href="https://lol.qq.com/"><img alt="Static Badge" src="https://img.shields.io/badge/LOL-green"></a>
-            <a href="https://aimlabs.com/"><img alt="Static Badge" src="https://img.shields.io/badge/AimLab-blue"></a>
-    </div>
+  <div class="now-page">
+    <h1>Now</h1>
+    <p>
+      <PersonSimpleHike width={20} height={20} /> This is a <a href="https://nownownow.com/about"
+        ><b>now</b></a
+      > page.
+    </p>
+    <h2>Living</h2>
+    <p><MapPinLine width={20} height={20} /> Shenzhen, Guangdong, China.</p>
+    <h2>Working</h2>
+    <p>
+      <BuildingOffice width={20} height={20} /> I'm Working at <a href="https://www.isumsoft.com/"
+        >iSumsoft</a
+      > now.
+    </p>
+    <Card client:load>
+      <CountdownCard client:load />
+    </Card>
+    <h2>Learning</h2>
+    <p>
+      <Notebook width={20} height={20} /> I'm learning <a
+        href="https://docs.astro.build/en/tutorial/0-introduction/">Astro</a
+      >, <b>SEO</b> and <b>Spanish</b> now.
+    </p>
+    <h2>Playing</h2>
+    <p><GameController width={20} height={20} /> I'm playing</p>
+    <a href="https://steamcommunity.com/profiles/76561199002529456"
+      ><img alt="Static Badge" src="https://img.shields.io/badge/Steam-blue" /></a
+    >
+    <a href="https://www.counter-strike.net/cs2"
+      ><img alt="Static Badge" src="https://img.shields.io/badge/CS2-orange" /></a
+    >
+    <a href="https://valorant.qq.com/"
+      ><img alt="Static Badge" src="https://img.shields.io/badge/Valorant-red" /></a
+    >
+    <a href="https://lol.qq.com/"
+      ><img alt="Static Badge" src="https://img.shields.io/badge/LOL-green" /></a
+    >
+    <a href="https://aimlabs.com/"
+      ><img alt="Static Badge" src="https://img.shields.io/badge/AimLab-blue" /></a
+    >
+  </div>
 </IndexLayout>
 
 <style>
-.now-page a {
-        color: #787878;         /* 灰色 */
-}
+  .now-page a {
+    color: #787878; /* 灰色 */
+  }
 </style>

@@ -32,18 +32,20 @@ export const { getStaticPaths, GET } = OGImageRoute({
         color: [28, 28, 28],
         size: 68,
         weight: 'SemiBold',
-        families: ['PingFang SC']
+        families: ['Inter', 'Besley', 'AlanSans-Regular', 'MapleMono-CN-Regular']
       },
       description: {
         color: [180, 180, 180],
         size: 40,
         weight: 'Medium',
-        families: ['PingFang SC']
+        families: ['Inter', 'Besley', 'AlanSans-Regular', 'MapleMono-CN-Regular']
       }
     },
     fonts: [
-      'https://cdn.jsdelivr.net/npm/font-pingfang-sc-font-weight-improved@latest/PingFangSC-Medium.woff2',
-      'https://cdn.jsdelivr.net/npm/font-pingfang-sc-font-weight-improved@latest/PingFangSC-Semibold.woff2',
+      'public/fonts/AlanSans-Regular.ttf',
+      'public/fonts/Besley-Italic.woff2',
+      'public/fonts/MapleMono-CN-Regular.ttf',
+      'public/fonts/Inter.woff2',
     ]
   })
 })

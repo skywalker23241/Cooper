@@ -64,3 +64,21 @@ function toggleAstroAdapter(comment: boolean) {
 
   fs.writeFileSync(astroConfigPath, astroConfig.join('\n'), 'utf-8')
 }
+
+if (!linkCardEnabled) {
+  // If linkCard is disabled, rename proxy.ts and comment adapter
+  if (fs.existsSync(proxyPath)) {
+    fs.renameSync(proxyPath, backupPath)
+    console.log('🟡 proxy.ts disabled')
+  }
+  toggleAstroAdapter(true)
+  console.log('🟡 adapter config disabled')
+} else {
+  // If linkCard is enabled, restore proxy.ts and uncomment adapter
+  if (fs.existsSync(backupPath)) {
+    fs.renameSync(backupPath, proxyPath)
+    console.log('🟢 proxy.ts enabled')
+  }
+  toggleAstroAdapter(false)
+  console.log('🟢 adapter config enabled')
+}

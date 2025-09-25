@@ -1,6 +1,5 @@
 /* Base styles for all elements */
 .prose * {
-  margin: 0;
   font-size: var(--font-size-m);
 }
 

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 export default function CountdownCard() {
   const [timeLeft, setTimeLeft] = useState('')
-  const [status, setStatus] = useState('') // New status field
+  const [, setStatus] = useState('') // New status field
 
   useEffect(() => {
     function updateCountdown() {

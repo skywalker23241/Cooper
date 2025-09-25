@@ -12,9 +12,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "new": "tsx scripts/new-post.ts",
-    "update-theme": "tsx scripts/update-theme.ts"
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.4",

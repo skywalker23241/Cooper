@@ -59,21 +59,7 @@ const ogImage = `/open-graph/${postSlug}.png`
         </div>
         <slot />
       </div>
-      <script
-        src="https://giscus.app/client.js"
-        data-repo="skywalker23241/Cooper"
-        data-repo-id="R_kgDOPqK45Q"
-        data-category="General"
-        data-category-id="DIC_kwDOPqK45c4CvRi6"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="transparent_dark"
-        data-lang="en"
-        crossorigin="anonymous"
-        async></script>
+      <div id="giscus-container"></div>
     </main>
     <ImageOptimizer />
     <FootnoteScroll />
@@ -98,3 +84,45 @@ const ogImage = `/open-graph/${postSlug}.png`
     flex: 1;
   }
 </style>
+
+<script>
+  function loadGiscus() {
+    const container = document.getElementById('giscus-container');
+    if (!container) return;
+
+    // 清空旧评论区
+    container.innerHTML = '';
+
+    // 创建 giscus 脚本
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+
+    // 映射你原来的全部 data-* 配置
+    s.setAttribute('data-repo', 'skywalker23241/Cooper');
+    s.setAttribute('data-repo-id', 'R_kgDOPqK45Q');
+    s.setAttribute('data-category', 'General');
+    s.setAttribute('data-category-id', 'DIC_kwDOPqK45c4CvRi6');
+    s.setAttribute('data-mapping', 'pathname');
+    s.setAttribute('data-strict', '0');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', 'bottom');
+    s.setAttribute('data-theme', 'transparent_dark');
+    s.setAttribute('data-lang', 'en');
+
+    container.appendChild(s);
+  }
+
+  // 首次加载
+  loadGiscus();
+
+  // 监听 Astro 内部切换（View Transitions）
+  document.addEventListener('astro:after-swap', loadGiscus);
+
+  // 兼容回退/前进按钮
+  window.addEventListener('popstate', loadGiscus);
+</script>
+
+

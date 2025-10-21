@@ -4,6 +4,8 @@
 import { themeConfig } from '@/config'
 import type { BaseHeadProps } from '@/types/component.types'
 import 'katex/dist/katex.min.css'
+import { ThemeScript } from 'astro-theme-toggle'
+import { ClientRouter } from 'astro:transitions'
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
@@ -56,3 +58,4 @@ const imageUrl = ogImage ? new URL(ogImage, Astro.url) : new URL('/og/chiri-og.p
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={imageUrl} />
+<ThemeScript />

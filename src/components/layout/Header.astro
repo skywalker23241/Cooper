@@ -6,6 +6,7 @@ import User from 'phosphor-astro/User.astro'
 import HardDrives from 'phosphor-astro/HardDrives.astro'
 import DotsThreeCircle from 'phosphor-astro/DotsThreeCircle.astro'
 import XCircle from 'phosphor-astro/XCircle.astro'
+import Note from 'phosphor-astro/Note.astro'
 ---
 
 <div class="top-banner">
@@ -14,9 +15,7 @@ import XCircle from 'phosphor-astro/XCircle.astro'
 
 <header>
   <nav>
-    <a href="/" title="Blog"
-      ><img src="og/chiri-og.png" width="32" height="32" alt="J.C's Blog" /></a
-    >
+    <a href="/now" title="Now"><User width={24} height={24} /></a>
     <div class="right-section">
       <div class="dropdown-menu">
         <button id="menu-toggle-button" aria-label="Open menu" title="More">
@@ -36,7 +35,7 @@ import XCircle from 'phosphor-astro/XCircle.astro'
             target="_blank"
             rel="noopener noreferrer"><GlobeSimple width={24} height={24} /></a
           >
-          <a href="/now" title="Now"><User width={24} height={24} /></a>
+          <a href="http://jackcooper.vn.kg/" title="Notes"><Note width={24} height={24} /></a>
         </div>
       </div>
       <ThemeToggle />

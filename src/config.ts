@@ -7,7 +7,7 @@ export const themeConfig: ThemeConfig = {
     title: 'Bo', // Site title
     author: 'Junbo', // Author name
     description: 'I shall return to the distant realm, where knowledge knows no bounds.', // Site description
-    language: 'en_US' // Default language
+    language: 'zh_CN' // Default language
   },
 
   // GENERAL SETTINGS ////////////////////////////////////////////////////////////////////////////////////

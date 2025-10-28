@@ -1,12 +1,7 @@
 ---
 import ThemeToggle from '@/components/ui/ThemeToggle.astro'
-import EnvelopeSimple from 'phosphor-astro/EnvelopeSimple.astro'
-import GlobeSimple from 'phosphor-astro/GlobeSimple.astro'
-import User from 'phosphor-astro/User.astro'
-import HardDrives from 'phosphor-astro/HardDrives.astro'
-import DotsThreeCircle from 'phosphor-astro/DotsThreeCircle.astro'
-import XCircle from 'phosphor-astro/XCircle.astro'
-import Note from 'phosphor-astro/Note.astro'
+import MenuDropdown from '@/components/ui/MenuDropdown.astro'
+import Code from 'phosphor-astro/Code.astro'
 ---
 
 <div class="top-banner">
@@ -15,29 +10,9 @@ import Note from 'phosphor-astro/Note.astro'
 
 <header>
   <nav>
-    <a href="/now" title="Now"><User width={24} height={24} /></a>
+    <a href="/" title="Home"><Code width={24} height={24} /></a>
     <div class="right-section">
-      <div class="dropdown-menu">
-        <button id="menu-toggle-button" aria-label="Open menu" title="More">
-          <span id="icon-dots" class="menu-icon active"
-            ><DotsThreeCircle width={24} height={24} /></span
-          >
-          <span id="icon-x" class="menu-icon"><XCircle width={24} height={24} /></span>
-        </button>
-        <div id="menu-items" class="menu-items-container">
-          <a href="https://uptimeflare-44z.pages.dev/" title="Status"
-            ><HardDrives width={24} height={24} /></a
-          >
-          <a href="/newsletter" title="Newsletter"><EnvelopeSimple width={24} height={24} /></a>
-          <a
-            href="https://hopp.bio/junbo-le"
-            title="Social"
-            target="_blank"
-            rel="noopener noreferrer"><GlobeSimple width={24} height={24} /></a
-          >
-          <a href="http://jackcooper.vn.kg/" title="Notes"><Note width={24} height={24} /></a>
-        </div>
-      </div>
+      <MenuDropdown />
       <ThemeToggle />
     </div>
   </nav>
@@ -81,109 +56,4 @@ import Note from 'phosphor-astro/Note.astro'
     align-items: center;
     gap: 1rem;
   }
-
-  .dropdown-menu {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  #menu-toggle-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text-primary);
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* 保留按钮尺寸，避免影响右侧间距 */
-    width: 32px;
-    height: 32px;
-    position: relative;
-  }
-
-  .menu-icon {
-    position: absolute;
-    transition:
-      opacity 0.25s ease,
-      transform 0.25s ease;
-    opacity: 0;
-    transform: scale(0.8) rotate(90deg);
-    pointer-events: none;
-  }
-
-  .menu-icon.active {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-    pointer-events: auto;
-  }
-
-  .menu-items-container {
-    position: absolute;
-    right: calc(100% + 0.5rem);
-    top: 50%;
-    background-color: var(--background-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    z-index: 10;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-50%) scale(0.95);
-    transform-origin: right center;
-    transition:
-      opacity 0.2s ease,
-      transform 0.2s ease;
-  }
-
-  .menu-items-container.is-active {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(-50%) scale(1);
-  }
 </style>
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const toggleButton = document.getElementById('menu-toggle-button')
-    const menuItems = document.getElementById('menu-items')
-    const iconDots = document.getElementById('icon-dots')
-    const iconX = document.getElementById('icon-x')
-
-    if (!toggleButton || !menuItems || !iconDots || !iconX) return
-
-    toggleButton.addEventListener('click', (event) => {
-      event.stopPropagation()
-      const isActive = menuItems.classList.toggle('is-active')
-      toggleButton.setAttribute('aria-expanded', isActive.toString())
-      toggleButton.setAttribute('title', isActive ? 'Close menu' : 'Open menu')
-
-      // 切换动画类（延迟切换）
-      if (isActive) {
-        iconDots.classList.remove('active')
-        setTimeout(() => iconX.classList.add('active'), 100)
-      } else {
-        iconX.classList.remove('active')
-        setTimeout(() => iconDots.classList.add('active'), 100)
-      }
-    })
-
-    document.addEventListener('click', (event) => {
-      if (
-        menuItems.classList.contains('is-active') &&
-        !menuItems.contains(event.target as Node) &&
-        !toggleButton.contains(event.target as Node)
-      ) {
-        menuItems.classList.remove('is-active')
-        toggleButton.setAttribute('aria-expanded', 'false')
-        toggleButton.setAttribute('title', 'Open menu')
-        iconX.classList.remove('active')
-        setTimeout(() => iconDots.classList.add('active'), 100)
-      }
-    })
-  })
-</script>

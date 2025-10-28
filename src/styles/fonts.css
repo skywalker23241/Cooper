@@ -36,6 +36,6 @@
   font-style: regular;
   font-weight: 400;
   font-display: swap;
-  src: url('/public/fonts/MapleMono-CN-Regular.ttf') format('truetype');
+  src: url('/fonts/MapleMono-CN-Regular.ttf') format('truetype');
   unicode-range: U+4E00-9FFF;
 }

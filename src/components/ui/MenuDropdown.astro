@@ -1,0 +1,179 @@
+---
+import HardDrives from 'phosphor-astro/HardDrives.astro'
+import EnvelopeSimple from 'phosphor-astro/EnvelopeSimple.astro'
+import GlobeSimple from 'phosphor-astro/GlobeSimple.astro'
+import User from 'phosphor-astro/User.astro'
+import DotsThreeCircle from 'phosphor-astro/DotsThreeCircle.astro'
+import XCircle from 'phosphor-astro/XCircle.astro'
+import Note from 'phosphor-astro/Note.astro'
+---
+
+<div class="dropdown-menu" data-menu-root>
+  <button class="menu-toggle" aria-label="Open menu" title="More" aria-expanded="false">
+    <span class="menu-icon dots active"><DotsThreeCircle width={24} height={24} /></span>
+    <span class="menu-icon x"><XCircle width={24} height={24} /></span>
+  </button>
+
+  <div class="menu-items-container">
+    <a href="https://uptimeflare-44z.pages.dev/" title="Status"
+      ><HardDrives width={24} height={24} /></a
+    >
+    <a href="/newsletter" title="Newsletter"><EnvelopeSimple width={24} height={24} /></a>
+    <a href="https://hopp.bio/junbo-le" title="Social" target="_blank" rel="noopener noreferrer"
+      ><GlobeSimple width={24} height={24} /></a
+    >
+    <a href="http://jackcooper.vn.kg/" title="Notes"><Note width={24} height={24} /></a>
+    <a href="/now" title="Now"><User width={24} height={24} /></a>
+  </div>
+</div>
+
+<style>
+  .dropdown-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    position: relative;
+  }
+
+  .menu-icon {
+    position: absolute;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease;
+    opacity: 0;
+    transform: scale(0.8) rotate(90deg);
+    pointer-events: none;
+  }
+  .menu-icon.active {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    pointer-events: auto;
+  }
+
+  .menu-items-container {
+    position: absolute;
+    right: calc(100% + 0.5rem);
+    top: 50%;
+    background-color: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%) scale(0.95);
+    transform-origin: right center;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+  .menu-items-container.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%) scale(1);
+  }
+  /* 只作用于菜单里的链接 */
+  .menu-items-container a,
+  .menu-items-container a:visited,
+  .menu-items-container a:hover,
+  .menu-items-container a:active {
+    color: var(--text-primary); /* 统一用你主题色 */
+    text-decoration: none; /* 去掉下划线 */
+  }
+
+  .menu-items-container a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0; /* 让图标垂直更贴合 */
+    border-radius: 6px;
+    outline: none; /* 去默认蓝色轮廓 */
+    -webkit-tap-highlight-color: transparent; /* iOS/Android 点击高亮 */
+  }
+
+  /* 自定义更友好的可见焦点样式（键盘导航） */
+  .menu-items-container a:focus-visible {
+    box-shadow: 0 0 0 2px var(--border-color);
+    outline: none;
+  }
+
+  /* 图标是 SVG，避免基线缝隙 */
+  .menu-items-container a :where(svg) {
+    display: block;
+  }
+  .menu-items-container a:hover {
+    opacity: 0.9;
+  }
+  .menu-items-container a:active {
+    transform: scale(0.96);
+  }
+</style>
+
+<script>
+  ;(() => {
+    function init(root) {
+      if (!root || root.dataset.menuInited === '1') return
+      root.dataset.menuInited = '1'
+
+      const toggleButton = root.querySelector('.menu-toggle')
+      const menuItems = root.querySelector('.menu-items-container')
+      const iconDots = root.querySelector('.menu-icon.dots')
+      const iconX = root.querySelector('.menu-icon.x')
+      if (!toggleButton || !menuItems || !iconDots || !iconX) return
+
+      toggleButton.addEventListener('click', (event) => {
+        event.stopPropagation()
+        const isActive = menuItems.classList.toggle('is-active')
+        toggleButton.setAttribute('aria-expanded', String(isActive))
+        toggleButton.setAttribute('title', isActive ? 'Close menu' : 'Open menu')
+
+        if (isActive) {
+          iconDots.classList.remove('active')
+          setTimeout(() => iconX.classList.add('active'), 100)
+        } else {
+          iconX.classList.remove('active')
+          setTimeout(() => iconDots.classList.add('active'), 100)
+        }
+      })
+
+      document.addEventListener('click', (event) => {
+        const target = event.target
+        if (
+          menuItems.classList.contains('is-active') &&
+          !menuItems.contains(target) &&
+          !toggleButton.contains(target)
+        ) {
+          menuItems.classList.remove('is-active')
+          toggleButton.setAttribute('aria-expanded', 'false')
+          toggleButton.setAttribute('title', 'Open menu')
+          iconX.classList.remove('active')
+          setTimeout(() => iconDots.classList.add('active'), 100)
+        }
+      })
+    }
+
+    const run = () => document.querySelectorAll('[data-menu-root]').forEach(init)
+
+    if (document.readyState !== 'loading') run()
+    else document.addEventListener('DOMContentLoaded', run, { once: true })
+
+    document.addEventListener('astro:page-load', run)
+    document.addEventListener('astro:after-swap', run)
+  })()
+</script>

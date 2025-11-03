@@ -1,19 +1,16 @@
 ---
 import IndexLayout from '@/layouts/IndexLayout.astro'
 
-const pageTitle = 'Private Notes'
-const pageDescription = 'Unlock a tucked-away space with a passphrase.'
-const pagePassword = import.meta.env.PUBLIC_PRIVATE_PAGE_PASSWORD || 'cooper-secret'
+const pageTitle = 'Secret Garden'
+const pageDescription = "Cooper's Secret Garden"
+const pagePassword = import.meta.env.PUBLIC_PRIVATE_PAGE_PASSWORD || '092966'
 ---
 
 <IndexLayout title={pageTitle} description={pageDescription}>
   <section class="private-page" aria-live="polite">
     <header class="private-header">
       <h1>{pageTitle}</h1>
-      <p class="lede">
-        This page keeps personal snippets and reminders behind a simple passphrase. Enter it below
-        to reveal the content.
-      </p>
+      <p class="lede">Comprender la esencia de la vida y aun así amar la vida!</p>
     </header>
 
     <form
@@ -22,33 +19,35 @@ const pagePassword = import.meta.env.PUBLIC_PRIVATE_PAGE_PASSWORD || 'cooper-sec
       data-password={pagePassword}
       autocomplete="off"
     >
-      <label for="password-input">Access passphrase</label>
+      <label for="password-input">What drew you here?</label>
       <div class="input-row">
         <input
           id="password-input"
           name="password"
           type="password"
-          placeholder="Enter the passphrase"
+          placeholder="......"
           minlength="4"
           required
         />
-        <button type="submit">Unlock</button>
+        <button type="submit">Uncode</button>
       </div>
-      <p id="password-error" class="error" hidden>The passphrase doesn't match. Try again.</p>
+      <p id="password-error" class="error" hidden>
+        Passcode error！Please <a href="https://www.hopp.bio/junbo-le">contact the administrator</a>
+        !
+      </p>
     </form>
 
     <article id="private-content" class="private-content card" hidden>
-      <h2>Unlocked space</h2>
-      <p>Use this area for private notes, draft thoughts, or collections you only want to see.</p>
-      <p>
-        The default passphrase is <code>cooper-secret</code>. Override it during deployment with the
-        <code>PUBLIC_PRIVATE_PAGE_PASSWORD</code> environment variable.
-      </p>
-      <button id="lock-page" type="button" class="secondary">Lock this page</button>
-      <p class="tip">
-        Reminder: even with a passphrase, static-site content can be inspected. Avoid storing
-        anything truly sensitive here.
-      </p>
+      <h2>Free VPN Subscription Link</h2>
+      <h3>宝可梦（60G/M）</h3>
+      <code
+        >https://pokelink.xn--4gsvmh74cwxi.cn/api/v1/client/subscribe?token=0c166c92d13f6584183e2dc43b28183c</code
+      >
+      <h3>风萧萧公益（100G/M）</h3>
+      <code>https://gucci.weyolo.com/s/1ef4cbe768b7f46ce4486a16ccdcc9cb</code>
+      <p></p>
+      <button id="lock-page" type="button" class="secondary">加密 </button>
+      <p class="tip">君子协议: 请勿泄露密码，否则后果自负。</p>
     </article>
   </section>
 </IndexLayout>

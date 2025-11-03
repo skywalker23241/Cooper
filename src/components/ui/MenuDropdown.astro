@@ -6,6 +6,7 @@ import User from 'phosphor-astro/User.astro'
 import DotsThreeCircle from 'phosphor-astro/DotsThreeCircle.astro'
 import XCircle from 'phosphor-astro/XCircle.astro'
 import Note from 'phosphor-astro/Note.astro'
+import EyeSlash from 'phosphor-astro/EyeSlash.astro'
 ---
 
 <div class="dropdown-menu" data-menu-root>
@@ -24,6 +25,7 @@ import Note from 'phosphor-astro/Note.astro'
     >
     <a href="http://jackcooper.vn.kg/" title="Notes"><Note width={24} height={24} /></a>
     <a href="/now" title="Now"><User width={24} height={24} /></a>
+    <a href="/private" title="Private"><EyeSlash width={24} height={24} /></a>
   </div>
 </div>
 
@@ -73,7 +75,7 @@ import Note from 'phosphor-astro/Note.astro'
     padding: 0.5rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.7rem;
     z-index: 10;
     opacity: 0;
     pointer-events: none;

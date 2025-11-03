@@ -1,4 +1,4 @@
-<div id="image-viewer" class="image-viewer">
+<div id="image-viewer" class="image-viewer" aria-hidden="true">
   <img id="image-viewer-img" src="" alt="" />
 </div>
 
@@ -19,6 +19,8 @@
       viewer!.style.visibility = 'visible'
       void viewer!.offsetWidth
       viewer!.classList.add('active')
+      viewer!.style.pointerEvents = 'auto'
+      viewer!.setAttribute('aria-hidden', 'false')
       document.body.classList.add('image-viewer-open')
       document.body.style.overflow = 'hidden'
       document.body.dataset.scrollY = window.scrollY.toString()
@@ -31,6 +33,8 @@
     // Hide the image viewer and restore page scroll
     function hideImage() {
       viewer!.classList.remove('active')
+      viewer!.style.pointerEvents = 'none'
+      viewer!.setAttribute('aria-hidden', 'true')
       document.body.classList.remove('image-viewer-open')
       document.body.style.overflow = ''
     }
@@ -96,6 +100,7 @@
 
     // Hide initially
     viewer!.style.visibility = 'hidden'
+    viewer!.style.pointerEvents = 'none'
   }
 
   if (document.readyState === 'loading') {
@@ -122,10 +127,14 @@
     transition: opacity 0.15s ease-in-out;
     background: color-mix(in srgb, var(--bg) 90%, transparent);
     cursor: zoom-out;
+    pointer-events: none;
+    visibility: hidden;
   }
 
   .image-viewer.active {
     opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
   }
 
   .image-viewer img {

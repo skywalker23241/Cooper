@@ -50,14 +50,30 @@ const { toc = [] }: TOCProps = Astro.props
       hasContent: false
     }
 
+    function getActiveContainer(targetDocument = document) {
+      const scope = targetDocument || document
+      let containers = scope.querySelectorAll('.toc-container')
+      if (!containers.length && scope !== document) {
+        containers = document.querySelectorAll('.toc-container')
+      }
+      return containers[containers.length - 1] || null
+    }
+
+    function getScopeRoot(container, targetDocument = document) {
+      const scope = container?.closest('.post-container')
+      if (scope) return scope
+      return targetDocument || document
+    }
+
     // Initialize DOM elements
-    function initElements() {
-      state.container = document.querySelector('.toc-container')
+    function initElements(targetDocument = document) {
+      state.container = getActiveContainer(targetDocument)
       if (!state.container) return false
 
-      state.links = document.querySelectorAll('.toc-link')
-      state.headings = document.querySelectorAll('h1, h2, h3')
-      state.titleLink = document.querySelector('.toc-link.toc-title')
+      state.links = state.container.querySelectorAll('.toc-link')
+      const scopeRoot = getScopeRoot(state.container, targetDocument)
+      state.headings = scopeRoot.querySelectorAll('.prose h1, .prose h2, .prose h3')
+      state.titleLink = state.container.querySelector('.toc-link.toc-title')
 
       // Build heading map
       state.headingMap.clear()
@@ -80,9 +96,7 @@ const { toc = [] }: TOCProps = Astro.props
       )
       state.hasContent = tocItems.length > 0
 
-      if (!state.hasContent) {
-        state.container.style.display = 'none'
-      }
+      state.container.style.display = state.hasContent ? '' : 'none'
     }
 
     // Cache heading positions
@@ -136,7 +150,8 @@ const { toc = [] }: TOCProps = Astro.props
       } else {
         const href = link.getAttribute('href')
         if (href?.startsWith('#')) {
-          const target = document.getElementById(href.substring(1))
+          const scopeRoot = getScopeRoot(state.container)
+          const target = scopeRoot.querySelector(href)
           if (target) {
             const rect = target.getBoundingClientRect()
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop
@@ -173,23 +188,26 @@ const { toc = [] }: TOCProps = Astro.props
       }
     }
 
+    function getDocumentFromEvent(event) {
+      return event?.detail?.newDocument || event?.detail?.document || document
+    }
+
     // Initialize
-    function init(retryCount = 0) {
+    function init(targetDocument = document, retryCount = 0) {
       const maxRetries = 5
 
-      if (initElements()) {
+      if (initElements(targetDocument)) {
         checkContent()
         adjustPosition()
         cachePositions()
 
         if (state.container) {
-          state.container.removeEventListener('click', handleClick)
           state.container.addEventListener('click', handleClick)
         }
 
         updateActive()
       } else if (retryCount < maxRetries) {
-        setTimeout(() => init(retryCount + 1), 100)
+        setTimeout(() => init(targetDocument, retryCount + 1), 100)
       }
     }
 
@@ -213,6 +231,10 @@ const { toc = [] }: TOCProps = Astro.props
         state.scrollTimeout = null
       }
 
+      if (state.container) {
+        state.container.removeEventListener('click', handleClick)
+      }
+
       Object.assign(state, {
         container: null,
         links: null,
@@ -224,15 +246,19 @@ const { toc = [] }: TOCProps = Astro.props
       })
     }
 
+    function scheduleInit(targetDocument = document) {
+      requestAnimationFrame(() => init(targetDocument))
+    }
+
     // Event listeners
-    document.addEventListener('astro:page-load', () => {
+    document.addEventListener('astro:page-load', (event) => {
       cleanup()
-      init()
+      scheduleInit(getDocumentFromEvent(event))
     })
 
-    document.addEventListener('astro:after-swap', () => {
+    document.addEventListener('astro:after-swap', (event) => {
       cleanup()
-      init()
+      scheduleInit(getDocumentFromEvent(event))
     })
 
     // Fallback for when Astro transitions are disabled
@@ -387,3 +413,4 @@ const { toc = [] }: TOCProps = Astro.props
     }
   }
 </style>
+

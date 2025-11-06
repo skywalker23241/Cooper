@@ -90,20 +90,25 @@ const ogImage = `/open-graph/${postSlug}.png`
 </style>
 
 <script>
-  function loadGiscus() {
-    const container = document.getElementById('giscus-container')
+  function getActiveContainer(targetDocument = document) {
+    const containers = targetDocument.querySelectorAll('#giscus-container')
+    return containers[containers.length - 1] || null
+  }
+
+  function loadGiscus(targetDocument = document) {
+    const container = getActiveContainer(targetDocument)
     if (!container) return
 
-    // 清空旧评论区
+    // Reset container before injecting the giscus client
     container.innerHTML = ''
 
-    // 创建 giscus 脚本
+    // Create giscus script element
     const s = document.createElement('script')
     s.src = 'https://giscus.app/client.js'
     s.async = true
     s.crossOrigin = 'anonymous'
 
-    // 映射你原来的全部 data-* 配置
+    // Mirror widget configuration via data-* attributes
     s.setAttribute('data-repo', 'skywalker23241/Cooper')
     s.setAttribute('data-repo-id', 'R_kgDOPqK45Q')
     s.setAttribute('data-category', 'General')
@@ -119,12 +124,24 @@ const ogImage = `/open-graph/${postSlug}.png`
     container.appendChild(s)
   }
 
-  // 首次加载
+  function getDocumentFromEvent(event) {
+    return event?.detail?.newDocument || event?.detail?.document || document
+  }
+
+  // Initial load
   loadGiscus()
 
-  // 监听 Astro 内部切换（View Transitions）
-  document.addEventListener('astro:after-swap', loadGiscus)
+  // React to Astro view transitions
+  document.addEventListener('astro:page-load', (event) => {
+    loadGiscus(getDocumentFromEvent(event))
+  })
 
-  // 兼容回退/前进按钮
-  window.addEventListener('popstate', loadGiscus)
+  document.addEventListener('astro:after-swap', (event) => {
+    loadGiscus(getDocumentFromEvent(event))
+  })
+
+  // Back/forward navigation
+  window.addEventListener('popstate', () => {
+    loadGiscus()
+  })
 </script>

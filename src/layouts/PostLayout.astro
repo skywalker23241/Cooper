@@ -101,10 +101,8 @@ const ogImage = `/open-graph/${postSlug}.png`
 
   function loadGiscus(root = document, attempt = 0) {
     const container = getActiveContainer(root)
-    if (!container) return
-
-    if (!container.isConnected) {
-      if (attempt > 8) return
+    if (!container || !container.isConnected) {
+      if (attempt > 60) return
       requestAnimationFrame(() => loadGiscus(root, attempt + 1))
       return
     }

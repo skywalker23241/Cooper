@@ -90,14 +90,20 @@ const ogImage = `/open-graph/${postSlug}.png`
 </style>
 
 <script>
-  function getActiveContainer(targetDocument = document) {
-    const containers = targetDocument.querySelectorAll('#giscus-container')
+  function getActiveContainer() {
+    const containers = document.querySelectorAll('#giscus-container')
     return containers[containers.length - 1] || null
   }
 
-  function loadGiscus(targetDocument = document) {
-    const container = getActiveContainer(targetDocument)
+  function loadGiscus(attempt = 0) {
+    const container = getActiveContainer()
     if (!container) return
+
+    if (!container.isConnected) {
+      if (attempt > 5) return
+      requestAnimationFrame(() => loadGiscus(attempt + 1))
+      return
+    }
 
     // Reset container before injecting the giscus client
     container.innerHTML = ''
@@ -124,24 +130,17 @@ const ogImage = `/open-graph/${postSlug}.png`
     container.appendChild(s)
   }
 
-  function getDocumentFromEvent(event) {
-    return event?.detail?.newDocument || event?.detail?.document || document
+  function scheduleGiscus() {
+    requestAnimationFrame(() => loadGiscus())
   }
 
   // Initial load
-  loadGiscus()
+  scheduleGiscus()
 
   // React to Astro view transitions
-  document.addEventListener('astro:page-load', (event) => {
-    loadGiscus(getDocumentFromEvent(event))
-  })
-
-  document.addEventListener('astro:after-swap', (event) => {
-    loadGiscus(getDocumentFromEvent(event))
-  })
+  document.addEventListener('astro:page-load', scheduleGiscus)
+  document.addEventListener('astro:after-swap', scheduleGiscus)
 
   // Back/forward navigation
-  window.addEventListener('popstate', () => {
-    loadGiscus()
-  })
+  window.addEventListener('popstate', scheduleGiscus)
 </script>

@@ -1,0 +1,89 @@
+<script>
+  declare global {
+    interface Window {
+      __giscusLoaderInitialized?: boolean
+    }
+  }
+
+  if (!window.__giscusLoaderInitialized) {
+    window.__giscusLoaderInitialized = true
+
+    const GISCUS_ATTRS = {
+      'data-repo': 'skywalker23241/Cooper',
+      'data-repo-id': 'R_kgDOPqK45Q',
+      'data-category': 'General',
+      'data-category-id': 'DIC_kwDOPqK45c4CvRi6',
+      'data-mapping': 'pathname',
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'bottom',
+      'data-theme': 'transparent_dark',
+      'data-lang': 'en'
+    }
+
+    function getActiveContainer(root = document) {
+      const scope = root || document
+      const containers = scope.querySelectorAll('#giscus-container')
+
+      for (let i = containers.length - 1; i >= 0; i -= 1) {
+        const candidate = containers[i]
+        if (candidate?.isConnected) {
+          return candidate
+        }
+      }
+
+      const fallback = document.querySelector('#giscus-container')
+      return fallback?.isConnected ? fallback : null
+    }
+
+    function mountGiscus(root = document, attempt = 0) {
+      const container = getActiveContainer(root)
+
+      if (!container) {
+        if (attempt > 60) return
+        requestAnimationFrame(() => mountGiscus(root, attempt + 1))
+        return
+      }
+
+      container.innerHTML = ''
+
+      const script = document.createElement('script')
+      script.src = 'https://giscus.app/client.js'
+      script.async = true
+      script.crossOrigin = 'anonymous'
+
+      Object.entries(GISCUS_ATTRS).forEach(([key, value]) => {
+        script.setAttribute(key, value)
+      })
+
+      container.dataset.giscusHydrated = 'true'
+      container.appendChild(script)
+    }
+
+    function schedule(root = document) {
+      requestAnimationFrame(() => mountGiscus(root))
+    }
+
+    schedule()
+
+    document.addEventListener('astro:page-load', (event) => {
+      schedule(event?.detail?.newDocument || document)
+    })
+
+    document.addEventListener('astro:after-swap', (event) => {
+      schedule(event?.detail?.newDocument || document)
+    })
+
+    window.addEventListener('popstate', () => {
+      schedule()
+    })
+  } else {
+    requestAnimationFrame(() => {
+      const container = document.querySelector('#giscus-container')
+      if (container && !container.dataset.giscusHydrated) {
+        container.dataset.giscusHydrated = 'true'
+      }
+    })
+  }
+</script>

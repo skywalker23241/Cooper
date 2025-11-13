@@ -35,6 +35,9 @@ importers:
       astro-theme-toggle:
         specifier: ^0.7.0
         version: 0.7.0
+      canvaskit-wasm:
+        specifier: ^0.40.0
+        version: 0.40.0
       feed:
         specifier: ^5.1.0
         version: 5.1.0
@@ -1560,6 +1563,9 @@ packages:
   canvaskit-wasm@0.39.1:
     resolution: {integrity: sha512-Gy3lCmhUdKq+8bvDrs9t8+qf7RvcjuQn+we7vTVVyqgOVO1UVfHpsnBxkTZw+R4ApEJ3D5fKySl9TU11hmjl/A==}
 
+  canvaskit-wasm@0.40.0:
+    resolution: {integrity: sha512-Od2o+ZmoEw9PBdN/yCGvzfu0WVqlufBPEWNG452wY7E9aT8RBE+ChpZF526doOlg7zumO4iCS+RAeht4P0Gbpw==}
+
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
 
@@ -2107,10 +2113,6 @@ packages:
 
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
-
-  fast-xml-parser@5.2.5:
-    resolution: {integrity: sha512-pfX9uG9Ki0yekDHx2SiuRIyFdyAr1kMIMitPvb0YBo8SUfKvia7w7FIyd/l6av85pFYRhZscS75MwMnbvY+hcQ==}
-    hasBin: true
 
   fastq@1.19.1:
     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
@@ -3601,9 +3603,6 @@ packages:
   strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
-
-  strnum@2.1.1:
-    resolution: {integrity: sha512-7ZvoFTiCnGxBtDqJ//Cu6fWtZtc7Y3x+QOirG15wztbdngGSkht27o2pyGWrVy0b4WAy3jbKmnoK6g5VlVNUUw==}
 
   style-to-js@1.1.17:
     resolution: {integrity: sha512-xQcBGDxJb6jjFCTzvQtfiPn6YvvP2O8U1MDIPNfJQlWMYfktPy+iGsHE7cssjs7y84d9fQaK4UF3RIJaAHSoYA==}
@@ -5978,6 +5977,10 @@ snapshots:
     dependencies:
       '@webgpu/types': 0.1.21
 
+  canvaskit-wasm@0.40.0:
+    dependencies:
+      '@webgpu/types': 0.1.21
+
   ccount@2.0.1: {}
 
   chalk@4.1.2:
@@ -6556,10 +6559,6 @@ snapshots:
   fast-safe-stringify@2.1.1: {}
 
   fast-uri@3.1.0: {}
-
-  fast-xml-parser@5.2.5:
-    dependencies:
-      strnum: 2.1.1
 
   fastq@1.19.1:
     dependencies:
@@ -8586,8 +8585,6 @@ snapshots:
   strip-final-newline@3.0.0: {}
 
   strip-json-comments@3.1.1: {}
-
-  strnum@2.1.1: {}
 
   style-to-js@1.1.17:
     dependencies:

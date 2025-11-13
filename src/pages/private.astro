@@ -3,114 +3,292 @@ import IndexLayout from '@/layouts/IndexLayout.astro'
 
 const pageTitle = 'Secret Garden'
 const pageDescription = "Cooper's Secret Garden"
-const pagePassword = import.meta.env.PUBLIC_PRIVATE_PAGE_PASSWORD || '092966'
 ---
 
 <IndexLayout title={pageTitle} description={pageDescription}>
-  <section class="private-page" aria-live="polite">
+  <section class="private-page" data-state="locked" data-fallback-title={pageTitle}>
     <header class="private-header">
+      <p class="eyebrow">Restricted · 私密空间</p>
       <h1>{pageTitle}</h1>
-      <p class="lede">Comprender la esencia de la vida y aun así amar la vida!</p>
+      <p class="lede">
+        这是一个只与少数朋友共享的实验室。输入我们的约定暗号，Netlify Function 会按需返回经过签名的真实内容。
+      </p>
     </header>
 
-    <form
-      id="password-form"
-      class="password-form card"
-      data-password={pagePassword}
-      autocomplete="off"
-    >
-      <label for="password-input">What drew you here?</label>
+    <form id="password-form" class="password-form card" autocomplete="off">
+      <label for="password-input">请输入暗号以进行远端验证</label>
       <div class="input-row">
         <input
           id="password-input"
           name="password"
           type="password"
-          placeholder="......"
+          placeholder="******"
           minlength="4"
           required
+          autocomplete="current-password"
         />
-        <button type="submit">Uncode</button>
+        <button id="unlock-button" type="submit">解锁</button>
       </div>
+      <p id="password-status" class="status" aria-live="polite" hidden></p>
       <p id="password-error" class="error" hidden>
-        Passcode error！Please <a href="https://www.hopp.bio/junbo-le">contact the administrator</a>
-        !
+        暗号不正确或已过期，请重试或<a href="https://www.hopp.bio/junbo-le" target="_blank" rel="noreferrer">联系我</a>
+        。
       </p>
     </form>
 
-    <article id="private-content" class="private-content card" hidden>
-      <h2>Free VPN Subscription Link</h2>
-      <h3>宝可梦（60G/M）</h3>
-      <code
-        >https://pokelink.xn--4gsvmh74cwxi.cn/api/v1/client/subscribe?token=0c166c92d13f6584183e2dc43b28183c</code
-      >
-      <h3>风萧萧公益（100G/M）</h3>
-      <code>https://gucci.weyolo.com/s/1ef4cbe768b7f46ce4486a16ccdcc9cb</code>
-      <p></p>
-      <button id="lock-page" type="button" class="secondary">加密 </button>
-      <p class="tip">君子协议: 请勿泄露密码，否则后果自负。</p>
+    <article id="private-content" class="private-content card" aria-live="polite">
+      <div class="lock-placeholder">
+        <p class="placeholder-kicker">Encrypted channel</p>
+        <h2>Access requires our shared secret</h2>
+        <p>
+          输入暗号后，页面会向 <code>/api/private</code> 发送请求，只有验证通过时才会将真实数据写入这个面板。
+        </p>
+        <div class="placeholder-glow" aria-hidden="true"></div>
+      </div>
     </article>
+
+    <button id="lock-page" type="button" class="secondary" hidden>锁定页面</button>
   </section>
 </IndexLayout>
 
 <script type="module">
-  const form = document.querySelector('#password-form')
-  const input = document.querySelector('#password-input')
-  const error = document.querySelector('#password-error')
-  const content = document.querySelector('#private-content')
-  const lockButton = document.querySelector('#lock-page')
-  const storageKey = 'cooper-private-page'
-
-  const storedUnlock = typeof localStorage !== 'undefined' ? localStorage.getItem(storageKey) : null
-  const expectedPassword = form?.dataset.password ?? ''
-
-  const unlock = () => {
-    form?.setAttribute('hidden', 'true')
-    content?.removeAttribute('hidden')
-    error?.setAttribute('hidden', 'true')
-  }
-
-  const lock = () => {
-    form?.removeAttribute('hidden')
-    content?.setAttribute('hidden', 'true')
-    input?.focus()
-    if (typeof localStorage !== 'undefined') {
-      localStorage.removeItem(storageKey)
+  const initPrivatePage = () => {
+    const root = document.querySelector('.private-page')
+    if (!root || root.dataset.ready === 'true') {
+      return
     }
-  }
 
-  if (storedUnlock === 'true') {
-    unlock()
-  }
+    root.dataset.ready = 'true'
+    const fallbackTitle = root.dataset.fallbackTitle || 'Secret Garden'
 
-  form?.addEventListener('submit', (event) => {
-    event.preventDefault()
-    const value = input?.value ?? ''
+    const form = root.querySelector('#password-form')
+    const input = root.querySelector('#password-input')
+    const submit = root.querySelector('#unlock-button')
+    const status = root.querySelector('#password-status')
+    const error = root.querySelector('#password-error')
+    const lockButton = root.querySelector('#lock-page')
+    const content = root.querySelector('#private-content')
+    const endpoint = '/api/private'
 
-    if (value === expectedPassword) {
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(storageKey, 'true')
+    if (!form || !input || !content) {
+      return
+    }
+
+    const placeholderMarkup = content.innerHTML
+
+    const renderPlaceholder = () => {
+      content.innerHTML = placeholderMarkup
+      content.dataset.unlocked = 'false'
+    }
+
+    const setState = (state) => {
+      root.setAttribute('data-state', state)
+      if (state === 'unlocked') {
+        form.setAttribute('hidden', 'true')
+        lockButton?.removeAttribute('hidden')
+        content.dataset.unlocked = 'true'
+      } else {
+        form.removeAttribute('hidden')
+        lockButton?.setAttribute('hidden', 'true')
+        if (state === 'locked') {
+          error?.setAttribute('hidden', 'true')
+          renderPlaceholder()
+        }
       }
-      unlock()
-    } else {
-      error?.removeAttribute('hidden')
-      input?.select()
     }
-  })
 
-  lockButton?.addEventListener('click', () => {
-    lock()
-  })
+    const setLoading = (isLoading) => {
+      if (isLoading) {
+        root.setAttribute('data-loading', 'true')
+        submit?.setAttribute('disabled', 'true')
+        status?.removeAttribute('hidden')
+        if (status) {
+          status.textContent = '正在验证…'
+        }
+      } else {
+        root.removeAttribute('data-loading')
+        submit?.removeAttribute('disabled')
+        if (status) {
+          status.textContent = ''
+          status.setAttribute('hidden', 'true')
+        }
+      }
+    }
+
+    const renderPayload = (payload = {}) => {
+      content.innerHTML = ''
+      content.dataset.unlocked = 'true'
+
+      const heroData = payload.hero ?? {
+        emoji: '🔐',
+        kicker: 'Private channel',
+        title: fallbackTitle,
+        body: 'Authorized content'
+      }
+
+      const heroCard = document.createElement('div')
+      heroCard.className = 'secret-hero card'
+      const kicker = document.createElement('p')
+      kicker.className = 'hero-kicker'
+      kicker.textContent = `${heroData.emoji} ${heroData.kicker}`
+      const title = document.createElement('h2')
+      title.textContent = heroData.title
+      const body = document.createElement('p')
+      body.className = 'hero-body'
+      body.textContent = heroData.body
+      heroCard.append(kicker, title, body)
+      if (heroData.note) {
+        const note = document.createElement('p')
+        note.className = 'hero-note'
+        note.textContent = heroData.note
+        heroCard.appendChild(note)
+      }
+      content.appendChild(heroCard)
+
+      if (Array.isArray(payload.sections)) {
+        payload.sections.forEach((section) => {
+          if (!section || !Array.isArray(section.entries)) {
+            return
+          }
+          const sectionEl = document.createElement('section')
+          sectionEl.className = 'secret-section card'
+
+          const header = document.createElement('div')
+          header.className = 'section-head'
+          const h3 = document.createElement('h3')
+          h3.textContent = section.title
+          header.appendChild(h3)
+          if (section.description) {
+            const desc = document.createElement('p')
+            desc.className = 'section-desc'
+            desc.textContent = section.description
+            header.appendChild(desc)
+          }
+          sectionEl.appendChild(header)
+
+          const list = document.createElement('div')
+          list.className = 'secret-entries'
+
+          section.entries.forEach((entry) => {
+            const row = document.createElement('div')
+            row.className = 'secret-entry'
+
+            const label = document.createElement('span')
+            label.className = 'entry-label'
+            label.textContent = entry.label
+
+            const valueWrapper = document.createElement('div')
+            valueWrapper.className = 'entry-value-wrapper'
+
+            const value = document.createElement('code')
+            value.className = 'entry-value'
+            value.textContent = entry.value
+
+            valueWrapper.appendChild(value)
+
+            row.append(label, valueWrapper)
+
+            if (entry.hint) {
+              const hint = document.createElement('p')
+              hint.className = 'entry-hint'
+              hint.textContent = entry.hint
+              row.appendChild(hint)
+            }
+
+            list.appendChild(row)
+          })
+
+          sectionEl.appendChild(list)
+
+          if (section.note) {
+            const note = document.createElement('p')
+            note.className = 'section-note'
+            note.textContent = section.note
+            sectionEl.appendChild(note)
+          }
+
+          content.appendChild(sectionEl)
+        })
+      }
+
+      if (payload.meta) {
+        const meta = document.createElement('footer')
+        meta.className = 'secret-meta'
+        const owner = payload.meta.owner ? `Owner · ${payload.meta.owner}` : null
+        const updated = payload.meta.lastUpdated ? `Last updated · ${payload.meta.lastUpdated}` : null
+        const sensitivity = payload.meta.sensitivity
+          ? `Classification · ${payload.meta.sensitivity}`
+          : null
+
+        const bits = [owner, updated, sensitivity].filter(Boolean)
+        meta.innerHTML = bits.map((bit) => `<span>${bit}</span>`).join('')
+        content.appendChild(meta)
+      }
+    }
+
+    const requestPayload = async (password) => {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password })
+      })
+
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(data?.error || 'Access denied.')
+      }
+      return data.payload
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+      error?.setAttribute('hidden', 'true')
+
+      const password = input.value.trim()
+      if (!password) {
+        input.focus()
+        return
+      }
+
+      setLoading(true)
+
+      try {
+        const payload = await requestPayload(password)
+        renderPayload(payload)
+        setState('unlocked')
+        input.value = ''
+      } catch (err) {
+        setState('locked')
+        error?.removeAttribute('hidden')
+        if (error && err instanceof Error) {
+          error.textContent = err.message
+        }
+        input.select()
+      } finally {
+        setLoading(false)
+      }
+    })
+
+    lockButton?.addEventListener('click', () => {
+      input.value = ''
+      setState('locked')
+      input.focus()
+    })
+
+    setState('locked')
+  }
+
+  initPrivatePage()
+  document.addEventListener('astro:page-load', initPrivatePage)
 </script>
 
 <style>
-  [hidden] {
-    display: none !important;
-  }
-
   .private-page {
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
+    gap: 1.5rem;
   }
 
   .private-header {
@@ -123,21 +301,38 @@ const pagePassword = import.meta.env.PUBLIC_PRIVATE_PAGE_PASSWORD || '092966'
     margin: 0;
   }
 
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
   .lede {
     margin: 0;
     color: var(--text-secondary);
-    max-width: 45ch;
+    max-width: 52ch;
   }
 
-  .private-page .card {
-    margin: 0;
-    background: var(--code-bg);
+  .card {
+    position: relative;
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    background: color-mix(in srgb, var(--bg) 90%, var(--astro-code-background));
+    backdrop-filter: blur(12px);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.12);
   }
 
   .password-form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .password-form label {
+    font-weight: var(--font-weight-medium);
   }
 
   .input-row {
@@ -147,82 +342,201 @@ const pagePassword = import.meta.env.PUBLIC_PRIVATE_PAGE_PASSWORD || '092966'
 
   .input-row input {
     flex: 1;
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-radius: 1rem;
     border: 1px solid var(--border);
     background: var(--bg);
-    font-size: 1rem;
     color: var(--text-primary);
   }
 
   .input-row button {
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.75rem;
-    border: 1px solid transparent;
-    background: var(--text-primary);
+    inline-size: min(8rem, 30%);
+    border-radius: 1rem;
+    border: none;
+    background: linear-gradient(120deg, var(--text-primary), color-mix(in srgb, var(--text-primary) 70%, var(--accent, #7c3aed)));
     color: var(--bg);
     font-weight: var(--font-weight-bold);
     cursor: pointer;
-    transition:
-      transform 0.15s ease,
-      opacity 0.2s ease;
+    transition: transform 0.15s ease;
+  }
+
+  [data-loading='true'] .input-row button {
+    pointer-events: none;
+    opacity: 0.75;
   }
 
   .input-row button:hover {
     transform: translateY(-1px);
-    opacity: 0.85;
+  }
+
+  .status,
+  .error {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .status {
+    color: var(--text-secondary);
   }
 
   .error {
-    margin: 0;
     color: #d93025;
-    font-size: 0.9rem;
+  }
+
+  .secondary {
+    align-self: flex-start;
+    padding: 0.65rem 1.25rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+  }
+
+  .secondary:hover {
+    border-color: var(--text-primary);
   }
 
   .private-content {
     display: flex;
     flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .lock-placeholder {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    background: color-mix(in srgb, var(--astro-code-background) 85%, transparent);
+    isolation: isolate;
+  }
+
+  .placeholder-kicker {
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--text-secondary);
+  }
+
+  .lock-placeholder h2 {
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .lock-placeholder p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  .placeholder-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(124, 58, 237, 0.25), transparent 60%);
+    filter: blur(20px);
+    z-index: -1;
+  }
+
+  .secret-hero {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(14, 165, 233, 0.15));
+  }
+
+  .hero-kicker {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .hero-body,
+  .hero-note {
+    margin: 0.75rem 0 0;
+  }
+
+  .hero-note {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .secret-section {
+    border: 1px dashed color-mix(in srgb, var(--border) 90%, transparent);
+  }
+
+  .section-head h3 {
+    margin: 0;
+  }
+
+  .section-desc {
+    margin: 0.35rem 0 0;
+    color: var(--text-secondary);
+  }
+
+  .secret-entries {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
   }
 
-  .private-content code {
-    padding: 0.15rem 0.35rem;
-    background: var(--code-bg);
-    border-radius: 0.35rem;
-    font-family: var(--mono);
+  .secret-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
   }
 
-  .secondary {
-    align-self: flex-start;
-    padding: 0.5rem 1rem;
+  .entry-label {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--text-secondary);
+  }
+
+  .entry-value-wrapper {
+    background: rgba(255, 255, 255, 0.04);
     border-radius: 0.75rem;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition:
-      background 0.15s ease,
-      color 0.15s ease;
+    border: 1px dashed color-mix(in srgb, var(--border) 80%, transparent);
+    padding: 0.75rem 1rem;
   }
 
-  .secondary:hover {
-    background: var(--selection);
-    color: var(--text-primary);
+  .entry-value {
+    display: block;
+    width: 100%;
+    word-break: break-all;
   }
 
-  .tip {
-    margin: 0.5rem 0 0;
+  .entry-hint {
+    margin: 0;
+    font-size: 0.85rem;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+  }
+
+  .section-note {
+    margin: 0.75rem 0 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .secret-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
   }
 
   @media (max-width: 640px) {
     .input-row {
       flex-direction: column;
+      align-items: flex-start;
     }
 
     .input-row button {
-      width: 100%;
+      inline-size: 100%;
     }
+
   }
 </style>

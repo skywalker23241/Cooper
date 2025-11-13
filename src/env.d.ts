@@ -10,3 +10,11 @@ declare module 'astro:content' {
     }>
   }
 }
+
+interface ImportMetaEnv {
+  readonly PRIVATE_PAGE_PASSWORD?: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}

@@ -36,7 +36,6 @@ const pageDescription = "Cooper's Secret Garden"
       <p id="password-status" class="status" aria-live="polite" hidden></p>
       <p id="password-error" class="error" hidden>
         暗号不正确或已过期，请重试或<a href="https://www.hopp.bio/junbo-le" target="_blank" rel="noreferrer">联系我</a>
-        。
       </p>
     </form>
 
@@ -241,7 +240,7 @@ const pageDescription = "Cooper's Secret Garden"
 
       const data = await response.json().catch(() => ({}))
       if (!response.ok) {
-        throw new Error(data?.error || 'Access denied.')
+        throw new Error(data?.error || '暗号不正确或已过期，请重试或<a href="https://www.hopp.bio/junbo-le" target="_blank" rel="noreferrer">联系我</a>')
       }
       return data.payload
     }

@@ -1,0 +1,405 @@
+---
+import IndexLayout from '@/layouts/IndexLayout.astro'
+import linkData from '../data/links.json'
+import Search from 'phosphor-astro/MagnifyingGlass.astro'
+import NavigationArrow from 'phosphor-astro/NavigationArrow.astro'
+
+const pageTitle = ''
+const pageDescription = 'All your favorite links in one place'
+
+// 定义 TypeScript 接口
+interface LinkItem {
+  name: string
+  url: string
+}
+
+interface Category {
+  category: string
+  items: LinkItem[]
+}
+
+// 辅助函数：获取 Favicon
+const getFavicon = (url: string) => {
+  try {
+    const domain = new URL(url).hostname
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+  } catch (e) {
+    return 'https://via.placeholder.com/32'
+  }
+}
+---
+
+<IndexLayout title={pageTitle} description={pageDescription}>
+  <div class="nav-page">
+    <!-- 头部区域 -->
+    <header class="nav-header">
+      <div class="header-icon">
+        <NavigationArrow width={32} height={32} />
+      </div>
+      <p class="eyebrow">Quick Access · 快速访问</p>
+      <h1>{pageTitle}</h1>
+      <p class="lede">
+        {pageDescription}. 这里收集了我常用的工具和资源链接。
+      </p>
+    </header>
+
+    <!-- 搜索框 -->
+    <div class="search-card card">
+      <form action="https://www.google.com/search" target="_blank" class="search-form">
+        <div class="search-input-wrapper">
+          <Search width={20} height={20} class="search-icon" />
+          <input
+            type="text"
+            name="q"
+            placeholder="Search Google..."
+            autocomplete="off"
+            class="search-input"
+          />
+        </div>
+      </form>
+    </div>
+
+    <!-- 链接分类区域 -->
+    <div class="categories-container">
+      {
+        linkData.map((group: Category) => (
+          <section class="category-section">
+            <div class="category-header">
+              <h2>{group.category}</h2>
+              <span class="category-count">{group.items.length} links</span>
+            </div>
+
+            <div class="links-grid">
+              {group.items.map((item) => (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link-card card"
+                >
+                  <div class="link-icon">
+                    <img src={getFavicon(item.url)} alt={item.name} loading="lazy" />
+                  </div>
+                  <div class="link-content">
+                    <h3 class="link-name">{item.name}</h3>
+                    <p class="link-url">{new URL(item.url).hostname}</p>
+                  </div>
+                  <div class="link-arrow" aria-hidden="true">→</div>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</IndexLayout>
+
+<style>
+  .nav-page {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  /* 头部样式 */
+  .nav-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(14, 165, 233, 0.1));
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    color: var(--text-primary);
+    transition: transform 0.3s ease;
+  }
+
+  .header-icon:hover {
+    transform: rotate(5deg) scale(1.05);
+  }
+
+  .nav-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text-primary), color-mix(in srgb, var(--text-primary) 60%, #7c3aed));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .lede {
+    margin: 0;
+    color: var(--text-secondary);
+    max-width: 52ch;
+    margin-inline: auto;
+  }
+
+  /* 卡片基础样式 */
+  .card {
+    position: relative;
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    background: color-mix(in srgb, var(--bg) 90%, var(--astro-code-background));
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 搜索卡片 */
+  .search-card {
+    max-width: 600px;
+    margin-inline: auto;
+    background: linear-gradient(135deg, 
+      color-mix(in srgb, var(--bg) 95%, rgba(124, 58, 237, 0.1)),
+      color-mix(in srgb, var(--bg) 95%, rgba(14, 165, 233, 0.1))
+    );
+  }
+
+  .search-form {
+    width: 100%;
+  }
+
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--text-secondary);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--text-primary) 50%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--text-primary) 10%, transparent);
+  }
+
+  .search-input::placeholder {
+    color: var(--text-secondary);
+  }
+
+  /* 分类容器 */
+  .categories-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  /* 分类区域 */
+  .category-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .category-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .category-header h2::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 1.5rem;
+    background: linear-gradient(180deg, var(--text-primary), color-mix(in srgb, var(--text-primary) 50%, #7c3aed));
+    border-radius: 999px;
+  }
+
+  .category-count {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* 链接网格 */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  /* 链接卡片 */
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .link-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(124, 58, 237, 0.05), 
+      rgba(14, 165, 233, 0.05)
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+  }
+
+  .link-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    border-color: color-mix(in srgb, var(--border) 100%, transparent);
+  }
+
+  .link-card:hover::before {
+    opacity: 1;
+  }
+
+  .link-icon {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--bg) 50%, var(--astro-code-background));
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .link-card:hover .link-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .link-icon img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+
+  .link-content {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .link-name {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .link-url {
+    margin: 0.25rem 0 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .link-arrow {
+    position: relative;
+    z-index: 1;
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.3s ease;
+  }
+
+  .link-card:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .nav-header h1 {
+      font-size: 2rem;
+    }
+
+    .header-icon {
+      width: 56px;
+      height: 56px;
+    }
+
+    .links-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .category-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card {
+      padding: 1.25rem;
+    }
+
+    .link-card {
+      padding: 1rem;
+    }
+
+    .search-card {
+      padding: 1.25rem;
+    }
+  }
+</style>

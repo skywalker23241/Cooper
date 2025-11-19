@@ -1,5 +1,4 @@
 ---
-// src/pages/now.astro
 import IndexLayout from '../layouts/IndexLayout.astro'
 import CountdownCard from '@/components/examples/CountdownCard.tsx'
 import Card from '@/components/Card.tsx'
@@ -8,55 +7,383 @@ import BuildingOffice from 'phosphor-astro/BuildingOffice.astro'
 import Notebook from 'phosphor-astro/Notebook.astro'
 import GameController from 'phosphor-astro/GameController.astro'
 import PersonSimpleHike from 'phosphor-astro/PersonSimpleHike.astro'
+
+const pageTitle = 'Now'
+const pageDescription = 'What I\'m doing now - my current location, work, learning, and hobbies'
 ---
 
-<IndexLayout title="Now">
+<IndexLayout title={pageTitle} description={pageDescription}>
   <div class="now-page">
-    <h1>Now</h1>
-    <p>
-      <PersonSimpleHike width={20} height={20} /> This is a <a href="https://nownownow.com/about"
-        ><b>now</b></a
-      > page.
-    </p>
-    <h2>Living</h2>
-    <p><MapPinLine width={20} height={20} /> Shenzhen, Guangdong, China.</p>
-    <h2>Working</h2>
-    <p>
-      <BuildingOffice width={20} height={20} /> I'm Working at <a href="https://www.isumsoft.com/"
-        >iSumsoft</a
-      > now.
-    </p>
-    <Card client:load>
-      <CountdownCard client:load />
-    </Card>
-    <h2>Learning</h2>
-    <p>
-      <Notebook width={20} height={20} /> I'm learning <a
-        href="https://docs.astro.build/en/tutorial/0-introduction/">Astro</a
-      >, <b>SEO</b> and <b>Spanish</b> now.
-    </p>
-    <h2>Playing</h2>
-    <p><GameController width={20} height={20} /> I'm playing</p>
-    <a href="https://steamcommunity.com/profiles/76561199002529456"
-      ><img alt="Static Badge" src="https://img.shields.io/badge/Steam-blue" /></a
-    >
-    <a href="https://www.counter-strike.net/cs2"
-      ><img alt="Static Badge" src="https://img.shields.io/badge/CS2-orange" /></a
-    >
-    <a href="https://valorant.qq.com/"
-      ><img alt="Static Badge" src="https://img.shields.io/badge/Valorant-red" /></a
-    >
-    <a href="https://lol.qq.com/"
-      ><img alt="Static Badge" src="https://img.shields.io/badge/LOL-green" /></a
-    >
-    <a href="https://aimlabs.com/"
-      ><img alt="Static Badge" src="https://img.shields.io/badge/AimLab-blue" /></a
-    >
+    <!-- 头部区域 -->
+    <header class="now-header">
+      <div class="header-icon">
+        <PersonSimpleHike width={32} height={32} />
+      </div>
+      <h1>{pageTitle}</h1>
+      <p class="lede">
+        This is a <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer"><strong>now</strong></a> page.
+        A snapshot of what I'm focused on at this point in my life.
+      </p>
+    </header>
+
+    <!-- 内容区域 -->
+    <div class="now-content">
+      <!-- Living Section -->
+      <section class="now-section card">
+        <div class="section-header">
+          <div class="section-icon">
+            <MapPinLine width={24} height={24} />
+          </div>
+          <h2>Living</h2>
+        </div>
+        <div class="section-content">
+          <p class="location">📍 Shenzhen, Guangdong, China</p>
+          <p class="description">Living in the vibrant tech hub of southern China.</p>
+        </div>
+      </section>
+
+      <!-- Working Section -->
+      <section class="now-section card">
+        <div class="section-header">
+          <div class="section-icon">
+            <BuildingOffice width={24} height={24} />
+          </div>
+          <h2>Working</h2>
+        </div>
+        <div class="section-content">
+          <p>I'm currently working at <a href="https://www.isumsoft.com/" target="_blank" rel="noopener noreferrer" class="highlight-link">iSumsoft</a>.</p>
+          <p class="description">Building software solutions and exploring new technologies.</p>
+        </div>
+      </section>
+
+      <!-- Countdown Card -->
+      <div class="countdown-wrapper">
+        <Card client:load>
+          <CountdownCard client:load />
+        </Card>
+      </div>
+
+      <!-- Learning Section -->
+      <section class="now-section card">
+        <div class="section-header">
+          <div class="section-icon">
+            <Notebook width={24} height={24} />
+          </div>
+          <h2>Learning</h2>
+        </div>
+        <div class="section-content">
+          <div class="learning-items">
+            <div class="learning-item">
+              <span class="item-emoji">🚀</span>
+              <a href="https://docs.astro.build/en/tutorial/0-introduction/" target="_blank" rel="noopener noreferrer">Astro</a>
+            </div>
+            <div class="learning-item">
+              <span class="item-emoji">🔍</span>
+              <span>SEO</span>
+            </div>
+            <div class="learning-item">
+              <span class="item-emoji">🇪🇸</span>
+              <span>Spanish</span>
+            </div>
+          </div>
+          <p class="description">Continuously expanding my knowledge and skills.</p>
+        </div>
+      </section>
+
+      <!-- Playing Section -->
+      <section class="now-section card playing-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <GameController width={24} height={24} />
+          </div>
+          <h2>Playing</h2>
+        </div>
+        <div class="section-content">
+          <p class="description">When I'm not coding, you can find me gaming:</p>
+          <div class="game-badges">
+            <a href="https://steamcommunity.com/profiles/76561199002529456" target="_blank" rel="noopener noreferrer" class="game-badge">
+              <img alt="Steam" src="https://img.shields.io/badge/Steam-171a21?style=for-the-badge&logo=steam&logoColor=white" />
+            </a>
+            <a href="https://www.counter-strike.net/cs2" target="_blank" rel="noopener noreferrer" class="game-badge">
+              <img alt="CS2" src="https://img.shields.io/badge/CS2-FF6B00?style=for-the-badge&logo=counter-strike&logoColor=white" />
+            </a>
+            <a href="https://valorant.qq.com/" target="_blank" rel="noopener noreferrer" class="game-badge">
+              <img alt="Valorant" src="https://img.shields.io/badge/Valorant-FA4454?style=for-the-badge&logo=valorant&logoColor=white" />
+            </a>
+            <a href="https://lol.qq.com/" target="_blank" rel="noopener noreferrer" class="game-badge">
+              <img alt="LOL" src="https://img.shields.io/badge/LOL-0BC6E3?style=for-the-badge&logo=league-of-legends&logoColor=white" />
+            </a>
+            <a href="https://aimlabs.com/" target="_blank" rel="noopener noreferrer" class="game-badge">
+              <img alt="AimLab" src="https://img.shields.io/badge/AimLab-6C5CE7?style=for-the-badge&logo=target&logoColor=white" />
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </IndexLayout>
 
 <style>
-  .now-page a {
-    color: #787878; /* 灰色 */
+  .now-page {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  /* 头部样式 */
+  .now-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(14, 165, 233, 0.1));
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    color: var(--text-primary);
+    transition: transform 0.3s ease;
+  }
+
+  .header-icon:hover {
+    transform: rotate(5deg) scale(1.05);
+  }
+
+  .now-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text-primary), color-mix(in srgb, var(--text-primary) 60%, #7c3aed));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .lede {
+    margin: 0;
+    color: var(--text-secondary);
+    max-width: 52ch;
+    line-height: 1.6;
+  }
+
+  .lede a {
+    color: var(--text-primary);
+    text-decoration: none;
+    border-bottom: 2px solid color-mix(in srgb, var(--text-primary) 30%, transparent);
+    transition: border-color 0.2s ease;
+  }
+
+  .lede a:hover {
+    border-bottom-color: var(--text-primary);
+  }
+
+  /* 内容区域 */
+  .now-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* 卡片样式 */
+  .card {
+    position: relative;
+    padding: 1.75rem;
+    border-radius: 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    background: color-mix(in srgb, var(--bg) 90%, var(--astro-code-background));
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    border-color: color-mix(in srgb, var(--border) 100%, transparent);
+  }
+
+  /* Section 样式 */
+  .now-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--bg) 50%, var(--astro-code-background));
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+  }
+
+  .now-section:hover .section-icon {
+    transform: scale(1.1) rotate(5deg);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(14, 165, 233, 0.15));
+  }
+
+  .section-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .section-content p {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .location {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .description {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  .highlight-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 2px solid color-mix(in srgb, var(--text-primary) 30%, transparent);
+    transition: all 0.2s ease;
+  }
+
+  .highlight-link:hover {
+    border-bottom-color: var(--text-primary);
+    color: #7c3aed;
+  }
+
+  /* Learning Items */
+  .learning-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .learning-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--bg) 50%, var(--astro-code-background));
+    border: 1px solid var(--border);
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .learning-item:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--text-primary) 50%, transparent);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(14, 165, 233, 0.05));
+  }
+
+  .learning-item a {
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .item-emoji {
+    font-size: 1.25rem;
+  }
+
+  /* Playing Section */
+  .playing-section {
+    background: linear-gradient(135deg, 
+      color-mix(in srgb, var(--bg) 95%, rgba(124, 58, 237, 0.05)),
+      color-mix(in srgb, var(--bg) 95%, rgba(14, 165, 233, 0.05))
+    );
+  }
+
+  .game-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .game-badge {
+    transition: all 0.2s ease;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .game-badge:hover {
+    transform: translateY(-3px) scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  .game-badge img {
+    display: block;
+    height: 28px;
+  }
+
+  /* Countdown Wrapper */
+  .countdown-wrapper {
+    margin: 0.5rem 0;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .now-header h1 {
+      font-size: 2rem;
+    }
+
+    .header-icon {
+      width: 56px;
+      height: 56px;
+    }
+
+    .learning-items {
+      grid-template-columns: 1fr;
+    }
+
+    .game-badges {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .card {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card {
+      padding: 1.25rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.25rem;
+    }
   }
 </style>

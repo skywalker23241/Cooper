@@ -1,5 +1,6 @@
 ---
 import IndexLayout from '@/layouts/IndexLayout.astro'
+import LockKey from 'phosphor-astro/LockKey.astro'
 
 const pageTitle = 'Secret Garden'
 const pageDescription = "Cooper's Secret Garden"
@@ -8,6 +9,9 @@ const pageDescription = "Cooper's Secret Garden"
 <IndexLayout title={pageTitle} description={pageDescription}>
   <section class="private-page" data-state="locked" data-fallback-title={pageTitle}>
     <header class="private-header">
+      <div class="header-icon">
+        <LockKey width={32} height={32} />
+      </div>
       <p class="eyebrow">Restricted · 私密空间</p>
       <h1>{pageTitle}</h1>
       <p class="lede">
@@ -294,11 +298,36 @@ const pageDescription = "Cooper's Secret Garden"
   .private-header {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(14, 165, 233, 0.15));
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    color: var(--text-primary);
+    transition: transform 0.3s ease;
+  }
+
+  .header-icon:hover {
+    transform: rotate(-5deg) scale(1.05);
   }
 
   .private-header h1 {
     margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text-primary), color-mix(in srgb, var(--text-primary) 60%, #7c3aed));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .eyebrow {
@@ -313,6 +342,7 @@ const pageDescription = "Cooper's Secret Garden"
     margin: 0;
     color: var(--text-secondary);
     max-width: 52ch;
+    line-height: 1.6;
   }
 
   .card {
@@ -528,15 +558,156 @@ const pageDescription = "Cooper's Secret Garden"
     color: var(--text-secondary);
   }
 
+  @media (max-width: 768px) {
+    .private-header h1 {
+      font-size: 2.25rem;
+    }
+
+    .header-icon {
+      width: 60px;
+      height: 60px;
+    }
+
+    .card {
+      padding: 1.25rem;
+    }
+
+    .input-row {
+      gap: 0.5rem;
+    }
+
+    .input-row input {
+      padding: 0.75rem 0.9rem;
+      font-size: 0.95rem;
+    }
+
+    .input-row button {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+    }
+  }
+
   @media (max-width: 640px) {
+    .private-header h1 {
+      font-size: 2rem;
+    }
+
+    .header-icon {
+      width: 56px;
+      height: 56px;
+    }
+
+    .eyebrow {
+      font-size: 0.7rem;
+    }
+
+    .lede {
+      font-size: 0.95rem;
+    }
+
+    .card {
+      padding: 1.25rem;
+    }
+
+    .password-form {
+      gap: 0.85rem;
+    }
+
     .input-row {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+
+    .input-row input {
+      padding: 0.85rem 1rem;
+      font-size: 1rem;
     }
 
     .input-row button {
       inline-size: 100%;
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .private-header h1 {
+      font-size: 1.75rem;
     }
 
+    .header-icon {
+      width: 52px;
+      height: 52px;
+    }
+
+    .eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+    }
+
+    .lede {
+      font-size: 0.9rem;
+    }
+
+    .card {
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+
+    .password-form {
+      gap: 0.75rem;
+    }
+
+    .password-form label {
+      font-size: 0.9rem;
+    }
+
+    .input-row input {
+      padding: 0.8rem 0.9rem;
+      font-size: 0.95rem;
+      border-radius: 0.85rem;
+    }
+
+    .input-row button {
+      padding: 0.85rem 1.25rem;
+      font-size: 0.95rem;
+      border-radius: 0.85rem;
+    }
+
+    .status,
+    .error {
+      font-size: 0.85rem;
+    }
   }
+
+  @media (max-width: 360px) {
+    .private-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .eyebrow {
+      font-size: 0.6rem;
+    }
+
+    .lede {
+      font-size: 0.85rem;
+    }
+
+    .card {
+      padding: 0.85rem;
+    }
+
+    .input-row input,
+    .input-row button {
+      font-size: 0.9rem;
+    }
+  }
+
+  
 </style>

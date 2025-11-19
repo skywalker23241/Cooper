@@ -1,98 +1,446 @@
 ---
-// src/pages/newsletter.astro
 import IndexLayout from '../layouts/IndexLayout.astro'
 import Check from 'phosphor-astro/Check.astro'
 import RssSimple from 'phosphor-astro/RssSimple.astro'
-import Callout from '@/components/examples/Callout.astro'
+import Envelope from 'phosphor-astro/Envelope.astro'
+import Info from 'phosphor-astro/Info.astro'
+
+const pageTitle = 'Subscribe to Newsletter'
+const pageDescription = 'Stay updated with my latest posts and thoughts'
 ---
 
-<IndexLayout title="Subscribe to Newsletter">
-  <div class="header-container">
-    <h1>Subscribe</h1>
-    <a href="https://rss.beauty/rss?url=https%3A%2F%2Fjackcooper.qzz.io%2Frss.xml" class="rss-link">
-      <RssSimple width={32} height={32} />
-    </a>
+<IndexLayout title={pageTitle} description={pageDescription}>
+  <div class="newsletter-page">
+    <!-- 头部区域 -->
+    <header class="newsletter-header">
+      <div class="header-icon">
+        <Envelope width={32} height={32} />
+      </div>
+      <div class="header-content">
+        <h1>Subscribe</h1>
+        <a href="https://rss.beauty/rss?url=https%3A%2F%2Fjackcooper.qzz.io%2Frss.xml" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="rss-badge"
+           title="Subscribe via RSS">
+          <RssSimple width={20} height={20} />
+          <span>RSS Feed</span>
+        </a>
+      </div>
+      <p class="lede">
+        Get notified when I publish new content. Subscribe to receive updates directly in your inbox.
+      </p>
+    </header>
+
+    <!-- 订阅表单卡片 -->
+    <div class="subscription-card card">
+      <div class="card-header">
+        <h2>Email Subscription</h2>
+        <p class="card-description">Enter your email to receive new tweets!</p>
+      </div>
+
+      <form
+        action="https://buttondown.com/api/emails/embed-subscribe/junbo"
+        method="post"
+        target="popupwindow"
+        onsubmit="window.open('https://buttondown.com/junbo', 'popupwindow')"
+        class="subscription-form"
+      >
+        <div class="form-content">
+          <div class="info-box">
+            <div class="info-icon">
+              <Info width={18} height={18} />
+            </div>
+            <div class="info-text">
+              <strong>Note:</strong> After subscribing, you'll receive a confirmation email. Please check your inbox (and spam folder) to verify your subscription.
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="bd-email">Email Address</label>
+            <div class="input-wrapper">
+              <Envelope width={20} height={20} class="input-icon" />
+              <input 
+                type="email" 
+                name="email" 
+                id="bd-email" 
+                placeholder="your@email.com"
+                required 
+                class="email-input"
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="subscribe-button">
+            <Check width={20} height={20} />
+            <span>Subscribe Now</span>
+          </button>
+        </div>
+
+        <div class="form-footer">
+          <p>
+            Powered by <a href="https://buttondown.com/refer/junbo" target="_blank" rel="noopener noreferrer">Buttondown</a>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <!-- 功能特点 -->
+    <div class="features-grid">
+      <div class="feature-card card">
+        <div class="feature-icon">📬</div>
+        <h3>Regular Updates</h3>
+        <p>Get notified about new posts and content as soon as they're published.</p>
+      </div>
+
+      <div class="feature-card card">
+        <div class="feature-icon">🔒</div>
+        <h3>Privacy First</h3>
+        <p>Your email is safe. No spam, no sharing with third parties.</p>
+      </div>
+
+      <div class="feature-card card">
+        <div class="feature-icon">✨</div>
+        <h3>Quality Content</h3>
+        <p>Curated thoughts, tutorials, and insights delivered to your inbox.</p>
+      </div>
+    </div>
   </div>
-  <form
-    action="https://buttondown.com/api/emails/embed-subscribe/junbo"
-    method="post"
-    target="popupwindow"
-    onsubmit="window.open('https://buttondown.com/junbo', 'popupwindow')"
-    class="embeddable-buttondown-form"
-  >
-    <label for="bd-email">Enter your email to receive New tweets!</label>
-    <Callout type="tip" title="Note: " collapsible open>
-      After subscribing, you’ll receive a confirmation email. Please check your inbox (and spam
-      folder) to verify your subscription.
-    </Callout>
-    <input type="email" name="email" id="bd-email" required />
-    <button type="submit" class="subscribe-button">
-      <Check width={20} height={20} />
-    </button>
-    <a href="https://buttondown.com/refer/junbo" target="_blank"> Powered by Buttondown. </a>
-  </form>
 </IndexLayout>
 
 <style>
-  .header-container {
+  .newsletter-page {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* 头部样式 */
+  .newsletter-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(14, 165, 233, 0.15));
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    color: var(--text-primary);
+    transition: transform 0.3s ease;
+  }
+
+  .header-icon:hover {
+    transform: rotate(-5deg) scale(1.05);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .newsletter-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text-primary), color-mix(in srgb, var(--text-primary) 60%, #7c3aed));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .rss-badge {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
-  .rss-link {
-    color: #666;
-    transition: color 0.2s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--bg) 50%, var(--astro-code-background));
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
   }
 
-  .rss-link:hover {
-    color: #000;
+  .rss-badge:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
-  .embeddable-buttondown-form {
+
+  .lede {
+    margin: 0;
+    color: var(--text-secondary);
+    max-width: 52ch;
+    line-height: 1.6;
+  }
+
+  /* 卡片样式 */
+  .card {
+    position: relative;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+    background: color-mix(in srgb, var(--bg) 90%, var(--astro-code-background));
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 订阅卡片 */
+  .subscription-card {
+    background: linear-gradient(135deg, 
+      color-mix(in srgb, var(--bg) 95%, rgba(124, 58, 237, 0.08)),
+      color-mix(in srgb, var(--bg) 95%, rgba(14, 165, 233, 0.08))
+    );
+  }
+
+  .card-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .card-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .card-description {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  /* 表单样式 */
+  .subscription-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* 提示框样式 */
+  .info-box {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, 
+      color-mix(in srgb, var(--bg) 90%, rgba(14, 165, 233, 0.15)),
+      color-mix(in srgb, var(--bg) 90%, rgba(124, 58, 237, 0.15))
+    );
+    border: 1px solid color-mix(in srgb, var(--border) 50%, rgba(14, 165, 233, 0.2));
+  }
+
+  .info-icon {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 0.15rem;
+    color: color-mix(in srgb, var(--text-primary) 80%, #0ea5e9);
+    flex-shrink: 0;
+  }
+
+  .info-text {
+    flex: 1;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+
+  .info-text strong {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .input-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    max-width: 400px;
   }
 
-  .embeddable-buttondown-form input[type='email'] {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+  .input-group label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
   }
 
-  /* 订阅按钮样式 */
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--text-secondary);
+    pointer-events: none;
+  }
+
+  .email-input {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+
+  .email-input:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--text-primary) 50%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--text-primary) 10%, transparent);
+  }
+
+  .email-input::placeholder {
+    color: var(--text-secondary);
+  }
+
   .subscribe-button {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: #666;
-    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
     border: none;
-    border-radius: 8px;
+    background: linear-gradient(135deg, var(--text-primary), color-mix(in srgb, var(--text-primary) 70%, #7c3aed));
+    color: var(--bg);
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition:
-      background-color 0.2s ease,
-      transform 0.1s ease;
+    transition: all 0.3s ease;
   }
 
   .subscribe-button:hover {
-    background: #00a100;
     transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
   }
 
   .subscribe-button:active {
     transform: translateY(0);
   }
 
-  .embeddable-buttondown-form a {
-    color: #888; /* 灰色 */
-    text-decoration: none; /* 去掉下划线（可选） */
+  .form-footer {
+    padding-top: 1rem;
+    border-top: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
   }
 
-  .embeddable-buttondown-form a:hover {
-    color: #555; /* 鼠标悬停时深一点的灰色 */
+  .form-footer p {
+    margin: 0;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .form-footer a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid color-mix(in srgb, var(--text-primary) 30%, transparent);
+    transition: border-color 0.2s ease;
+  }
+
+  .form-footer a:hover {
+    border-bottom-color: var(--text-primary);
+  }
+
+  /* 功能特点网格 */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .feature-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 768px) {
+    .newsletter-page {
+      max-width: 100%;
+    }
+
+    .newsletter-header h1 {
+      font-size: 2rem;
+    }
+
+    .header-icon {
+      width: 64px;
+      height: 64px;
+    }
+
+    .header-content {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card {
+      padding: 1.5rem;
+    }
+
+    .subscription-card {
+      padding: 1.5rem;
+    }
+
+    .subscribe-button {
+      padding: 0.85rem 1.5rem;
+    }
   }
 </style>

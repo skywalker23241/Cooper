@@ -1,0 +1,49 @@
+[
+    {
+        "category": "常用工具",
+        "items": [
+            {
+                "name": "Google",
+                "url": "https://www.google.com"
+            },
+            {
+                "name": "ChatGPT",
+                "url": "https://chatgpt.com"
+            },
+            {
+                "name": "DeepL",
+                "url": "https://www.deepl.com"
+            }
+        ]
+    },
+    {
+        "category": "开发 & 资源",
+        "items": [
+            {
+                "name": "GitHub",
+                "url": "https://github.com"
+            },
+            {
+                "name": "Astro 文档",
+                "url": "https://docs.astro.build"
+            },
+            {
+                "name": "Shadcn UI",
+                "url": "https://ui.shadcn.com"
+            }
+        ]
+    },
+    {
+        "category": "娱乐摸鱼",
+        "items": [
+            {
+                "name": "Bilibili",
+                "url": "https://www.bilibili.com"
+            },
+            {
+                "name": "V2EX",
+                "url": "https://www.v2ex.com"
+            }
+        ]
+    }
+]

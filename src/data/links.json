@@ -1,23 +1,27 @@
 [
     {
-        "category": "常用工具",
+        "category": "常用",
         "items": [
             {
-                "name": "Google",
-                "url": "https://www.google.com"
+                "name": "风铃Music",
+                "url": "https://flmusic.chickmate.cloud/"
             },
             {
                 "name": "ChatGPT",
                 "url": "https://chatgpt.com"
             },
             {
-                "name": "DeepL",
-                "url": "https://www.deepl.com"
+                "name": "分流抢票",
+                "url": "https://www.bypass.cn/"
+            },
+            {
+                "name": "图片压缩",
+                "url": "https://squoosh.app/"
             }
         ]
     },
     {
-        "category": "开发 & 资源",
+        "category": "开发",
         "items": [
             {
                 "name": "GitHub",
@@ -30,19 +34,81 @@
             {
                 "name": "Shadcn UI",
                 "url": "https://ui.shadcn.com"
+            },
+            {
+                "name": "Netlify",
+                "url": "https://app.netlify.com/teams/skywalker23241/projects"
+            },
+            {
+                "name": "Latitude",
+                "url": "https://app.latitude.so/"
             }
         ]
     },
     {
-        "category": "娱乐摸鱼",
+        "category": "SEO",
         "items": [
             {
-                "name": "Bilibili",
+                "name": "流量监控",
+                "url": "https://traffic.cv/"
+            },
+            {
+                "name": "谷歌核心更新",
+                "url": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history"
+            },
+            {
+                "name": "Link Checker",
+                "url": "https://link-checker.itea.dev/"
+            },
+            {
+                "name": "DevakaTalk",
+                "url": "https://devakatalk.com/"
+            },
+            {
+                "name": "谷歌大叔",
+                "url": "https://seowaimao.com/"
+            }
+        ]
+    },
+    {
+        "category": "魔法",
+        "items": [
+            {
+                "name": "北美机场",
+                "url": "https://xn--djr29gc2r0vx.com/#/dashboard"
+            },
+            {
+                "name": "魔戒",
+                "url": "https://mojie.me/#/dashboard"
+            },
+            {
+                "name": "宝可梦",
+                "url": "https://web4.52pokemon.cc/dashboard"
+            },
+            {
+                "name": "风萧萧",
+                "url": "https://chanel.weyolo.com/#/dashboard"
+            }
+        ]
+    },
+    {
+        "category": "摸鱼",
+        "items": [
+            {
+                "name": "L站",
+                "url": "https://linux.do"
+            },
+            {
+                "name": "B站",
                 "url": "https://www.bilibili.com"
             },
             {
-                "name": "V2EX",
-                "url": "https://www.v2ex.com"
+                "name": "小黑盒",
+                "url": "https://www.xiaoheihe.cn/app/bbs/home"
+            },
+            {
+                "name": "煎蛋",
+                "url": "https://jandan.net/"
             }
         ]
     }

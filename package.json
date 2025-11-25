@@ -21,6 +21,7 @@
     "@astrojs/netlify": "^6.5.9",
     "@astrojs/react": "^4.3.1",
     "@astrojs/sitemap": "^3.5.1",
+    "@google/generative-ai": "^0.24.1",
     "@playform/inline": "^0.1.2",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",

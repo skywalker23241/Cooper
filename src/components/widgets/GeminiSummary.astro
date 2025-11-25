@@ -1,0 +1,348 @@
+---
+interface Props {
+  content: string
+}
+
+const { content } = Astro.props
+---
+
+<div class="gemini-summary-widget">
+  <div class="widget-header">
+    <div class="gemini-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sparkle-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+      <span>AI Assistant</span>
+    </div>
+  </div>
+
+  <div class="widget-body">
+    <button id="generate-summary-btn" class="generate-btn" data-content={content}>
+      <span class="btn-content">
+        <span class="btn-icon">📝</span>
+        <span>Generate Summary Base Gemini 2.5 Pro</span>
+      </span>
+      <div class="btn-shine"></div>
+    </button>
+
+    <div id="summary-card" class="summary-card hidden">
+      <div class="card-header">
+        <div class="ai-avatar">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <span class="card-title">Gemini Summary (Gemini 2.5 Pro) </span>
+        <div class="loading-dots hidden">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="card-content">
+        <div id="summary-text" class="markdown-body"></div>
+        <span id="cursor" class="typing-cursor hidden"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initGeminiSummary() {
+    console.log('GeminiSummary: Initializing...');
+    const btn = document.getElementById('generate-summary-btn');
+    const card = document.getElementById('summary-card');
+    const summaryText = document.getElementById('summary-text');
+    const cursor = document.getElementById('cursor');
+    const loadingDots = card?.querySelector('.loading-dots');
+
+    if (!btn) {
+      console.warn('GeminiSummary: Button not found');
+      return;
+    }
+    if (!card || !summaryText) {
+      console.warn('GeminiSummary: Card or Text element not found');
+      return;
+    }
+
+    const handleClick = async () => {
+      console.log('GeminiSummary: Button clicked');
+      const content = btn.getAttribute('data-content');
+      
+      if (!content) {
+        console.error('GeminiSummary: No content found in data-content attribute');
+        alert('Error: No content available to summarize.');
+        return;
+      }
+
+      console.log('GeminiSummary: Content length:', content.length);
+
+      // UI State: Loading
+      btn.style.display = 'none';
+      card.classList.remove('hidden');
+      loadingDots?.classList.remove('hidden');
+      summaryText.innerHTML = '';
+      cursor?.classList.add('hidden');
+
+      try {
+        console.log('GeminiSummary: Sending request...');
+        const response = await fetch('/api/gemini', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type: 'summary', content })
+        });
+
+        console.log('GeminiSummary: Response status:', response.status);
+        const data = await response.json();
+        
+        loadingDots?.classList.add('hidden');
+
+        if (response.ok) {
+          console.log('GeminiSummary: Success, typing text...');
+          cursor?.classList.remove('hidden');
+          await typeWriter(data.text, summaryText);
+          cursor?.classList.add('hidden');
+        } else {
+          console.error('GeminiSummary: API Error', data);
+          summaryText.innerHTML = `<span class="error">Error: ${data.error || 'Failed to generate summary'}</span>`;
+          // Show button again on error so user can retry?
+          btn.style.display = 'block'; 
+        }
+      } catch (error) {
+        console.error('GeminiSummary: Network Error', error);
+        loadingDots?.classList.add('hidden');
+        summaryText.innerHTML = '<span class="error">Error: Failed to reach the server</span>';
+        btn.style.display = 'block';
+      }
+    };
+
+    // Use onclick to ensure single listener and easy replacement
+    btn.onclick = handleClick;
+  }
+
+  async function typeWriter(text: string, element: HTMLElement) {
+    const speed = 20; // ms per char
+    
+    const lines = text.split('\n');
+    
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      if (line.trim() === '') {
+        element.appendChild(document.createElement('br'));
+        element.appendChild(document.createElement('br'));
+        continue;
+      }
+      
+      const p = document.createElement('p');
+      element.appendChild(p);
+      
+      for (let j = 0; j < line.length; j++) {
+        p.textContent += line[j];
+        await new Promise(r => setTimeout(r, speed));
+      }
+    }
+  }
+
+  // Run immediately
+  initGeminiSummary();
+  
+  // Run on View Transitions
+  document.addEventListener('astro:page-load', initGeminiSummary);
+</script>
+
+<style>
+  .gemini-summary-widget {
+    margin: 2.5rem 0;
+    font-family: var(--sans);
+  }
+
+  .widget-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .gemini-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, rgba(66, 133, 244, 0.1), rgba(219, 68, 55, 0.1));
+    border: 1px solid rgba(66, 133, 244, 0.2);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .sparkle-icon {
+    color: #4285f4;
+  }
+
+  .widget-body {
+    position: relative;
+  }
+
+  /* Button Styles */
+  .generate-btn {
+    position: relative;
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 12px;
+    background: var(--code-bg);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border);
+    group: btn;
+  }
+
+  .generate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: #4285f4;
+  }
+
+  .btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    z-index: 1;
+    position: relative;
+  }
+
+  .btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transform: skewX(-20deg);
+    transition: 0.5s;
+  }
+
+  .generate-btn:hover .btn-shine {
+    animation: shine 1s forwards;
+  }
+
+  @keyframes shine {
+    100% {
+      left: 125%;
+    }
+  }
+
+  /* Summary Card Styles */
+  .summary-card {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    animation: slideDown 0.4s ease-out;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.25rem 0.5rem;
+    background: transparent;
+    border-bottom: none;
+  }
+
+  .ai-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: #4285f4;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex-grow: 1;
+    line-height: 1;
+    margin-top: 15px;
+  }
+
+  .card-content {
+    padding: 0.5rem 1.25rem 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+    min-height: 100px;
+  }
+
+  .markdown-body p {
+    margin-bottom: 1rem;
+  }
+  
+  .markdown-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .error {
+    color: #ef4444;
+  }
+
+  /* Loading Animation */
+  .loading-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .loading-dots span {
+    width: 4px;
+    height: 4px;
+    background-color: var(--text-secondary);
+    border-radius: 50%;
+    animation: pulse 1.4s infinite ease-in-out both;
+  }
+
+  .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+  .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+  @keyframes pulse {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+
+  /* Cursor Animation */
+  .typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background-color: #4285f4;
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>

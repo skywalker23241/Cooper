@@ -3,6 +3,7 @@ import '@/styles/global.css'
 import type { PostLayoutProps } from '@/types'
 import FormattedDate from '@/components/widgets/FormattedDate.astro'
 import FootnoteScroll from '@/components/widgets/FootnoteScroll.astro'
+import GeminiSummary from '@/components/widgets/GeminiSummary.astro'
 import BaseHead from '@/components/layout/BaseHead.astro'
 import ThemeToggle from '@/components/ui/ThemeToggle.astro'
 import Footer from '@/components/layout/Footer.astro'
@@ -61,6 +62,7 @@ const ogImage = `/open-graph/${postSlug}.png`
             }
           </div>
         </div>
+        <GeminiSummary content={Astro.props.body} />
         <slot />
       </div>
       <div id="giscus-container"></div>

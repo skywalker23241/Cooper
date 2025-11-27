@@ -19,15 +19,39 @@
 
 /* Headings (h1-h5)
  Adjust size or spacing below if needed. */
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
+.prose h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+  margin: 3em 0 1.5em 0;
+}
+
+.prose h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.4;
+  margin: 2.5em 0 1.25em 0;
+}
+
+.prose h3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+  margin: 2em 0 1em 0;
+}
+
+.prose h4 {
+  font-size: var(--font-size-l);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.6;
+  margin: 1.75em 0 0.875em 0;
+}
+
 .prose h5 {
   font-size: var(--font-size-m);
   font-weight: var(--font-weight-bold);
   line-height: 1.75;
-  margin: 3.75em 0 1.75em 0;
+  margin: 1.5em 0 0.75em 0;
 }
 
 /* Bold text */
@@ -122,6 +146,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -142,12 +167,12 @@
   text-align: center;
 }
 
-.prose p > img {
+.prose p>img {
   position: relative;
   margin-bottom: 2em;
 }
 
-.prose p > img::after {
+.prose p>img::after {
   content: attr(alt);
   display: block;
   position: absolute;
@@ -225,7 +250,7 @@
   margin-bottom: 0;
 }
 
-.prose ul li > ul {
+.prose ul li>ul {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
@@ -336,7 +361,7 @@
   opacity: 0.55;
 }
 
-.prose ul.contains-task-list li.task-list-item input[type='checkbox'] + * {
+.prose ul.contains-task-list li.task-list-item input[type='checkbox']+* {
   display: inline;
   margin-left: 0;
   line-height: 1.75;
@@ -466,7 +491,7 @@
   }
 }
 
-.prose pre > code {
+.prose pre>code {
   font-family: var(--mono);
   font-feature-settings:
     'liga' 0,
@@ -483,7 +508,7 @@
   border-radius: 0;
 }
 
-.prose pre > code * {
+.prose pre>code * {
   font-size: var(--font-size-s);
 }
 
@@ -525,6 +550,7 @@
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
+
   .katex,
   .katex * {
     color: inherit;

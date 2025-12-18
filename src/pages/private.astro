@@ -15,8 +15,9 @@ const pageDescription = "Cooper's Secret Garden"
       <p class="eyebrow">Restricted · 私密空间</p>
       <h1>{pageTitle}</h1>
       <p class="lede">
-        这是一个只与少数朋友共享的实验室。输入我们的约定暗号，Netlify Function 会按需返回经过签名的真实内容。
+        这是一个只与少数朋友共享的小花园。输入我们的约定暗号，Netlify Function 会按需返回经过签名的真实内容。
       </p>
+      <p><b>注意：如果输入了正确的暗号返回空数据，请刷新页面再次输入重试！</b></p>
     </header>
 
     <form id="password-form" class="password-form card" autocomplete="off">
@@ -143,7 +144,7 @@ const pageDescription = "Cooper's Secret Garden"
       if (heroData.note) {
         const note = document.createElement('p')
         note.className = 'hero-note'
-        note.textContent = heroData.note
+        note.innerHTML = heroData.note
         heroCard.appendChild(note)
       }
       content.appendChild(heroCard)
@@ -206,7 +207,7 @@ const pageDescription = "Cooper's Secret Garden"
           if (section.note) {
             const note = document.createElement('p')
             note.className = 'section-note'
-            note.textContent = section.note
+            note.innerHTML = section.note
             sectionEl.appendChild(note)
           }
 

@@ -5,7 +5,7 @@ import Search from 'phosphor-astro/MagnifyingGlass.astro'
 import NavigationArrow from 'phosphor-astro/NavigationArrow.astro'
 
 const pageTitle = ''
-const pageDescription = 'All your favorite links in one place'
+const pageDescription = '这里收集了我常用的工具和资源链接'
 
 // 定义 TypeScript 接口
 interface LinkItem {
@@ -39,7 +39,7 @@ const getFavicon = (url: string) => {
       <p class="eyebrow">Quick Access · 快速访问</p>
       <h1>{pageTitle}</h1>
       <p class="lede">
-        {pageDescription}. 这里收集了我常用的工具和资源链接。
+        {pageDescription}.
       </p>
     </header>
 
@@ -52,6 +52,18 @@ const getFavicon = (url: string) => {
             type="text"
             name="q"
             placeholder="Search Google..."
+            autocomplete="off"
+            class="search-input"
+          />
+        </div>
+      </form>
+      <form action="https://www.baidu.com/s" target="_blank" class="search-form">
+        <div class="search-input-wrapper">
+          <Search width={20} height={20} class="search-icon" />
+          <input
+            type="text"
+            name="wd"
+            placeholder="Search Baidu..."
             autocomplete="off"
             class="search-input"
           />
@@ -71,12 +83,7 @@ const getFavicon = (url: string) => {
 
             <div class="links-grid">
               {group.items.map((item) => (
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="link-card card"
-                >
+                <a href={item.url} target="_blank" rel="noopener noreferrer" class="link-card card">
                   <div class="link-icon">
                     <img src={getFavicon(item.url)} alt={item.name} loading="lazy" />
                   </div>
@@ -84,7 +91,9 @@ const getFavicon = (url: string) => {
                     <h3 class="link-name">{item.name}</h3>
                     <p class="link-url">{new URL(item.url).hostname}</p>
                   </div>
-                  <div class="link-arrow" aria-hidden="true">→</div>
+                  <div class="link-arrow" aria-hidden="true">
+                    →
+                  </div>
                 </a>
               ))}
             </div>
@@ -133,7 +142,11 @@ const getFavicon = (url: string) => {
     margin: 0;
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--text-primary), color-mix(in srgb, var(--text-primary) 60%, #7c3aed));
+    background: linear-gradient(
+      135deg,
+      var(--text-primary),
+      color-mix(in srgb, var(--text-primary) 60%, #7c3aed)
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -168,9 +181,11 @@ const getFavicon = (url: string) => {
 
   /* 搜索卡片 */
   .search-card {
-    max-width: 600px;
-    margin-inline: auto;
-    background: linear-gradient(135deg, 
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: linear-gradient(
+      135deg,
       color-mix(in srgb, var(--bg) 95%, rgba(124, 58, 237, 0.1)),
       color-mix(in srgb, var(--bg) 95%, rgba(14, 165, 233, 0.1))
     );
@@ -249,7 +264,11 @@ const getFavicon = (url: string) => {
     display: block;
     width: 4px;
     height: 1.5rem;
-    background: linear-gradient(180deg, var(--text-primary), color-mix(in srgb, var(--text-primary) 50%, #7c3aed));
+    background: linear-gradient(
+      180deg,
+      var(--text-primary),
+      color-mix(in srgb, var(--text-primary) 50%, #7c3aed)
+    );
     border-radius: 999px;
   }
 
@@ -283,10 +302,7 @@ const getFavicon = (url: string) => {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, 
-      rgba(124, 58, 237, 0.05), 
-      rgba(14, 165, 233, 0.05)
-    );
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.05), rgba(14, 165, 233, 0.05));
     opacity: 0;
     transition: opacity 0.3s ease;
     border-radius: inherit;

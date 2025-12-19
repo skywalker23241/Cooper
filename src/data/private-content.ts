@@ -40,8 +40,8 @@ export const privatePayload: PrivatePayload = {
       description: 'LinuxDo网站三级用户邀请链接',
       entries: [
         {
-          label: '邀请链接(2025.12.18更新)',
-          value: 'https://linux.do/invites/aj56bcuPtb |（已使用）',
+          label: '邀请链接(2025.12.19更新)',
+          value: 'https://linux.do/invites/2re735Z77j',
           hint: '复制粘贴即可开始注册，需要自己写小作文哦~'
         }
       ],

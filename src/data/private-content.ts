@@ -41,7 +41,7 @@ export const privatePayload: PrivatePayload = {
       entries: [
         {
           label: '邀请链接(2025.12.19更新)',
-          value: 'https://linux.do/invites/2re735Z77j',
+          value: 'https://linux.do/invites/2re735Z77j |（已使用）',
           hint: '复制粘贴即可开始注册，需要自己写小作文哦~'
         }
       ],

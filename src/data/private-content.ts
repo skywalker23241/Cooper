@@ -70,11 +70,23 @@ export const privatePayload: PrivatePayload = {
         }
       ],
       note: '若失效请联系我更新。'
+    },
+    {
+      title: 'WebDAV备份参数',
+      description: '坚果云WebDAV备份数据参数存放',
+      entries: [
+        {
+          label: '详细参数',
+          value: '地址: https://dav.jianguoyun.com/dav/ | 帐号: 2977905523@qq.com | 密码: autte6j9ej3u68pk',
+          hint: '设置好即可取出相关数据'
+        }
+      ],
+      note: '别外传'
     }
   ],
   meta: {
     owner: 'Junbo',
-    lastUpdated: '2025-12-18',
+    lastUpdated: '2026-01-05',
     sensitivity: 'internal'
   }
 }

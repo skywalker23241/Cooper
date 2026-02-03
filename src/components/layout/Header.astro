@@ -1,7 +1,6 @@
 ---
 import ThemeToggle from '@/components/ui/ThemeToggle.astro'
 import MenuDropdown from '@/components/ui/MenuDropdown.astro'
-import Code from 'phosphor-astro/Code.astro'
 import Heart from 'phosphor-astro/Heart.astro'
 import X from 'phosphor-astro/X.astro'
 ---
@@ -22,7 +21,8 @@ import X from 'phosphor-astro/X.astro'
   <nav class="nav-container">
     <a href="/" class="logo-link" title="Home">
       <div class="logo-wrapper">
-        <Code width={24} height={24} />
+          <img class="logo-light" src="/favicon.png" width="50" height="50" alt="Logo" />
+          <img class="logo-dark" src="/favicon-dark.png" width="50" height="50" alt="Logo" />
       </div>
     </a>
     <div class="right-section">
@@ -38,9 +38,9 @@ import X from 'phosphor-astro/X.astro'
     const closeBtn = document.getElementById('banner-close')
     const header = document.querySelector('.main-header')
     const body = document.body
-    
+
     if (!banner || !closeBtn) return
-    
+
     // 检查 banner 是否已被关闭
     const isClosed = localStorage.getItem('banner-closed') === 'true'
     if (isClosed) {
@@ -50,7 +50,7 @@ import X from 'phosphor-astro/X.astro'
         header.classList.add('banner-closed')
       }
     }
-    
+
     closeBtn.addEventListener('click', () => {
       banner.style.animation = 'slideUp 0.3s ease-out forwards'
       setTimeout(() => {
@@ -63,7 +63,7 @@ import X from 'phosphor-astro/X.astro'
       }, 300)
     })
   }
-  
+
   initBanner()
   document.addEventListener('astro:page-load', initBanner)
 </script>
@@ -90,7 +90,7 @@ import X from 'phosphor-astro/X.astro'
     left: 0;
     width: 100%;
     z-index: 999;
-    box-shadow: 
+    box-shadow:
       0 2px 12px rgba(0, 100, 0, 0.2),
       0 4px 24px rgba(0, 100, 0, 0.1);
     border-bottom: 2px solid rgba(0, 100, 0, 0.25);
@@ -239,7 +239,7 @@ import X from 'phosphor-astro/X.astro'
     width: 42px;
     height: 42px;
     border-radius: 0.75rem;
-    background: linear-gradient(135deg, 
+    background: linear-gradient(135deg,
       color-mix(in srgb, var(--bg) 95%, rgba(124, 58, 237, 0.1)),
       color-mix(in srgb, var(--bg) 95%, rgba(14, 165, 233, 0.1))
     );
@@ -250,12 +250,28 @@ import X from 'phosphor-astro/X.astro'
   }
 
   .logo-wrapper:hover {
-    background: linear-gradient(135deg, 
+    background: linear-gradient(135deg,
       color-mix(in srgb, var(--bg) 90%, rgba(124, 58, 237, 0.15)),
       color-mix(in srgb, var(--bg) 90%, rgba(14, 165, 233, 0.15))
     );
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transform: rotate(5deg);
+  }
+
+  .logo-light {
+    display: block;
+  }
+
+  .logo-dark {
+    display: none;
+  }
+
+  :global(.dark) .logo-light {
+    display: none;
+  }
+
+  :global(.dark) .logo-dark {
+    display: block;
   }
 
   .right-section {

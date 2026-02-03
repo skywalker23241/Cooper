@@ -4,7 +4,7 @@ export const themeConfig: ThemeConfig = {
   // SITE INFO ///////////////////////////////////////////////////////////////////////////////////////////
   site: {
     website: 'https://jackcooper.qzz.io/', // Site domain
-    title: 'Bo', // Site title
+    title: 'Cooper\'s Blog', // Site title
     author: 'Junbo', // Author name
     description: 'I shall return to the distant realm, where knowledge knows no bounds.', // Site description
     language: 'zh_CN' // Default language

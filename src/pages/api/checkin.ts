@@ -53,19 +53,36 @@ function normalizeData(raw: unknown): CheckinData {
 }
 
 async function readData(): Promise<CheckinData> {
+  let store: ReturnType<typeof getStore>
   try {
-    const store = getStore('checkin')
-    const stored = await store.get('data', { type: 'json' })
-    return normalizeData(stored)
+    store = getStore('checkin')
   } catch {
     return normalizeData(memoryStore.data)
   }
+
+  try {
+    const stored = await store.get('data', { type: 'json' })
+    if (stored) return normalizeData(stored)
+  } catch {
+    // fall through to text parsing
+  }
+
+  try {
+    const storedText = await store.get('data', { type: 'text' })
+    if (storedText && storedText !== '[object Object]') {
+      return normalizeData(JSON.parse(storedText))
+    }
+  } catch {
+    // ignore invalid JSON
+  }
+
+  return normalizeData(memoryStore.data)
 }
 
 async function writeData(data: CheckinData): Promise<'netlify' | 'memory'> {
   try {
     const store = getStore('checkin')
-    await store.set('data', data)
+    await store.set('data', JSON.stringify(data))
     return 'netlify'
   } catch {
     memoryStore.data = data

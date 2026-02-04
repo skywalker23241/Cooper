@@ -15,22 +15,24 @@ import CalendarBlank from 'phosphor-astro/CalendarBlank.astro'
       <h1>健身/Aimlab</h1>
     </div>
     <p class="checkin-lede">云端同步你的训练记录，多设备可查看。</p>
-    <div class="total-summary" role="status" aria-live="polite">
-      <div class="total-item">
-        <span class="total-label">累计健身</span>
-        <span class="total-value" data-total-fitness>0</span>
-        <span class="total-unit">天</span>
-      </div>
-      <div class="total-divider" aria-hidden="true"></div>
-      <div class="total-item">
-        <span class="total-label">累计练枪</span>
-        <span class="total-value" data-total-aim>0</span>
-        <span class="total-unit">天</span>
+    <div class="total-summary-row">
+      <div class="total-summary" role="status" aria-live="polite">
+        <div class="total-item">
+          <span class="total-label">累计健身</span>
+          <span class="total-value" data-total-fitness>0</span>
+          <span class="total-unit">天</span>
+        </div>
+        <div class="total-divider" aria-hidden="true"></div>
+        <div class="total-item">
+          <span class="total-label">累计练枪</span>
+          <span class="total-value" data-total-aim>0</span>
+          <span class="total-unit">天</span>
+        </div>
       </div>
     </div>
     <div class="sync-status" data-sync-status>
       <span class="sync-dot" aria-hidden="true"></span>
-      正在连接云端...
+      <span class="sync-text" data-sync-text>正在连接云端...</span>
     </div>
   </header>
 
@@ -152,6 +154,7 @@ import CalendarBlank from 'phosphor-astro/CalendarBlank.astro'
     root.dataset.ready = 'true'
 
     const statusEl = root.querySelector('[data-sync-status]')
+    const statusTextEl = root.querySelector('[data-sync-text]')
     const checkIconTemplate = root.querySelector('template[data-check-icon]')
     const totalFitnessEl = root.querySelector('[data-total-fitness]')
     const totalAimEl = root.querySelector('[data-total-aim]')
@@ -163,8 +166,8 @@ import CalendarBlank from 'phosphor-astro/CalendarBlank.astro'
     }
 
     function setStatus(message, state) {
-      if (!statusEl) return
-      statusEl.textContent = message
+      if (!statusEl || !statusTextEl) return
+      statusTextEl.textContent = message
       statusEl.dataset.state = state
     }
 
@@ -670,9 +673,15 @@ import CalendarBlank from 'phosphor-astro/CalendarBlank.astro'
     }
   }
 
-  .total-summary {
+  .total-summary-row {
     margin-top: 0.75rem;
-    display: inline-flex;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .total-summary {
+    display: flex;
     align-items: center;
     gap: 0.85rem;
     padding: 0.45rem 0.7rem;
@@ -680,6 +689,8 @@ import CalendarBlank from 'phosphor-astro/CalendarBlank.astro'
     border: 1px solid var(--card-border);
     background: var(--muted-bg);
     width: fit-content;
+    max-width: 100%;
+    justify-content: center;
   }
 
   .total-item {
@@ -1077,14 +1088,8 @@ import CalendarBlank from 'phosphor-astro/CalendarBlank.astro'
       padding: 0.65rem;
     }
 
-    .total-summary {
-      width: 100%;
-      justify-content: space-between;
-      gap: 0.6rem;
-    }
-
     .total-item {
-      flex: 1;
+      flex: 0 0 auto;
       justify-content: center;
     }
 
@@ -1094,6 +1099,48 @@ import CalendarBlank from 'phosphor-astro/CalendarBlank.astro'
 
     .day-cell {
       min-height: 4.8rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .weekday-row {
+      font-size: 0.7rem;
+      gap: 0.3rem;
+    }
+
+    .calendar-grid {
+      gap: 0.3rem;
+    }
+
+    .day-cell {
+      padding: 0.3rem;
+      min-height: 3.3rem;
+      gap: 0.25rem;
+      border-radius: 0.6rem;
+    }
+
+    .day-number {
+      font-size: 0.78rem;
+    }
+
+    .note-dot {
+      width: 0.28rem;
+      height: 0.28rem;
+    }
+
+    .day-actions {
+      justify-content: flex-end;
+      margin-top: 0;
+    }
+
+    .habit-btn {
+      width: 1.45rem;
+      height: 1.45rem;
+    }
+
+    .habit-icon {
+      width: 0.8rem;
+      height: 0.8rem;
     }
   }
 </style>

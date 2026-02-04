@@ -1,14 +1,37 @@
 ---
+import Check from 'phosphor-astro/Check.astro'
+import CaretLeft from 'phosphor-astro/CaretLeft.astro'
+import CaretRight from 'phosphor-astro/CaretRight.astro'
+import CalendarBlank from 'phosphor-astro/CalendarBlank.astro'
 ---
 
 <div class="checkin-page" data-checkin>
+  <template data-check-icon>
+    <Check width={16} height={16} weight="bold" class="habit-icon" aria-hidden="true" />
+  </template>
   <header class="checkin-header">
     <div class="title-row">
-      <span class="title-kicker">打卡日历</span>
-      <h1>健身与 FPS 练枪</h1>
+      <span class="title-kicker">日历</span>
+      <h1>健身/Aimlab</h1>
     </div>
     <p class="checkin-lede">云端同步你的训练记录，多设备可查看。</p>
-    <div class="sync-status" data-sync-status>正在连接云端...</div>
+    <div class="total-summary" role="status" aria-live="polite">
+      <div class="total-item">
+        <span class="total-label">累计健身</span>
+        <span class="total-value" data-total-fitness>0</span>
+        <span class="total-unit">天</span>
+      </div>
+      <div class="total-divider" aria-hidden="true"></div>
+      <div class="total-item">
+        <span class="total-label">累计练枪</span>
+        <span class="total-value" data-total-aim>0</span>
+        <span class="total-unit">天</span>
+      </div>
+    </div>
+    <div class="sync-status" data-sync-status>
+      <span class="sync-dot" aria-hidden="true"></span>
+      正在连接云端...
+    </div>
   </header>
 
   <section class="calendar-card" data-calendar="fitness" aria-labelledby="fitness-title">
@@ -19,33 +42,38 @@
         <p>记录每一天的训练完成情况，并补充简短备注。</p>
       </div>
       <div class="calendar-toolbar">
-        <button class="nav-btn" type="button" data-action="prev">上个月</button>
+        <button class="nav-btn" type="button" data-action="prev" aria-label="Previous month" title="Previous month">
+          <CaretLeft width={16} height={16} aria-hidden="true" class="toolbar-icon" />
+        </button>
         <div class="month-label" data-month-label>--</div>
-        <button class="nav-btn" type="button" data-action="next">下个月</button>
-        <button class="ghost-btn" type="button" data-action="today">回到本月</button>
+        <button class="nav-btn" type="button" data-action="next" aria-label="Next month" title="Next month">
+          <CaretRight width={16} height={16} aria-hidden="true" class="toolbar-icon" />
+        </button>
+        <button class="ghost-btn" type="button" data-action="today" aria-label="Today" title="Today">
+          <CalendarBlank width={16} height={16} aria-hidden="true" class="toolbar-icon" />
+        </button>
       </div>
     </div>
 
     <div class="plan-panel" data-plan-panel>
       <div class="plan-header">
-        <span>本月训练计划</span>
+        <span>月训练计划</span>
         <span class="plan-status" data-plan-status>自动保存</span>
       </div>
       <textarea
         class="plan-input"
         data-plan-input
         rows="3"
-        placeholder="例如：周一腿+有氧，周三背，周五胸"
-      ></textarea>
+        placeholder="请输入你本月的训练计划, 目标等......"></textarea>
     </div>
 
     <div class="calendar-summary">
       <div class="summary-block summary-fitness">
-        <span class="summary-label">本月已完成</span>
+        <span class="summary-label">已完成</span>
         <span class="summary-value" data-count-done>0</span>
         <span class="summary-unit">天</span>
       </div>
-      <p class="summary-note">点击日期可编辑备注。</p>
+      <p class="summary-note">点击日期可编辑</p>
     </div>
 
     <div class="calendar">
@@ -66,11 +94,7 @@
         <span class="note-date" data-note-date>选择日期</span>
         <button class="ghost-btn" type="button" data-note-clear>清空备注</button>
       </div>
-      <textarea
-        class="note-input"
-        data-note-input
-        rows="2"
-        placeholder="例如：深蹲 5x5，RPE7"
+      <textarea class="note-input" data-note-input rows="2" placeholder="例如：深蹲 5x5，RPE7"
       ></textarea>
       <p class="note-tip">备注会随打卡数据同步到云端。</p>
     </div>
@@ -80,20 +104,26 @@
     <div class="calendar-head">
       <div class="calendar-title">
         <span class="calendar-tag aim">AIM</span>
-        <h2 id="aim-title">FPS 练枪</h2>
-        <p>记录练枪完成天数，保持连续训练节奏。</p>
+        <h2 id="aim-title">Aimlab</h2>
+        <p>记录练枪，保持手感</p>
       </div>
       <div class="calendar-toolbar">
-        <button class="nav-btn" type="button" data-action="prev">上个月</button>
+        <button class="nav-btn" type="button" data-action="prev" aria-label="Previous month" title="Previous month">
+          <CaretLeft width={16} height={16} aria-hidden="true" class="toolbar-icon" />
+        </button>
         <div class="month-label" data-month-label>--</div>
-        <button class="nav-btn" type="button" data-action="next">下个月</button>
-        <button class="ghost-btn" type="button" data-action="today">回到本月</button>
+        <button class="nav-btn" type="button" data-action="next" aria-label="Next month" title="Next month">
+          <CaretRight width={16} height={16} aria-hidden="true" class="toolbar-icon" />
+        </button>
+        <button class="ghost-btn" type="button" data-action="today" aria-label="Today" title="Today">
+          <CalendarBlank width={16} height={16} aria-hidden="true" class="toolbar-icon" />
+        </button>
       </div>
     </div>
 
     <div class="calendar-summary">
       <div class="summary-block summary-aim">
-        <span class="summary-label">本月已完成</span>
+        <span class="summary-label">已完成</span>
         <span class="summary-value" data-count-done>0</span>
         <span class="summary-unit">天</span>
       </div>
@@ -122,6 +152,15 @@
     root.dataset.ready = 'true'
 
     const statusEl = root.querySelector('[data-sync-status]')
+    const checkIconTemplate = root.querySelector('template[data-check-icon]')
+    const totalFitnessEl = root.querySelector('[data-total-fitness]')
+    const totalAimEl = root.querySelector('[data-total-aim]')
+
+    function createCheckIcon() {
+      if (!(checkIconTemplate instanceof HTMLTemplateElement)) return null
+      const icon = checkIconTemplate.content.firstElementChild
+      return icon ? icon.cloneNode(true) : null
+    }
 
     function setStatus(message, state) {
       if (!statusEl) return
@@ -160,6 +199,24 @@
       return safe
     }
 
+    function countDoneAcross(scope) {
+      const months = data?.[scope]?.days
+      if (!isRecord(months)) return 0
+      let total = 0
+      Object.values(months).forEach((month) => {
+        if (!isRecord(month)) return
+        Object.values(month).forEach((entry) => {
+          if (entry && entry.done) total += 1
+        })
+      })
+      return total
+    }
+
+    function updateTotals() {
+      if (totalFitnessEl) totalFitnessEl.textContent = String(countDoneAcross('fitness'))
+      if (totalAimEl) totalAimEl.textContent = String(countDoneAcross('aim'))
+    }
+
     let data = createDefaultData()
     let saveTimer = null
     let savePromise = null
@@ -172,9 +229,11 @@
         const payload = await response.json()
         data = normalizeData(payload.data)
         setStatus('已连接云端', 'ready')
+        updateTotals()
       } catch (error) {
         data = createDefaultData()
         setStatus('云端连接失败，暂存于本地', 'error')
+        updateTotals()
       }
     }
 
@@ -314,6 +373,11 @@
         scheduleSave()
       }
 
+      const monthFormatter =
+        typeof Intl !== 'undefined'
+          ? new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric' })
+          : null
+
       function renderCalendar() {
         if (!grid || !monthLabel) return
 
@@ -322,7 +386,9 @@
         const currentKey = monthKey(viewDate)
         const monthData = ensureMonth(scope, currentKey)
 
-        monthLabel.textContent = `${year}年${monthIndex + 1}月`
+        monthLabel.textContent = monthFormatter
+          ? monthFormatter.format(viewDate)
+          : `${year}-${String(monthIndex + 1).padStart(2, '0')}`
 
         if (planInput && scope === 'fitness') {
           if (activePlanKey !== currentKey) {
@@ -388,7 +454,15 @@
           button.type = 'button'
           button.className = `habit-btn habit-${scope}`
           button.dataset.habit = scope
-          button.textContent = scope === 'fitness' ? '健身' : '练枪'
+          const habitLabel = scope === 'fitness' ? '健身打卡' : '练枪打卡'
+          button.setAttribute('aria-label', habitLabel)
+          button.setAttribute('title', habitLabel)
+          const icon = createCheckIcon()
+          if (icon) {
+            button.appendChild(icon)
+          } else {
+            button.textContent = scope === 'fitness' ? '健身' : '练枪'
+          }
           setButtonState(button, Boolean(dayData.done))
 
           actions.appendChild(button)
@@ -480,6 +554,7 @@
             cell.classList.toggle('is-done', Boolean(dayData.done))
             setButtonState(button, Boolean(dayData.done))
             updateCounts(monthData, doneCount)
+            updateTotals()
             scheduleSave()
             return
           }
@@ -513,6 +588,11 @@
     gap: 1.5rem;
     max-width: 68rem;
     margin: 0 auto;
+    --check-accent: #16a34a;
+    --card-bg: color-mix(in srgb, var(--bg) 94%, var(--astro-code-background));
+    --card-border: color-mix(in srgb, var(--border) 75%, transparent);
+    --muted-bg: color-mix(in srgb, var(--bg) 90%, var(--astro-code-background));
+    --muted-foreground: var(--text-tertiary);
   }
 
   .checkin-header {
@@ -551,19 +631,82 @@
     margin-top: 0.65rem;
     font-size: 0.8rem;
     color: var(--text-tertiary);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 
   .sync-status[data-state='error'] {
     color: #dc2626;
   }
 
-  .calendar-card {
-    padding: 1.25rem 0;
-    border-bottom: 1px solid var(--border);
+  .sync-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+    animation: sync-pulse 1.6s ease-in-out infinite;
   }
 
-  .calendar-card:last-of-type {
-    border-bottom: none;
+  .sync-status[data-state='error'] .sync-dot {
+    background: #ef4444;
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+    animation: sync-pulse 1.2s ease-in-out infinite;
+  }
+
+  @keyframes sync-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55);
+      opacity: 0.75;
+    }
+    70% {
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+      opacity: 1;
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+      opacity: 0.7;
+    }
+  }
+
+  .total-summary {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--card-border);
+    background: var(--muted-bg);
+    width: fit-content;
+  }
+
+  .total-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .total-value {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .total-divider {
+    width: 1px;
+    height: 1.1rem;
+    background: var(--card-border);
+  }
+
+  .calendar-card {
+    padding: 1.5rem;
+    border: 1px solid var(--card-border);
+    border-radius: 1rem;
+    background: var(--card-bg);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   }
 
   .calendar-card[data-calendar='fitness'] {
@@ -578,7 +721,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 0.75rem;
   }
@@ -595,15 +738,24 @@
   }
 
   .calendar-tag {
-    font-size: 0.65rem;
-    letter-spacing: 0.14em;
-    color: var(--text-tertiary);
+    display: inline-flex;
+    align-items: center;
+    height: 1.4rem;
+    padding: 0 0.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: var(--muted-bg);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
   }
 
   .calendar-toolbar {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
+    align-items: center;
   }
 
   .month-label {
@@ -615,23 +767,60 @@
 
   .nav-btn,
   .ghost-btn {
-    border-radius: 0.45rem;
-    border: 1px solid var(--border);
-    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    padding: 0 0.65rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--card-border);
+    background: var(--bg);
     color: var(--text-primary);
-    padding: 0.25rem 0.6rem;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 500;
     cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .calendar-toolbar .nav-btn,
+  .calendar-toolbar .ghost-btn {
+    width: 2rem;
+    padding: 0;
+  }
+
+  .toolbar-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .calendar-toolbar .month-label {
+    min-width: 6.5rem;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+  }
+
+  .ghost-btn {
+    border-color: transparent;
+    background: transparent;
+    color: var(--text-secondary);
   }
 
   .nav-btn:hover,
   .ghost-btn:hover {
-    border-color: var(--text-primary);
+    border-color: color-mix(in srgb, var(--text-primary) 18%, var(--card-border));
+    background: var(--muted-bg);
+    color: var(--text-primary);
   }
 
   .plan-panel {
     margin-top: 0.8rem;
-    padding: 0.75rem 0;
+    padding: 0.75rem;
+    border: 1px solid var(--card-border);
+    border-radius: 0.75rem;
+    background: var(--muted-bg);
   }
 
   .plan-header {
@@ -646,8 +835,10 @@
   .plan-input,
   .note-input {
     width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--card-border);
+    border-radius: 0.6rem;
     padding: 0.5rem 0.6rem;
     font-size: 0.85rem;
     font-family: var(--sans);
@@ -668,6 +859,10 @@
     gap: 0.65rem;
     align-items: center;
     margin: 0.75rem 0;
+    padding: 0.5rem 0.7rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--card-border);
+    background: var(--muted-bg);
   }
 
   .summary-block {
@@ -714,16 +909,18 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 0.4rem;
-    padding: 0.45rem;
-    border-radius: 0.6rem;
-    border: 1px solid var(--border);
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--card-border);
     background: var(--bg);
     min-height: 5.2rem;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   }
 
   .day-cell.is-empty {
     background: transparent;
     border-style: dashed;
+    box-shadow: none;
   }
 
   .day-cell.is-weekend .day-number {
@@ -731,20 +928,28 @@
   }
 
   .day-cell.is-today {
-    border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--card-border));
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
   .day-cell.is-selected {
     border-color: var(--accent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 28%, transparent);
   }
 
   .day-cell.is-done {
-    background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+    border-color: color-mix(in srgb, var(--check-accent) 35%, var(--card-border));
+    background: color-mix(in srgb, var(--check-accent) 10%, var(--bg));
+  }
+
+  .day-cell:not(.is-empty):hover {
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--card-border));
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
   .day-number {
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     display: flex;
     align-items: center;
     gap: 0.3rem;
@@ -763,28 +968,74 @@
   }
 
   .day-actions {
-    display: grid;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
   }
 
   .habit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 0.45rem;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-secondary);
-    font-size: 0.72rem;
-    padding: 0.25rem 0.4rem;
+    border: 1px solid var(--card-border);
+    background: var(--bg);
+    color: var(--text-tertiary);
+    width: 1.9rem;
+    height: 1.9rem;
     cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .habit-btn:hover {
+    border-color: color-mix(in srgb, var(--check-accent) 35%, var(--card-border));
+  }
+
+  .habit-btn:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--check-accent) 35%, transparent);
+    outline-offset: 2px;
   }
 
   .habit-btn.is-active {
-    border-color: var(--accent);
-    color: var(--text-primary);
+    border-color: var(--check-accent);
+    background: color-mix(in srgb, var(--check-accent) 24%, var(--bg));
+    color: var(--check-accent);
+    transform: translateY(-1px);
+  }
+
+  .habit-icon {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease;
+  }
+
+  .habit-btn.is-active .habit-icon {
+    animation: check-pop 0.25s ease;
+    transform: scale(1.08);
+  }
+
+  @keyframes check-pop {
+    0% {
+      transform: scale(0.9);
+      opacity: 0.65;
+    }
+    70% {
+      transform: scale(1.12);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.08);
+      opacity: 1;
+    }
   }
 
   .note-panel {
     margin-top: 0.8rem;
-    padding-top: 0.8rem;
-    border-top: 1px dashed var(--border);
+    padding: 0.8rem;
+    border: 1px dashed var(--card-border);
+    border-radius: 0.75rem;
+    background: var(--muted-bg);
     display: none;
     flex-direction: column;
     gap: 0.5rem;
@@ -813,8 +1064,28 @@
   }
 
   @media (max-width: 720px) {
+    .calendar-card {
+      padding: 1rem;
+    }
+
     .calendar-toolbar {
       gap: 0.35rem;
+    }
+
+    .plan-panel,
+    .note-panel {
+      padding: 0.65rem;
+    }
+
+    .total-summary {
+      width: 100%;
+      justify-content: space-between;
+      gap: 0.6rem;
+    }
+
+    .total-item {
+      flex: 1;
+      justify-content: center;
     }
 
     .calendar-grid {

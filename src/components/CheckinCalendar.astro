@@ -1,0 +1,828 @@
+---
+---
+
+<div class="checkin-page" data-checkin>
+  <header class="checkin-header">
+    <div class="title-row">
+      <span class="title-kicker">打卡日历</span>
+      <h1>健身与 FPS 练枪</h1>
+    </div>
+    <p class="checkin-lede">云端同步你的训练记录，多设备可查看。</p>
+    <div class="sync-status" data-sync-status>正在连接云端...</div>
+  </header>
+
+  <section class="calendar-card" data-calendar="fitness" aria-labelledby="fitness-title">
+    <div class="calendar-head">
+      <div class="calendar-title">
+        <span class="calendar-tag fitness">FITNESS</span>
+        <h2 id="fitness-title">健身</h2>
+        <p>记录每一天的训练完成情况，并补充简短备注。</p>
+      </div>
+      <div class="calendar-toolbar">
+        <button class="nav-btn" type="button" data-action="prev">上个月</button>
+        <div class="month-label" data-month-label>--</div>
+        <button class="nav-btn" type="button" data-action="next">下个月</button>
+        <button class="ghost-btn" type="button" data-action="today">回到本月</button>
+      </div>
+    </div>
+
+    <div class="plan-panel" data-plan-panel>
+      <div class="plan-header">
+        <span>本月训练计划</span>
+        <span class="plan-status" data-plan-status>自动保存</span>
+      </div>
+      <textarea
+        class="plan-input"
+        data-plan-input
+        rows="3"
+        placeholder="例如：周一腿+有氧，周三背，周五胸"
+      ></textarea>
+    </div>
+
+    <div class="calendar-summary">
+      <div class="summary-block summary-fitness">
+        <span class="summary-label">本月已完成</span>
+        <span class="summary-value" data-count-done>0</span>
+        <span class="summary-unit">天</span>
+      </div>
+      <p class="summary-note">点击日期可编辑备注。</p>
+    </div>
+
+    <div class="calendar">
+      <div class="weekday-row" aria-hidden="true">
+        <span>一</span>
+        <span>二</span>
+        <span>三</span>
+        <span>四</span>
+        <span>五</span>
+        <span>六</span>
+        <span>日</span>
+      </div>
+      <div class="calendar-grid" data-calendar-grid></div>
+    </div>
+
+    <div class="note-panel" data-note-panel>
+      <div class="note-header">
+        <span class="note-date" data-note-date>选择日期</span>
+        <button class="ghost-btn" type="button" data-note-clear>清空备注</button>
+      </div>
+      <textarea
+        class="note-input"
+        data-note-input
+        rows="2"
+        placeholder="例如：深蹲 5x5，RPE7"
+      ></textarea>
+      <p class="note-tip">备注会随打卡数据同步到云端。</p>
+    </div>
+  </section>
+
+  <section class="calendar-card" data-calendar="aim" aria-labelledby="aim-title">
+    <div class="calendar-head">
+      <div class="calendar-title">
+        <span class="calendar-tag aim">AIM</span>
+        <h2 id="aim-title">FPS 练枪</h2>
+        <p>记录练枪完成天数，保持连续训练节奏。</p>
+      </div>
+      <div class="calendar-toolbar">
+        <button class="nav-btn" type="button" data-action="prev">上个月</button>
+        <div class="month-label" data-month-label>--</div>
+        <button class="nav-btn" type="button" data-action="next">下个月</button>
+        <button class="ghost-btn" type="button" data-action="today">回到本月</button>
+      </div>
+    </div>
+
+    <div class="calendar-summary">
+      <div class="summary-block summary-aim">
+        <span class="summary-label">本月已完成</span>
+        <span class="summary-value" data-count-done>0</span>
+        <span class="summary-unit">天</span>
+      </div>
+      <p class="summary-note">只需点击按钮即可打卡。</p>
+    </div>
+
+    <div class="calendar">
+      <div class="weekday-row" aria-hidden="true">
+        <span>一</span>
+        <span>二</span>
+        <span>三</span>
+        <span>四</span>
+        <span>五</span>
+        <span>六</span>
+        <span>日</span>
+      </div>
+      <div class="calendar-grid" data-calendar-grid></div>
+    </div>
+  </section>
+</div>
+
+<script is:inline>
+  function setupCheckinCalendars() {
+    const root = document.querySelector('[data-checkin]')
+    if (!root || root.dataset.ready === 'true') return
+    root.dataset.ready = 'true'
+
+    const statusEl = root.querySelector('[data-sync-status]')
+
+    function setStatus(message, state) {
+      if (!statusEl) return
+      statusEl.textContent = message
+      statusEl.dataset.state = state
+    }
+
+    function createDefaultData() {
+      return {
+        fitness: { days: {}, plans: {} },
+        aim: { days: {} }
+      }
+    }
+
+    function isRecord(value) {
+      return typeof value === 'object' && value !== null && !Array.isArray(value)
+    }
+
+    function normalizeData(raw) {
+      const safe = createDefaultData()
+      if (!isRecord(raw)) return safe
+
+      if (isRecord(raw.fitness)) {
+        if (isRecord(raw.fitness.days)) {
+          safe.fitness.days = raw.fitness.days
+        }
+        if (isRecord(raw.fitness.plans)) {
+          safe.fitness.plans = raw.fitness.plans
+        }
+      }
+
+      if (isRecord(raw.aim) && isRecord(raw.aim.days)) {
+        safe.aim.days = raw.aim.days
+      }
+
+      return safe
+    }
+
+    let data = createDefaultData()
+    let saveTimer = null
+    let savePromise = null
+
+    async function loadData() {
+      setStatus('正在加载云端数据...', 'loading')
+      try {
+        const response = await fetch('/api/checkin', { headers: { Accept: 'application/json' } })
+        if (!response.ok) throw new Error('Failed')
+        const payload = await response.json()
+        data = normalizeData(payload.data)
+        setStatus('已连接云端', 'ready')
+      } catch (error) {
+        data = createDefaultData()
+        setStatus('云端连接失败，暂存于本地', 'error')
+      }
+    }
+
+    async function persistData() {
+      if (savePromise) return savePromise
+      setStatus('正在同步...', 'saving')
+      savePromise = fetch('/api/checkin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data })
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error('Failed')
+          setStatus('已保存', 'saved')
+        })
+        .catch(() => {
+          setStatus('保存失败，请稍后重试', 'error')
+        })
+        .finally(() => {
+          savePromise = null
+        })
+
+      return savePromise
+    }
+
+    function scheduleSave() {
+      if (saveTimer) {
+        clearTimeout(saveTimer)
+      }
+      saveTimer = setTimeout(() => {
+        saveTimer = null
+        persistData()
+      }, 400)
+    }
+
+    function monthKey(date) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      return `${year}-${month}`
+    }
+
+    function dateKey(year, monthIndex, day) {
+      const month = String(monthIndex + 1).padStart(2, '0')
+      const date = String(day).padStart(2, '0')
+      return `${year}-${month}-${date}`
+    }
+
+    function ensureMonth(scope, key) {
+      if (!data[scope].days[key]) {
+        data[scope].days[key] = {}
+      }
+      return data[scope].days[key]
+    }
+
+    function updateCounts(monthData, countEl) {
+      let doneTotal = 0
+      Object.values(monthData).forEach((entry) => {
+        if (entry && entry.done) doneTotal += 1
+      })
+      if (countEl) countEl.textContent = String(doneTotal)
+    }
+
+    function initCalendar(calendarRoot) {
+      const scope = calendarRoot.dataset.calendar
+      if (scope !== 'fitness' && scope !== 'aim') return
+
+      const grid = calendarRoot.querySelector('[data-calendar-grid]')
+      const monthLabel = calendarRoot.querySelector('[data-month-label]')
+      const doneCount = calendarRoot.querySelector('[data-count-done]')
+      const prevButton = calendarRoot.querySelector('[data-action="prev"]')
+      const nextButton = calendarRoot.querySelector('[data-action="next"]')
+      const todayButton = calendarRoot.querySelector('[data-action="today"]')
+      const planInput = calendarRoot.querySelector('[data-plan-input]')
+      const notePanel = calendarRoot.querySelector('[data-note-panel]')
+      const noteInput = calendarRoot.querySelector('[data-note-input]')
+      const noteDate = calendarRoot.querySelector('[data-note-date]')
+      const noteClear = calendarRoot.querySelector('[data-note-clear]')
+
+      let viewDate = new Date()
+      viewDate.setDate(1)
+      let selectedDate = null
+      let activePlanKey = null
+
+      function setButtonState(button, active) {
+        button.classList.toggle('is-active', active)
+        button.setAttribute('aria-pressed', active ? 'true' : 'false')
+      }
+
+      function updateNoteIndicator(dateId, hasNote) {
+        if (!grid) return
+        const cell = grid.querySelector(`[data-date="${dateId}"]`)
+        if (!cell) return
+        cell.classList.toggle('has-note', hasNote)
+        const dot = cell.querySelector('.note-dot')
+        if (dot) dot.classList.toggle('is-active', hasNote)
+      }
+
+      function selectDate(dateId) {
+        if (!notePanel || !noteInput || !noteDate) return
+        selectedDate = dateId
+        notePanel.classList.add('is-active')
+        noteDate.textContent = dateId
+        const key = dateId.slice(0, 7)
+        const monthData = ensureMonth(scope, key)
+        const dayData = monthData[dateId] || {}
+        noteInput.value = dayData.note || ''
+
+        if (grid) {
+          grid.querySelectorAll('.day-cell.is-selected').forEach((cell) => {
+            cell.classList.remove('is-selected')
+          })
+          const selectedCell = grid.querySelector(`[data-date="${dateId}"]`)
+          if (selectedCell) selectedCell.classList.add('is-selected')
+        }
+      }
+
+      function handleNoteInput() {
+        if (!selectedDate || !noteInput) return
+        const key = selectedDate.slice(0, 7)
+        const monthData = ensureMonth(scope, key)
+        const dayData = monthData[selectedDate] || {}
+        const note = noteInput.value.trim()
+
+        if (note) {
+          dayData.note = note
+        } else {
+          delete dayData.note
+        }
+
+        if (!dayData.done && !dayData.note) {
+          delete monthData[selectedDate]
+        } else {
+          monthData[selectedDate] = dayData
+        }
+
+        updateNoteIndicator(selectedDate, Boolean(note))
+        scheduleSave()
+      }
+
+      function renderCalendar() {
+        if (!grid || !monthLabel) return
+
+        const year = viewDate.getFullYear()
+        const monthIndex = viewDate.getMonth()
+        const currentKey = monthKey(viewDate)
+        const monthData = ensureMonth(scope, currentKey)
+
+        monthLabel.textContent = `${year}年${monthIndex + 1}月`
+
+        if (planInput && scope === 'fitness') {
+          if (activePlanKey !== currentKey) {
+            planInput.value = data.fitness.plans[currentKey] || ''
+            activePlanKey = currentKey
+          }
+        }
+
+        const firstDay = new Date(year, monthIndex, 1)
+        const daysInMonth = new Date(year, monthIndex + 1, 0).getDate()
+        const startOffset = (firstDay.getDay() + 6) % 7
+
+        grid.innerHTML = ''
+        const fragment = document.createDocumentFragment()
+
+        for (let i = 0; i < startOffset; i += 1) {
+          const emptyCell = document.createElement('div')
+          emptyCell.className = 'day-cell is-empty'
+          emptyCell.setAttribute('aria-hidden', 'true')
+          fragment.appendChild(emptyCell)
+        }
+
+        for (let day = 1; day <= daysInMonth; day += 1) {
+          const cell = document.createElement('div')
+          const weekdayIndex = (startOffset + day - 1) % 7
+          const dateId = dateKey(year, monthIndex, day)
+          const dayData = monthData[dateId] || {}
+
+          cell.className = 'day-cell'
+          cell.dataset.date = dateId
+          if (weekdayIndex >= 5) cell.classList.add('is-weekend')
+          if (dayData.done) cell.classList.add('is-done')
+          if (dayData.note) cell.classList.add('has-note')
+
+          const today = new Date()
+          if (
+            today.getFullYear() === year &&
+            today.getMonth() === monthIndex &&
+            today.getDate() === day
+          ) {
+            cell.classList.add('is-today')
+          }
+
+          if (selectedDate === dateId) {
+            cell.classList.add('is-selected')
+          }
+
+          const dayNumber = document.createElement('div')
+          dayNumber.className = 'day-number'
+          dayNumber.textContent = String(day)
+
+          if (scope === 'fitness') {
+            const noteDot = document.createElement('span')
+            noteDot.className = 'note-dot'
+            if (dayData.note) noteDot.classList.add('is-active')
+            dayNumber.appendChild(noteDot)
+          }
+
+          const actions = document.createElement('div')
+          actions.className = 'day-actions'
+
+          const button = document.createElement('button')
+          button.type = 'button'
+          button.className = `habit-btn habit-${scope}`
+          button.dataset.habit = scope
+          button.textContent = scope === 'fitness' ? '健身' : '练枪'
+          setButtonState(button, Boolean(dayData.done))
+
+          actions.appendChild(button)
+
+          cell.appendChild(dayNumber)
+          cell.appendChild(actions)
+          fragment.appendChild(cell)
+        }
+
+        const totalCells = startOffset + daysInMonth
+        const trailing = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7)
+
+        for (let i = 0; i < trailing; i += 1) {
+          const emptyCell = document.createElement('div')
+          emptyCell.className = 'day-cell is-empty'
+          emptyCell.setAttribute('aria-hidden', 'true')
+          fragment.appendChild(emptyCell)
+        }
+
+        grid.appendChild(fragment)
+        updateCounts(monthData, doneCount)
+      }
+
+      function handleMonthChange(offset) {
+        viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + offset, 1)
+        if (scope === 'fitness') {
+          selectedDate = null
+          if (notePanel) notePanel.classList.remove('is-active')
+        }
+        renderCalendar()
+      }
+
+      function handleToday() {
+        viewDate = new Date()
+        viewDate.setDate(1)
+        if (scope === 'fitness') {
+          selectedDate = null
+          if (notePanel) notePanel.classList.remove('is-active')
+        }
+        renderCalendar()
+      }
+
+      if (prevButton) prevButton.addEventListener('click', () => handleMonthChange(-1))
+      if (nextButton) nextButton.addEventListener('click', () => handleMonthChange(1))
+      if (todayButton) todayButton.addEventListener('click', handleToday)
+
+      if (planInput && scope === 'fitness') {
+        planInput.addEventListener('input', () => {
+          const key = monthKey(viewDate)
+          data.fitness.plans[key] = planInput.value.trim()
+          scheduleSave()
+        })
+      }
+
+      if (noteInput && scope === 'fitness') {
+        noteInput.addEventListener('input', handleNoteInput)
+      }
+
+      if (noteClear && scope === 'fitness') {
+        noteClear.addEventListener('click', () => {
+          if (!selectedDate || !noteInput) return
+          noteInput.value = ''
+          handleNoteInput()
+        })
+      }
+
+      if (grid) {
+        grid.addEventListener('click', (event) => {
+          if (!(event.target instanceof Element)) return
+
+          const button = event.target.closest('button[data-habit]')
+          if (button) {
+            const cell = button.closest('[data-date]')
+            if (!cell) return
+
+            const dateId = cell.dataset.date
+            if (!dateId) return
+            const key = dateId.slice(0, 7)
+            const monthData = ensureMonth(scope, key)
+            const dayData = monthData[dateId] || {}
+            dayData.done = !dayData.done
+
+            if (!dayData.done && !dayData.note) {
+              delete monthData[dateId]
+            } else {
+              monthData[dateId] = dayData
+            }
+
+            cell.classList.toggle('is-done', Boolean(dayData.done))
+            setButtonState(button, Boolean(dayData.done))
+            updateCounts(monthData, doneCount)
+            scheduleSave()
+            return
+          }
+
+          if (scope === 'fitness') {
+            const cell = event.target.closest('[data-date]')
+            if (!cell || !cell.dataset.date) return
+            selectDate(cell.dataset.date)
+          }
+        })
+      }
+
+      renderCalendar()
+    }
+
+    loadData().then(() => {
+      root.querySelectorAll('[data-calendar]').forEach((calendar) => {
+        initCalendar(calendar)
+      })
+    })
+  }
+
+  setupCheckinCalendars()
+  document.addEventListener('astro:page-load', setupCheckinCalendars)
+</script>
+
+<style is:global>
+  .checkin-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 68rem;
+    margin: 0 auto;
+  }
+
+  .checkin-header {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .title-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .title-kicker {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+
+  .checkin-header h1 {
+    margin: 0;
+    font-size: clamp(1.6rem, 1.2vw + 1rem, 2.2rem);
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .checkin-lede {
+    margin: 0.35rem 0 0;
+    color: var(--text-secondary);
+    max-width: 52ch;
+  }
+
+  .sync-status {
+    margin-top: 0.65rem;
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+  }
+
+  .sync-status[data-state='error'] {
+    color: #dc2626;
+  }
+
+  .calendar-card {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .calendar-card:last-of-type {
+    border-bottom: none;
+  }
+
+  .calendar-card[data-calendar='fitness'] {
+    --accent: #f97316;
+  }
+
+  .calendar-card[data-calendar='aim'] {
+    --accent: #0ea5e9;
+  }
+
+  .calendar-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .calendar-title h2 {
+    margin: 0.2rem 0 0.3rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .calendar-title p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  .calendar-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    color: var(--text-tertiary);
+  }
+
+  .calendar-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .month-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding: 0 0.35rem;
+  }
+
+  .nav-btn,
+  .ghost-btn {
+    border-radius: 0.45rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+
+  .nav-btn:hover,
+  .ghost-btn:hover {
+    border-color: var(--text-primary);
+  }
+
+  .plan-panel {
+    margin-top: 0.8rem;
+    padding: 0.75rem 0;
+  }
+
+  .plan-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+  }
+
+  .plan-input,
+  .note-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.85rem;
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text-primary);
+    resize: vertical;
+  }
+
+  .plan-input:focus,
+  .note-input:focus {
+    outline: 2px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    outline-offset: 2px;
+  }
+
+  .calendar-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: center;
+    margin: 0.75rem 0;
+  }
+
+  .summary-block {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .summary-value {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .summary-note {
+    margin: 0;
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+  }
+
+  .calendar {
+    margin-top: 0.5rem;
+  }
+
+  .weekday-row {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+  }
+
+  .day-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.4rem;
+    padding: 0.45rem;
+    border-radius: 0.6rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    min-height: 5.2rem;
+  }
+
+  .day-cell.is-empty {
+    background: transparent;
+    border-style: dashed;
+  }
+
+  .day-cell.is-weekend .day-number {
+    color: var(--text-secondary);
+  }
+
+  .day-cell.is-today {
+    border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  }
+
+  .day-cell.is-selected {
+    border-color: var(--accent);
+  }
+
+  .day-cell.is-done {
+    background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  }
+
+  .day-number {
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .note-dot {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 999px;
+    background: var(--accent);
+    opacity: 0.2;
+  }
+
+  .note-dot.is-active {
+    opacity: 0.7;
+  }
+
+  .day-actions {
+    display: grid;
+  }
+
+  .habit-btn {
+    border-radius: 0.45rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    padding: 0.25rem 0.4rem;
+    cursor: pointer;
+  }
+
+  .habit-btn.is-active {
+    border-color: var(--accent);
+    color: var(--text-primary);
+  }
+
+  .note-panel {
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 1px dashed var(--border);
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .note-panel.is-active {
+    display: flex;
+  }
+
+  .note-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .note-date {
+    font-weight: 600;
+  }
+
+  .note-tip {
+    margin: 0;
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 720px) {
+    .calendar-toolbar {
+      gap: 0.35rem;
+    }
+
+    .calendar-grid {
+      gap: 0.35rem;
+    }
+
+    .day-cell {
+      min-height: 4.8rem;
+    }
+  }
+</style>

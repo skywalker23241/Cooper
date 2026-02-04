@@ -1,0 +1,70 @@
+---
+title: '插件卡片演示'
+pubDate: 2026-02-03
+---
+
+# 插件卡片演示
+
+本页面演示 `remark-embedded-media` 指令卡片的写法与效果，直接复制指令到任意文章即可使用。
+
+## Link Card
+
+```md
+::link{url="https://example.com"}
+```
+
+::link{url="https://example.com"}
+
+## GitHub 仓库卡片
+
+```md
+::github{repo="withastro/astro"}
+```
+
+::github{repo="withastro/astro"}
+
+## Spotify
+
+```md
+::spotify{url="https://open.spotify.com/track/6rqhFgbbKwnb9MLmUQDhG6"}
+```
+
+::spotify{url="https://open.spotify.com/track/6rqhFgbbKwnb9MLmUQDhG6"}
+
+## YouTube
+
+```md
+::youtube{url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
+```
+
+::youtube{url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
+
+## Bilibili
+
+```md
+::bilibili{url="https://www.bilibili.com/video/BV1GJ411x7h7/"}
+```
+
+::bilibili{url="https://www.bilibili.com/video/BV1GJ411x7h7/"}
+
+## X / Twitter
+
+```md
+::x{url="https://x.com/jack/status/20"}
+```
+
+::x{url="https://x.com/jack/status/20"}
+
+## NeoDB
+
+```md
+::neodb{url="https://neodb.social/movie/spirited-away"}
+```
+
+::neodb{url="https://neodb.social/movie/spirited-away"}
+
+## 注意事项
+
+- Link Card 需要 `linkCard: true` 且 `/api/proxy` 可用。
+- NeoDB、X、Spotify 等需要外部网络访问。
+- 如果某个卡片显示 Error，请替换为你自己的链接测试。

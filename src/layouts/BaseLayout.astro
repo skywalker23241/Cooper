@@ -20,7 +20,6 @@ const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
 
 <html lang={language}>
   <head>
-
     {fadeAnimation && <ClientRouter />}
     <slot name="head" />
   </head>
@@ -46,6 +45,18 @@ const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
       )
     }
   </body>
+  <script async type="application/javascript" src="https://news.google.com/swg/js/v1/swg-basic.js"
+  ></script>
+  <script>
+    ;(self.SWG_BASIC = self.SWG_BASIC || []).push((basicSubscriptions) => {
+      basicSubscriptions.init({
+        type: 'NewsArticle',
+        isPartOfType: ['Product'],
+        isPartOfProductId: 'CAowjeK2DA:openaccess',
+        clientOptions: { theme: 'light', lang: 'en' }
+      })
+    })
+  </script>
 </html>
 
 <style is:global>

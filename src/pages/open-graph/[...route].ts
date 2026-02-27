@@ -32,13 +32,13 @@ export const { getStaticPaths, GET } = OGImageRoute({
         color: [28, 28, 28],
         size: 68,
         weight: 'SemiBold',
-        families: ['Inter', 'Besley', 'AlanSans-Regular', 'MapleMono-CN-Regular']
+        families: ['Inter Variable', 'Besley', 'Alan Sans', 'Maple Mono CN']
       },
       description: {
         color: [180, 180, 180],
         size: 40,
         weight: 'Medium',
-        families: ['Inter', 'Besley', 'AlanSans-Regular', 'MapleMono-CN-Regular']
+        families: ['Inter Variable', 'Besley', 'Alan Sans', 'Maple Mono CN']
       }
     },
     fonts: [

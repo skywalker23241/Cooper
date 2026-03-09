@@ -37,16 +37,8 @@
       return fallback?.isConnected ? fallback : null
     }
 
-    function mountGiscus(root = document, attempt = 0) {
-      const container = getActiveContainer(root)
-
-      if (!container) {
-        if (attempt > 60) return
-        requestAnimationFrame(() => mountGiscus(root, attempt + 1))
-        return
-      }
-
-      container.innerHTML = ''
+    function mountGiscus(container) {
+      if (!container || container.dataset.giscusHydrated === 'true') return
 
       const script = document.createElement('script')
       script.src = 'https://giscus.app/client.js'
@@ -58,11 +50,29 @@
       })
 
       container.dataset.giscusHydrated = 'true'
+      container.innerHTML = ''
       container.appendChild(script)
     }
 
     function schedule(root = document) {
-      requestAnimationFrame(() => mountGiscus(root))
+      const container = getActiveContainer(root)
+      if (!container) return
+
+      if (!('IntersectionObserver' in window)) {
+        mountGiscus(container)
+        return
+      }
+
+      const observer = new IntersectionObserver(
+        (entries, currentObserver) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return
+          currentObserver.disconnect()
+          mountGiscus(container)
+        },
+        { rootMargin: '200px 0px' }
+      )
+
+      observer.observe(container)
     }
 
     schedule()
@@ -77,13 +87,6 @@
 
     window.addEventListener('popstate', () => {
       schedule()
-    })
-  } else {
-    requestAnimationFrame(() => {
-      const container = document.querySelector('#giscus-container')
-      if (container && !container.dataset.giscusHydrated) {
-        container.dataset.giscusHydrated = 'true'
-      }
     })
   }
 </script>

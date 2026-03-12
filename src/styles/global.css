@@ -2,310 +2,320 @@
 @import './post.css';
 
 :root {
-  /* Min Content Width */
-  --content-width: 25rem;
+    /* Min Content Width */
+    --content-width: 25rem;
 
-  /* Typography */
-  --sans:
-    AlanSans-Regular, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
-    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, MapleMono-CN-Regular, sans-serif;
-  --serif: Besley, Baskerville, Georgia, Cambria, 'Times New Roman', Times, serif;
-  --mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    /* Typography */
+    --sans:
+        AlanSans-Regular, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+        Cantarell, Fira Sans, Droid Sans, Helvetica Neue, MapleMono-CN-Regular, sans-serif;
+    --serif: Besley, Baskerville, Georgia, Cambria, 'Times New Roman', Times, serif;
+    --mono: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
-  --font-size-s: 0.8125rem;
-  --font-size-m: 0.9375rem;
-  --font-size-l: 1.0625rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
+    --font-size-s: 0.8125rem;
+    --font-size-m: 1.1rem;
+    --font-size-l: 1.0625rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
 
-  --font-weight-light: 300;
-  --font-weight-regular: 400;
-  --font-weight-bold: 700;
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-bold: 700;
 
-  --spacing-s: -0.08em;
-  --spacing-m: -0.02em;
+    --spacing-s: -0.08em;
+    --spacing-m: -0.02em;
 
-  /* Light Mode Colors (Default) */
-  --bg: #ffffff;
-  --text-primary: rgba(0, 0, 0, 0.85);
-  --text-secondary: rgba(0, 0, 0, 0.4);
-  --text-tertiary: rgba(0, 0, 0, 0.24);
-  --border: rgba(0, 0, 0, 0.1);
-  --selection: rgba(0, 0, 0, 0.08);
-  --code-bg: rgba(0, 0, 0, 0.04);
-  --mark: #f3ffc4;
+    /* Light Mode Colors (Default) */
+    --bg: #ffffff;
+    --text-primary: rgba(0, 0, 0, 0.85);
+    --text-secondary: rgba(0, 0, 0, 0.4);
+    --text-tertiary: rgba(0, 0, 0, 0.24);
+    --border: rgba(0, 0, 0, 0.1);
+    --selection: rgba(0, 0, 0, 0.08);
+    --code-bg: rgba(0, 0, 0, 0.04);
+    --mark: #f3ffc4;
 
-  /* Syntax Theme  */
-  --astro-code-foreground: rgba(0, 0, 0, 0.85);
-  --astro-code-background: rgba(0, 0, 0, 0.03);
-  --astro-code-token-constant: rgba(0, 0, 0, 0.85);
-  --astro-code-token-string: rgba(0, 0, 0, 0.85);
-  --astro-code-token-comment: rgba(0, 0, 0, 0.35);
-  --astro-code-token-keyword: rgba(0, 0, 0, 0.55);
-  --astro-code-token-parameter: rgba(0, 0, 0, 0.85);
-  --astro-code-token-function: rgba(0, 0, 0, 0.85);
-  --astro-code-token-string-expression: rgba(0, 0, 0, 0.55);
-  --astro-code-token-punctuation: rgba(0, 0, 0, 0.55);
-  --astro-code-token-link: rgba(0, 0, 0, 0.55);
+    /* Syntax Theme  */
+    --astro-code-foreground: rgba(0, 0, 0, 0.85);
+    --astro-code-background: rgba(0, 0, 0, 0.03);
+    --astro-code-token-constant: rgba(0, 0, 0, 0.85);
+    --astro-code-token-string: rgba(0, 0, 0, 0.85);
+    --astro-code-token-comment: rgba(0, 0, 0, 0.35);
+    --astro-code-token-keyword: rgba(0, 0, 0, 0.55);
+    --astro-code-token-parameter: rgba(0, 0, 0, 0.85);
+    --astro-code-token-function: rgba(0, 0, 0, 0.85);
+    --astro-code-token-string-expression: rgba(0, 0, 0, 0.55);
+    --astro-code-token-punctuation: rgba(0, 0, 0, 0.55);
+    --astro-code-token-link: rgba(0, 0, 0, 0.55);
 }
 
 /* Light Mode (Explicit) */
 html.light {
-  --bg: #ffffff;
-  --text-primary: rgba(0, 0, 0, 0.85);
-  --text-secondary: rgba(0, 0, 0, 0.4);
-  --text-tertiary: rgba(0, 0, 0, 0.24);
-  --border: rgba(0, 0, 0, 0.1);
-  --selection: rgba(0, 0, 0, 0.08);
-  --code-bg: rgba(0, 0, 0, 0.04);
-  --mark: #f3ffc4;
+    --bg: #ffffff;
+    --text-primary: rgba(0, 0, 0, 0.85);
+    --text-secondary: rgba(0, 0, 0, 0.4);
+    --text-tertiary: rgba(0, 0, 0, 0.24);
+    --border: rgba(0, 0, 0, 0.1);
+    --selection: rgba(0, 0, 0, 0.08);
+    --code-bg: rgba(0, 0, 0, 0.04);
+    --mark: #f3ffc4;
 
-  /* Syntax Theme  */
-  --astro-code-foreground: rgba(0, 0, 0, 0.85);
-  --astro-code-background: rgba(0, 0, 0, 0.03);
-  --astro-code-token-constant: rgba(0, 0, 0, 0.85);
-  --astro-code-token-string: rgba(0, 0, 0, 0.85);
-  --astro-code-token-comment: rgba(0, 0, 0, 0.35);
-  --astro-code-token-keyword: rgba(0, 0, 0, 0.5);
-  --astro-code-token-parameter: rgba(0, 0, 0, 0.85);
-  --astro-code-token-function: rgba(0, 0, 0, 0.85);
-  --astro-code-token-string-expression: rgba(0, 0, 0, 0.55);
-  --astro-code-token-punctuation: rgba(0, 0, 0, 0.55);
-  --astro-code-token-link: rgba(0, 0, 0, 0.55);
+    /* Syntax Theme  */
+    --astro-code-foreground: rgba(0, 0, 0, 0.85);
+    --astro-code-background: rgba(0, 0, 0, 0.03);
+    --astro-code-token-constant: rgba(0, 0, 0, 0.85);
+    --astro-code-token-string: rgba(0, 0, 0, 0.85);
+    --astro-code-token-comment: rgba(0, 0, 0, 0.35);
+    --astro-code-token-keyword: rgba(0, 0, 0, 0.5);
+    --astro-code-token-parameter: rgba(0, 0, 0, 0.85);
+    --astro-code-token-function: rgba(0, 0, 0, 0.85);
+    --astro-code-token-string-expression: rgba(0, 0, 0, 0.55);
+    --astro-code-token-punctuation: rgba(0, 0, 0, 0.55);
+    --astro-code-token-link: rgba(0, 0, 0, 0.55);
 }
 
 /* Dark Mode (Explicit) */
 html.dark {
-  --bg: #1c1c1c;
-  --text-primary: rgba(255, 255, 255, 0.9);
-  --text-secondary: rgba(255, 255, 255, 0.4);
-  --text-tertiary: rgba(255, 255, 255, 0.24);
-  --border: rgba(255, 255, 255, 0.1);
-  --selection: rgba(255, 255, 255, 0.08);
-  --code-bg: rgba(255, 255, 255, 0.04);
-  --mark: #545b37;
+    --bg: #1c1c1c;
+    --text-primary: rgba(255, 255, 255, 0.9);
+    --text-secondary: rgba(255, 255, 255, 0.4);
+    --text-tertiary: rgba(255, 255, 255, 0.24);
+    --border: rgba(255, 255, 255, 0.1);
+    --selection: rgba(255, 255, 255, 0.08);
+    --code-bg: rgba(255, 255, 255, 0.04);
+    --mark: #545b37;
 
-  /* Syntax Theme  */
-  --astro-code-foreground: rgba(255, 255, 255, 0.9);
-  --astro-code-background: rgba(255, 255, 255, 0.03);
-  --astro-code-token-constant: rgba(255, 255, 255, 0.9);
-  --astro-code-token-string: rgba(255, 255, 255, 0.9);
-  --astro-code-token-comment: rgba(255, 255, 255, 0.35);
-  --astro-code-token-keyword: rgba(255, 255, 255, 0.55);
-  --astro-code-token-parameter: rgba(255, 255, 255, 0.9);
-  --astro-code-token-function: rgba(255, 255, 255, 0.9);
-  --astro-code-token-string-expression: rgba(255, 255, 255, 0.55);
-  --astro-code-token-punctuation: rgba(255, 255, 255, 0.55);
-  --astro-code-token-link: rgba(255, 255, 255, 0.55);
+    /* Syntax Theme  */
+    --astro-code-foreground: rgba(255, 255, 255, 0.9);
+    --astro-code-background: rgba(255, 255, 255, 0.03);
+    --astro-code-token-constant: rgba(255, 255, 255, 0.9);
+    --astro-code-token-string: rgba(255, 255, 255, 0.9);
+    --astro-code-token-comment: rgba(255, 255, 255, 0.35);
+    --astro-code-token-keyword: rgba(255, 255, 255, 0.55);
+    --astro-code-token-parameter: rgba(255, 255, 255, 0.9);
+    --astro-code-token-function: rgba(255, 255, 255, 0.9);
+    --astro-code-token-string-expression: rgba(255, 255, 255, 0.55);
+    --astro-code-token-punctuation: rgba(255, 255, 255, 0.55);
+    --astro-code-token-link: rgba(255, 255, 255, 0.55);
 }
 
 html {
-  background-color: var(--bg);
-  scroll-behavior: smooth;
-  scrollbar-gutter: stable;
-  overscroll-behavior-y: contain;
-  -webkit-overflow-scrolling: touch;
+    background-color: var(--bg);
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* 删除 text-autospace，改用更现代的写法 */
 body {
-  font-family: var(--sans);
-  font-feature-settings:
-    'ss03' 1,
-    'palt' 1; /* 'palt' 有助于中日文标点挤压 */
-  font-size: var(--font-size-m);
-  text-rendering: optimizeLegibility;
-  line-height: 1.75;
-  color: var(--text-primary);
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  letter-spacing: var(--spacing-m);
-  padding: 6rem 1.5rem 1.5rem 1.5rem;
-  overscroll-behavior-y: contain;
-  transition: background-color 0.2s ease-out;
+    font-family: var(--sans);
+    font-feature-settings:
+        'ss03' 1,
+        'palt' 1;
+    /* 'palt' 有助于中日文标点挤压 */
+    font-size: var(--font-size-m);
+    text-rendering: optimizeLegibility;
+    line-height: 1.75;
+    color: var(--text-primary);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    letter-spacing: var(--spacing-m);
+    padding: 6rem 1.5rem 1.5rem 1.5rem;
+    overscroll-behavior-y: contain;
+    transition: background-color 0.2s ease-out;
 }
 
 @media (max-width: 768px) {
-  body {
-    padding: 4rem 1.35rem 1.35rem 1.35rem;
-  }
+    body {
+        padding: 4rem 1.35rem 1.35rem 1.35rem;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-  }
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
 }
 
 ::selection {
-  background-color: var(--selection);
+    background-color: var(--selection);
 }
 
 :focus {
-  outline: 2px solid var(--text-tertiary);
-  outline-offset: 2px;
+    outline: 2px solid var(--text-tertiary);
+    outline-offset: 2px;
 }
 
 :focus:not(:focus-visible) {
-  outline: none;
+    outline: none;
 }
 
 :focus-visible {
-  outline: 2px solid var(--text-tertiary);
-  outline-offset: 2px;
+    outline: 2px solid var(--text-tertiary);
+    outline-offset: 2px;
 }
 
 body[data-width] {
-  max-width: var(--content-width);
+    max-width: var(--content-width);
 }
 
 body[data-centered='true'] {
-  margin: 0 auto;
+    margin: 0 auto;
 }
 
 main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
 .date {
-  margin: 0;
-  font-weight: var(--font-weight-light);
-  color: var(--text-secondary);
-  opacity: 0.75;
-  flex-shrink: 0;
-  letter-spacing: var(--spacing-s);
-  font-variant-numeric: tabular-nums;
-  font-feature-settings:
-    'tnum' 1,
-    'zero' 0,
-    'cv01' 1,
-    'cv02' 1,
-    'calt' 1,
-    'ss03' 1,
-    'ordn' 1;
+    margin: 0;
+    font-weight: var(--font-weight-light);
+    color: var(--text-secondary);
+    opacity: 0.75;
+    flex-shrink: 0;
+    letter-spacing: var(--spacing-s);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings:
+        'tnum' 1,
+        'zero' 0,
+        'cv01' 1,
+        'cv02' 1,
+        'calt' 1,
+        'ss03' 1,
+        'ordn' 1;
 }
 
 .date .month {
-  letter-spacing: var(--spacing-m);
+    letter-spacing: var(--spacing-m);
 }
 
 .sr-only {
-  border: 0;
-  padding: 0;
-  margin: 0;
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px 1px 1px 1px);
-  clip: rect(1px, 1px, 1px, 1px);
-  clip-path: inset(50%);
-  white-space: nowrap;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
 /* Card component styles */
 .card {
-  padding: 1.5rem;
-  background-color: var(--code-bg);
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 1.75em 0;
-  border: 1px solid var(--border);
+    padding: 1.5rem;
+    background-color: var(--code-bg);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 1.75em 0;
+    border: 1px solid var(--border);
 }
 
 .card-title {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--text-primary);
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
 }
 
 .card-content {
-  margin: 0;
+    margin: 0;
 }
 
 .card blockquote {
-  border-left: none;
-  margin: 0;
-  padding: 0;
-  text-align: left;
+    border-left: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
 }
 
 .card cite {
-  display: block;
-  text-align: right;
-  margin-top: 0.5rem;
-  font-style: normal;
-  color: var(--text-secondary);
+    display: block;
+    text-align: right;
+    margin-top: 0.5rem;
+    font-style: normal;
+    color: var(--text-secondary);
 }
 
 .card div[style*='text-align: center'] {
-  text-align: center;
+    text-align: center;
 }
 
 /* 折叠代码块样式 */
 details {
-  margin: 10px 0;
-  padding: 0;
-  transition: all 0.3s ease;
+    margin: 10px 0;
+    padding: 0;
+    transition: all 0.3s ease;
 }
 
 summary {
-  font-weight: bold;
-  cursor: pointer;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 summary::marker {
-  content: ''; /* 默认箭头符号 */
+    content: '';
+    /* 默认箭头符号 */
 }
 
 details[open] summary::marker {
-  content: ''; /* 展开时的箭头符号 */
+    content: '';
+    /* 展开时的箭头符号 */
 }
 
 svg {
-  vertical-align: -0.3em; /* 轻微往下对齐，常见做法 */
+    vertical-align: -0.3em;
+    /* 轻微往下对齐，常见做法 */
 }
 
 .chat-bubble {
-  display: inline-block;
-  max-width: 80%; /* 控制宽度 */
-  background: #f1f5f9; /* 浅灰背景 */
-  border: 1px solid #e2e8f0; /* 边框 */
-  border-radius: 1rem; /* 圆角 */
-  padding: 0.75rem 1rem;
-  margin: 0.5rem 0;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #1e293b; /* 深灰文字 */
-  position: relative;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    display: inline-block;
+    max-width: 80%;
+    /* 控制宽度 */
+    background: #f1f5f9;
+    /* 浅灰背景 */
+    border: 1px solid #e2e8f0;
+    /* 边框 */
+    border-radius: 1rem;
+    /* 圆角 */
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #1e293b;
+    /* 深灰文字 */
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .chat-bubble::after {
-  content: '';
-  position: absolute;
-  bottom: -8px; /* 气泡尖角位置 */
-  left: 1.5rem;
-  border-width: 8px;
-  border-style: solid;
-  border-color: #f1f5f9 transparent transparent transparent;
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    /* 气泡尖角位置 */
+    left: 1.5rem;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #f1f5f9 transparent transparent transparent;
 }
 
 .chat-bubble .icon {
-  display: inline-flex;
-  vertical-align: middle;
-  margin: 0 0.25rem;
+    display: inline-flex;
+    vertical-align: middle;
+    margin: 0 0.25rem;
 }

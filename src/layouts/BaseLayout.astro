@@ -16,24 +16,46 @@ const fadeAnimation = themeConfig.general.fadeAnimation
 const widthValue = Math.min(parseFloat(contentWidth), 50)
 const shouldUseCustomWidth = widthValue > 25
 const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
+const isPostLayout = type === 'post'
 ---
 
 <html lang={language}>
   <head>
     {fadeAnimation && <ClientRouter />}
     <slot name="head" />
-    <script async type="application/javascript" src="https://news.google.com/swg/js/v1/swg-basic.js"
-    ></script>
-    <script>
-      ;(self.SWG_BASIC = self.SWG_BASIC || []).push((basicSubscriptions) => {
-        basicSubscriptions.init({
-          type: 'NewsArticle',
-          isPartOfType: ['Product'],
-          isPartOfProductId: 'CAowkqXfCw:openaccess',
-          clientOptions: { theme: 'light', lang: 'en' }
-        })
-      })
-    </script>
+    {
+      isPostLayout && (
+        <script is:inline>
+          const loadSwg = () => {
+            if (window.__swgLoaded) return
+            window.__swgLoaded = true
+
+            const script = document.createElement('script')
+            script.async = true
+            script.src = 'https://news.google.com/swg/js/v1/swg-basic.js'
+
+            script.onload = () => {
+              ;(self.SWG_BASIC = self.SWG_BASIC || []).push((basicSubscriptions) => {
+                basicSubscriptions.init({
+                  type: 'NewsArticle',
+                  isPartOfType: ['Product'],
+                  isPartOfProductId: 'CAowkqXfCw:openaccess',
+                  clientOptions: { theme: 'light', lang: 'en' }
+                })
+              })
+            }
+
+            document.head.appendChild(script)
+          }
+
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadSwg, { timeout: 2000 })
+          } else {
+            setTimeout(loadSwg, 1200)
+          }
+        </script>
+      )
+    }
   </head>
   <body
     data-centered={themeConfig.general.centeredLayout}
@@ -43,7 +65,7 @@ const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
     `}
   >
     <FaviconThemeSwitcher />
-    <GiscusLoader />
+    {isPostLayout && <GiscusLoader />}
 
     {
       fadeAnimation ? (

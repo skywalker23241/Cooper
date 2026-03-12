@@ -35,20 +35,25 @@ export default function rehypeImageProcessor() {
 
       const newNodes = []
 
-      for (const imgNode of imgNodes) {
+      for (const [position, imgNode] of imgNodes.entries()) {
         const alt = imgNode.properties?.alt?.trim()
+        const isLeadingImage = position === 0
+        const existingClassesRaw = imgNode.properties?.className || imgNode.properties?.class || []
+        const existingClasses = Array.isArray(existingClassesRaw)
+          ? existingClassesRaw
+          : [existingClassesRaw]
 
         // Enhanced image properties with performance optimizations
         imgNode.properties = {
           ...imgNode.properties,
           'data-preview': themeConfig.post.imageViewer ? 'true' : 'false',
-          // Add lazy loading for better performance
-          loading: 'lazy',
+          // Let the first content image load eagerly to improve LCP.
+          loading: isLeadingImage ? 'eager' : 'lazy',
           // Add decoding hint for better performance
           decoding: 'async',
-          // Add fetchpriority for critical images (first image gets high priority)
-          fetchpriority: newNodes.length === 0 ? 'high' : 'auto',
-          class: [...(imgNode.properties.class || []), 'img-placeholder']
+          // First content image gets high fetch priority.
+          fetchpriority: isLeadingImage ? 'high' : 'auto',
+          className: [...existingClasses, 'img-placeholder']
         }
 
         if (!alt || alt.includes('_')) {

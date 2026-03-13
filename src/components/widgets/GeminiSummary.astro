@@ -43,7 +43,6 @@ const { content } = Astro.props
 
 <script>
   function initGeminiSummary() {
-    console.log('GeminiSummary: Initializing...');
     const btn = document.getElementById('generate-summary-btn');
     const card = document.getElementById('summary-card');
     const summaryText = document.getElementById('summary-text');
@@ -51,25 +50,21 @@ const { content } = Astro.props
     const loadingDots = card?.querySelector('.loading-dots');
 
     if (!btn) {
-      console.warn('GeminiSummary: Button not found');
       return;
     }
     if (!card || !summaryText) {
-      console.warn('GeminiSummary: Card or Text element not found');
       return;
     }
 
     const handleClick = async () => {
-      console.log('GeminiSummary: Button clicked');
       const content = btn.getAttribute('data-content');
       
       if (!content) {
-        console.error('GeminiSummary: No content found in data-content attribute');
         alert('Error: No content available to summarize.');
         return;
       }
 
-      console.log('GeminiSummary: Content length:', content.length);
+
 
       // UI State: Loading
       btn.style.display = 'none';
@@ -79,31 +74,27 @@ const { content } = Astro.props
       cursor?.classList.add('hidden');
 
       try {
-        console.log('GeminiSummary: Sending request...');
         const response = await fetch('/api/gemini', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ type: 'summary', content })
         });
 
-        console.log('GeminiSummary: Response status:', response.status);
+
         const data = await response.json();
         
         loadingDots?.classList.add('hidden');
 
         if (response.ok) {
-          console.log('GeminiSummary: Success, typing text...');
           cursor?.classList.remove('hidden');
           await typeWriter(data.text, summaryText);
           cursor?.classList.add('hidden');
         } else {
-          console.error('GeminiSummary: API Error', data);
           summaryText.innerHTML = `<span class="error">Error: ${data.error || 'Failed to generate summary'}</span>`;
           // Show button again on error so user can retry?
           btn.style.display = 'block'; 
         }
       } catch (error) {
-        console.error('GeminiSummary: Network Error', error);
         loadingDots?.classList.add('hidden');
         summaryText.innerHTML = '<span class="error">Error: Failed to reach the server</span>';
         btn.style.display = 'block';

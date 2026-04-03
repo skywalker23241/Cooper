@@ -8,6 +8,12 @@
   margin-bottom: 8rem;
 }
 
+/* Giscus comment container - defer rendering until near viewport */
+#giscus-container {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
+}
+
 /* Post title section */
 .prose .title {
   margin-bottom: 2.5em;

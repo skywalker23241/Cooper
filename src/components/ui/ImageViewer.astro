@@ -89,14 +89,17 @@
 
     bindImageClickEvents()
 
-    const observer = new MutationObserver(() => {
-      bindImageClickEvents()
-    })
+    const proseEl = document.querySelector('.prose')
+    if (proseEl) {
+      const observer = new MutationObserver(() => {
+        bindImageClickEvents()
+      })
 
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    })
+      observer.observe(proseEl, {
+        childList: true,
+        subtree: true
+      })
+    }
 
     // Hide initially
     viewer!.style.visibility = 'hidden'

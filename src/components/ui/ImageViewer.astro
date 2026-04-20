@@ -2,117 +2,115 @@
   <img id="image-viewer-img" src="" alt="" />
 </div>
 
-<script>
-  function initImageViewer() {
-    const viewer = document.getElementById('image-viewer')
-    const viewerImg = document.getElementById('image-viewer-img') as HTMLImageElement
+<script is:inline>
+  ;(function () {
+    if (window.__imageViewerRegistered) return
+    window.__imageViewerRegistered = true
 
-    if (!viewer || !viewerImg || viewerImg.tagName !== 'IMG') return
+    let currentKeydownHandler = null
 
-    // Display image in fullscreen viewer overlay
-    function showImage(src: string, alt?: string) {
-      if (viewerImg && src) {
-        viewerImg.src = src
-        viewerImg.alt = alt || ''
-      }
-      // Show visibility first
-      viewer!.style.visibility = 'visible'
-      void viewer!.offsetWidth
-      viewer!.classList.add('active')
-      viewer!.style.pointerEvents = 'auto'
-      viewer!.setAttribute('aria-hidden', 'false')
-      document.body.classList.add('image-viewer-open')
-      document.body.style.overflow = 'hidden'
-      document.body.dataset.scrollY = window.scrollY.toString()
-      viewer!.style.cursor = 'auto'
-      setTimeout(() => {
-        viewer!.style.cursor = ''
-      }, 10)
-    }
+    function initImageViewer() {
+      const viewer = document.getElementById('image-viewer')
+      const viewerImg = document.getElementById('image-viewer-img')
 
-    // Hide the image viewer and restore page scroll
-    function hideImage() {
-      viewer!.classList.remove('active')
-      viewer!.style.pointerEvents = 'none'
-      viewer!.setAttribute('aria-hidden', 'true')
-      document.body.classList.remove('image-viewer-open')
-      document.body.style.overflow = ''
-    }
+      if (!viewer || !viewerImg || viewerImg.tagName !== 'IMG') return
 
-    // Hide and clear image after transition ends
-    viewer!.addEventListener('transitionend', (e) => {
-      if (e.propertyName === 'opacity' && !viewer!.classList.contains('active')) {
-        viewer!.style.visibility = 'hidden'
-        if (viewerImg) {
-          viewerImg.src = ''
-          viewerImg.alt = ''
+      function showImage(src, alt) {
+        if (viewerImg && src) {
+          viewerImg.src = src
+          viewerImg.alt = alt || ''
         }
-        viewer!.style.cursor = 'auto'
-        setTimeout(() => {
-          viewer!.style.cursor = ''
+        viewer.style.visibility = 'visible'
+        void viewer.offsetWidth
+        viewer.classList.add('active')
+        viewer.style.pointerEvents = 'auto'
+        viewer.setAttribute('aria-hidden', 'false')
+        document.body.classList.add('image-viewer-open')
+        document.body.style.overflow = 'hidden'
+        document.body.dataset.scrollY = window.scrollY.toString()
+        viewer.style.cursor = 'auto'
+        setTimeout(function () {
+          viewer.style.cursor = ''
         }, 10)
       }
-    })
 
-    // Bind click events to images with data-preview="true" attribute
-    function bindImageClickEvents() {
-      const previewImages = document.querySelectorAll('img[data-preview="true"]')
-      previewImages.forEach((img) => {
-        const imgElement = img as HTMLImageElement
-        imgElement.style.cursor = 'zoom-in'
-        imgElement.addEventListener('click', (e) => {
-          e.preventDefault()
-          const target = e.target as HTMLImageElement
-          showImage(target.src, target.alt || '')
-        })
-      })
-    }
-
-    viewer?.addEventListener('click', hideImage)
-
-    // Prevent touch scroll in image viewer
-    viewer?.addEventListener(
-      'touchmove',
-      (e) => {
-        if (viewer.classList.contains('active')) {
-          e.preventDefault()
-        }
-      },
-      { passive: false }
-    )
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && viewer.classList.contains('active')) {
-        hideImage()
+      function hideImage() {
+        viewer.classList.remove('active')
+        viewer.style.pointerEvents = 'none'
+        viewer.setAttribute('aria-hidden', 'true')
+        document.body.classList.remove('image-viewer-open')
+        document.body.style.overflow = ''
       }
-    })
 
-    bindImageClickEvents()
-
-    const proseEl = document.querySelector('.prose')
-    if (proseEl) {
-      const observer = new MutationObserver(() => {
-        bindImageClickEvents()
+      viewer.addEventListener('transitionend', function (e) {
+        if (e.propertyName === 'opacity' && !viewer.classList.contains('active')) {
+          viewer.style.visibility = 'hidden'
+          if (viewerImg) {
+            viewerImg.src = ''
+            viewerImg.alt = ''
+          }
+          viewer.style.cursor = 'auto'
+          setTimeout(function () {
+            viewer.style.cursor = ''
+          }, 10)
+        }
       })
 
-      observer.observe(proseEl, {
-        childList: true,
-        subtree: true
-      })
+      function bindImageClickEvents() {
+        const previewImages = document.querySelectorAll('img[data-preview="true"]')
+        previewImages.forEach(function (img) {
+          if (img.__imageViewerBound) return
+          img.__imageViewerBound = true
+          img.style.cursor = 'zoom-in'
+          img.addEventListener('click', function (e) {
+            e.preventDefault()
+            showImage(e.target.src, e.target.alt || '')
+          })
+        })
+      }
+
+      viewer.addEventListener('click', hideImage)
+
+      viewer.addEventListener(
+        'touchmove',
+        function (e) {
+          if (viewer.classList.contains('active')) {
+            e.preventDefault()
+          }
+        },
+        { passive: false }
+      )
+
+      // Clean up previous keydown handler to avoid stacking
+      if (currentKeydownHandler) {
+        document.removeEventListener('keydown', currentKeydownHandler)
+      }
+      currentKeydownHandler = function (e) {
+        if (e.key === 'Escape' && viewer.classList.contains('active')) {
+          hideImage()
+        }
+      }
+      document.addEventListener('keydown', currentKeydownHandler)
+
+      bindImageClickEvents()
+
+      const proseEl = document.querySelector('.prose')
+      if (proseEl) {
+        const observer = new MutationObserver(function () {
+          bindImageClickEvents()
+        })
+        observer.observe(proseEl, {
+          childList: true,
+          subtree: true
+        })
+      }
+
+      viewer.style.visibility = 'hidden'
+      viewer.style.pointerEvents = 'none'
     }
 
-    // Hide initially
-    viewer!.style.visibility = 'hidden'
-    viewer!.style.pointerEvents = 'none'
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initImageViewer)
-  } else {
-    initImageViewer()
-  }
-
-  document.addEventListener('astro:page-load', initImageViewer)
+    document.addEventListener('astro:page-load', initImageViewer)
+  })()
 </script>
 
 <style>

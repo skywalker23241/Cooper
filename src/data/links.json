@@ -1,64 +1,385 @@
 [
   {
-    "category": "常用",
+    "category": "常用推荐",
     "items": [
-      {
-        "name": "风铃Music",
-        "url": "https://flmusic.chickmate.cloud/"
-      },
       {
         "name": "ChatGPT",
         "url": "https://chatgpt.com"
       },
       {
-        "name": "分流抢票",
-        "url": "https://www.bypass.cn/"
+        "name": "风铃Music",
+        "url": "https://flmusic.555353.xyz/"
       },
       {
-        "name": "图片压缩",
-        "url": "https://squoosh.app/"
-      }
-    ]
-  },
-  {
-    "category": "开发",
-    "items": [
+        "name": "Gmail",
+        "url": "https://mail.google.com/"
+      },
       {
         "name": "GitHub",
         "url": "https://github.com"
       },
       {
-        "name": "Astro 文档",
-        "url": "https://docs.astro.build"
+        "name": "Z-Library",
+        "url": "https://zh.zlib.li/"
       },
       {
-        "name": "Shadcn UI",
-        "url": "https://ui.shadcn.com"
+        "name": "Linux.do",
+        "url": "https://linux.do"
       },
       {
-        "name": "Netlify",
-        "url": "https://app.netlify.com/teams/skywalker23241/projects"
+        "name": "B站",
+        "url": "https://www.bilibili.com"
       },
       {
-        "name": "Latitude",
-        "url": "https://app.latitude.so/"
+        "name": "Vercel",
+        "url": "https://vercel.com/"
       }
     ]
   },
   {
-    "category": "SEO",
+    "category": "AI 实验室",
     "items": [
       {
-        "name": "流量监控",
-        "url": "https://traffic.cv/"
+        "name": "Google AI Studio",
+        "url": "https://aistudio.google.com/"
       },
       {
-        "name": "谷歌核心更新",
-        "url": "https://status.search.google.com/products/rGHU1u87FJnkP6W2GwMi/history"
+        "name": "Claude",
+        "url": "https://claude.ai/"
       },
       {
-        "name": "Link Checker",
-        "url": "https://link-checker.itea.dev/"
+        "name": "Perplexity",
+        "url": "https://www.perplexity.ai/"
+      },
+      {
+        "name": "NotebookLM",
+        "url": "https://notebooklm.google.com/"
+      },
+      {
+        "name": "Grok",
+        "url": "https://grok.com/"
+      },
+      {
+        "name": "Dify",
+        "url": "https://dify.ai/"
+      },
+      {
+        "name": "DeepSeek",
+        "url": "https://chat.deepseek.com/"
+      },
+      {
+        "name": "即梦 AI",
+        "url": "https://jimeng.jianying.com/"
+      },
+      {
+        "name": "Mirofish",
+        "url": "https://666ghj.github.io/mirofish-demo/"
+      },
+      {
+        "name": "Kagi Search",
+        "url": "https://kagi.com/"
+      },
+      {
+        "name": "提示词管理",
+        "url": "https://prompt.huiyim.cn/dashboard"
+      }
+    ]
+  },
+  {
+    "category": "开发 & 云端",
+    "items": [
+      {
+        "name": "Gist",
+        "url": "https://gist.github.com/"
+      },
+      {
+        "name": "Cloudflare",
+        "url": "https://dash.cloudflare.com/"
+      },
+      {
+        "name": "Netlify",
+        "url": "https://app.netlify.com/"
+      },
+      {
+        "name": "GCP Console",
+        "url": "https://console.cloud.google.com/"
+      },
+      {
+        "name": "RackNerd",
+        "url": "https://www.racknerd.com/"
+      },
+      {
+        "name": "Wispbyte",
+        "url": "https://wispbyte.com/"
+      },
+      {
+        "name": "ngrok",
+        "url": "https://ngrok.com/"
+      },
+      {
+        "name": "Shields.io",
+        "url": "https://shields.io/"
+      },
+      {
+        "name": "UptimeFlare",
+        "url": "https://uptimeflare-44z.pages.dev/"
+      },
+      {
+        "name": "Status Page",
+        "url": "https://uptimeflare-44z.pages.dev/"
+      },
+      {
+        "name": "DigitalPlat",
+        "url": "https://dash.domain.digitalplat.org/"
+      },
+      {
+        "name": "IPv6 Tunnel",
+        "url": "https://tb.netassist.ua/"
+      },
+      {
+        "name": "Element UI",
+        "url": "https://element.eleme.io/"
+      },
+      {
+        "name": "Ant Design",
+        "url": "https://ant.design/"
+      }
+    ]
+  },
+  {
+    "category": "效率工具",
+    "items": [
+      {
+        "name": "IT Tools",
+        "url": "https://it-tools.tech/"
+      },
+      {
+        "name": "Raycast",
+        "url": "https://www.raycast.com/windows"
+      },
+      {
+        "name": "Windsurf",
+        "url": "https://windsurf.com/"
+      },
+      {
+        "name": "Memos",
+        "url": "https://usememos.com/"
+      },
+      {
+        "name": "Dub.co",
+        "url": "https://dub.co/"
+      },
+      {
+        "name": "Bitly",
+        "url": "https://bitly.com/"
+      },
+      {
+        "name": "Beeper",
+        "url": "https://www.beeper.com/"
+      },
+      {
+        "name": "Hemingway",
+        "url": "https://hemingwayapp.com/"
+      },
+      {
+        "name": "ScreenToGif",
+        "url": "https://www.screentogif.com/"
+      },
+      {
+        "name": "PeskTop",
+        "url": "https://pesktop.com/"
+      },
+      {
+        "name": "在线剪切板",
+        "url": "https://clipboard.utopia.rocks/"
+      },
+      {
+        "name": "Bypass 分流",
+        "url": "https://www.bypass.cn/"
+      },
+      {
+        "name": "Hopp.co",
+        "url": "https://hopp.co/"
+      },
+      {
+        "name": "Buttondown",
+        "url": "https://buttondown.com/"
+      }
+    ]
+  },
+  {
+    "category": "设计 & 媒体",
+    "items": [
+      {
+        "name": "Wallhaven",
+        "url": "https://wallhaven.cc/"
+      },
+      {
+        "name": "Pexels",
+        "url": "https://www.pexels.com/"
+      },
+      {
+        "name": "Pixabay",
+        "url": "https://pixabay.com/"
+      },
+      {
+        "name": "Iconfont",
+        "url": "https://www.iconfont.cn/"
+      },
+      {
+        "name": "Phosphor Icons",
+        "url": "https://phosphoricons.com/"
+      },
+      {
+        "name": "Icons8",
+        "url": "https://icons8.com/"
+      },
+      {
+        "name": "Logo.wine",
+        "url": "https://www.logo.wine/"
+      },
+      {
+        "name": "Canva",
+        "url": "https://www.canva.com/"
+      },
+      {
+        "name": "Squoosh",
+        "url": "https://squoosh.app/"
+      },
+      {
+        "name": "Imgur",
+        "url": "https://imgur.com/"
+      },
+      {
+        "name": "Mixkit",
+        "url": "https://mixkit.co/"
+      },
+      {
+        "name": "Design Prompts",
+        "url": "https://www.designprompts.dev/"
+      },
+      {
+        "name": "恋风壁纸",
+        "url": "https://www.luvbree.com/"
+      },
+      {
+        "name": "风铃音乐",
+        "url": "https://flmusic.555353.xyz/"
+      }
+    ]
+  },
+  {
+    "category": "Google 专区",
+    "items": [
+      {
+        "name": "Calendar",
+        "url": "https://calendar.google.com/"
+      },
+      {
+        "name": "Drive",
+        "url": "https://drive.google.com/"
+      },
+      {
+        "name": "Keep",
+        "url": "https://keep.google.com/"
+      },
+      {
+        "name": "Chat",
+        "url": "https://mail.google.com/chat/"
+      },
+      {
+        "name": "Trends",
+        "url": "https://trends.google.com/"
+      },
+      {
+        "name": "Translate",
+        "url": "https://translate.google.com/"
+      },
+      {
+        "name": "Maps",
+        "url": "https://www.google.com/maps"
+      },
+      {
+        "name": "Looker Studio",
+        "url": "https://lookerstudio.google.com/"
+      },
+      {
+        "name": "Search Console",
+        "url": "https://search.google.com/search-console/"
+      },
+      {
+        "name": "Analytics",
+        "url": "https://analytics.google.com/"
+      },
+      {
+        "name": "PageSpeed",
+        "url": "https://pagespeed.web.dev/"
+      }
+    ]
+  },
+  {
+    "category": "资源 & 学习",
+    "items": [
+      {
+        "name": "Duolingo",
+        "url": "https://www.duolingo.com/"
+      },
+      {
+        "name": "Scribd",
+        "url": "https://www.scribd.com/"
+      },
+      {
+        "name": "軟倉",
+        "url": "https://www.ruancang.net/"
+      },
+      {
+        "name": "线报酷",
+        "url": "https://new.xianbao.fun/"
+      },
+      {
+        "name": "Z-Library",
+        "url": "https://zh.zlib.li/"
+      },
+      {
+        "name": "Deepin Guide",
+        "url": "https://www.deepin.org/en/deepin-25-installation/"
+      },
+      {
+        "name": "Grokipedia",
+        "url": "https://grokipedia.com/"
+      },
+      {
+        "name": "Rome2Rio",
+        "url": "https://www.rome2rio.com/"
+      }
+    ]
+  },
+  {
+    "category": "社区 & 资讯",
+    "items": [
+      {
+        "name": "Hacker News",
+        "url": "https://news.ycombinator.com/"
+      },
+      {
+        "name": "Reddit",
+        "url": "https://www.reddit.com/"
+      },
+      {
+        "name": "Mastodon",
+        "url": "https://mastodon.social/"
+      },
+      {
+        "name": "NGA",
+        "url": "https://ngabbs.com/"
+      },
+      {
+        "name": "小黑盒",
+        "url": "https://www.xiaoheihe.cn/"
+      },
+      {
+        "name": "煎蛋",
+        "url": "https://jandan.net/"
       },
       {
         "name": "DevakaTalk",
@@ -71,44 +392,39 @@
     ]
   },
   {
-    "category": "魔法",
+    "category": "趣味 & 其他",
     "items": [
       {
-        "name": "北美机场",
-        "url": "https://xn--djr29gc2r0vx.com/#/dashboard"
+        "name": "xkcd",
+        "url": "https://xkcd.com/"
       },
       {
-        "name": "魔戒",
-        "url": "https://mojie.me/#/dashboard"
+        "name": "Radio Garden",
+        "url": "https://radio.garden/"
       },
       {
-        "name": "宝可梦",
-        "url": "https://web4.52pokemon.cc/dashboard"
+        "name": "FakeUpdate",
+        "url": "https://fakeupdate.net/"
       },
       {
-        "name": "风萧萧",
-        "url": "https://chanel.weyolo.com/#/dashboard"
-      }
-    ]
-  },
-  {
-    "category": "摸鱼",
-    "items": [
-      {
-        "name": "L站",
-        "url": "https://linux.do"
+        "name": "Random Street",
+        "url": "https://randomstreetview.com/"
       },
       {
-        "name": "B站",
-        "url": "https://www.bilibili.com"
+        "name": "好好说话",
+        "url": "https://lab.magiconch.com/nbnhhsh/"
       },
       {
-        "name": "小黑盒",
-        "url": "https://www.xiaoheihe.cn/app/bbs/home"
+        "name": "OpenClaw",
+        "url": "https://openclaw.allegro.earth/"
       },
       {
-        "name": "煎蛋",
-        "url": "https://jandan.net/"
+        "name": "深圳地铁",
+        "url": "https://www.metrolinehub.com/zh/china/shenzhen"
+      },
+      {
+        "name": "Valorant Info",
+        "url": "https://valorantinfo.com/"
       }
     ]
   }

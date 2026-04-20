@@ -1,145 +1,122 @@
 ---
 import FormattedDate from '@/components/widgets/FormattedDate.astro'
 import type { PostListProps } from '@/types'
-import { themeConfig } from '@/config'
 
 const { posts } = Astro.props as PostListProps
+
+const groups = new Map<number, typeof posts>()
+for (const post of posts) {
+  const year = post.data.pubDate.getFullYear()
+  if (!groups.has(year)) groups.set(year, [])
+  groups.get(year)!.push(post)
+}
+
+const years = [...groups.keys()].sort((a, b) => b - a)
 ---
 
-<ul>
+<div class="post-list">
   {
-    posts.map((post) => (
-      <li>
-        <a href={`/${post.id}/`}>
-          <div class={`post-item ${!themeConfig.date.dateOnRight ? 'date-left' : ''}`}>
-            {!themeConfig.date.dateOnRight && (
-              <p class="date font-features">
-                <FormattedDate date={post.data.pubDate} context="list" />
-              </p>
-            )}
-            <p class="title">{post.data.title}</p>
-            {themeConfig.date.dateOnRight && (
-              <div
-                class={themeConfig.general.postListDottedDivider ? 'dotted-divider' : 'divider'}
-              />
-            )}
-            {themeConfig.date.dateOnRight && (
-              <p class="date font-features">
-                <FormattedDate date={post.data.pubDate} context="list" />
-              </p>
-            )}
-          </div>
-        </a>
-      </li>
+    years.map((year) => (
+      <section class="year-group">
+        <h2 class="year-label">{year}</h2>
+        <ul>
+          {groups.get(year)!.map((post) => (
+            <li>
+              <a href={`/${post.id}/`} class="post-link">
+                <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+                  <FormattedDate date={post.data.pubDate} format="MM-DD" context="list" />
+                </time>
+                <span class="post-title">{post.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
     ))
   }
-</ul>
-<div class="placeholder"></div>
+</div>
 
 <style>
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .year-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .year-label {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-regular);
+    color: var(--text-tertiary);
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
   ul {
     padding: 0;
     margin: 0;
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
 
-  a {
-    color: var(--text-primary);
-    display: block;
-    text-decoration: none;
-    transition: opacity 0.15s ease-out;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    ul:hover a {
-      opacity: 0.4;
-    }
-
-    ul:hover a:hover {
-      opacity: 1;
-    }
-
-    ul:hover a:hover .divider {
-      background-color: var(--text-tertiary);
-      opacity: 0.75;
-    }
-    ul:hover a:hover .dotted-divider {
-      color: var(--text-secondary);
-    }
-    ul:hover a:hover .date {
-      color: var(--text-secondary);
-      opacity: 1;
-    }
-  }
-
-  .post-item {
-    height: 2.75rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .post-item.date-left {
-    justify-content: flex-start;
-  }
-
-  .post-item.date-left .title {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-  .post-item.date-left .date {
-    margin-right: 0.75rem;
-  }
-
-  .title {
+  li {
     margin: 0;
-    flex-shrink: 1;
+  }
+
+  .post-link {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.15rem 0;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.15s ease-out;
+    line-height: 1.4;
+  }
+
+  .post-link:hover .post-title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  .post-date {
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    min-width: 2.75rem;
+    font-family: var(--mono);
+    opacity: 0.85;
+  }
+
+  .post-title {
+    flex: 1;
     min-width: 0;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .date {
-    margin: 0;
-    color: var(--text-secondary);
-    opacity: 0.75;
-    letter-spacing: var(--spacing-s);
-    flex-shrink: 0;
     white-space: nowrap;
+    font-size: 0.8125rem;
+    font-weight: 500;
   }
 
-  .divider {
-    flex: 1 1 auto;
-    min-width: 3rem;
-    margin: 0 0.25rem;
-    height: 0.5px;
-    background-color: var(--border);
-  }
+  @media (max-width: 520px) {
+    .post-link {
+      gap: 0.85rem;
+    }
 
-  .dotted-divider {
-    flex: 1 1 3rem;
-    min-width: 3rem;
-    max-width: 100%;
-    text-align: end;
-    letter-spacing: 5px;
-    height: 1.675rem;
-    overflow: hidden;
-    color: var(--text-tertiary);
-    opacity: 0.75;
-  }
-
-  .dotted-divider::after {
-    content: '·····························································································································································';
-    pointer-events: none;
-  }
-
-  .placeholder {
-    height: 3rem;
+    .post-date {
+      min-width: 2.75rem;
+      font-size: calc(var(--font-size-s) * 0.95);
+    }
   }
 </style>

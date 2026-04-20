@@ -40,6 +40,9 @@ export function formatDate(date: Date, format?: string): string {
     case 'YYYY-MM-DD':
       return `${year}${separator}${pad(month)}${separator}${pad(day)}`
 
+    case 'MM-DD':
+      return `${pad(month)}${separator}${pad(day)}`
+
     case 'MM-DD-YYYY':
       return `${pad(month)}${separator}${pad(day)}${separator}${year}`
 

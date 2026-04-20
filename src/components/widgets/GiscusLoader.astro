@@ -1,11 +1,6 @@
-<script>
-  declare global {
-    interface Window {
-      __giscusLoaderInitialized?: boolean
-    }
-  }
-
-  if (!window.__giscusLoaderInitialized) {
+<script is:inline>
+  ;(function () {
+    if (window.__giscusLoaderInitialized) return
     window.__giscusLoaderInitialized = true
 
     const GISCUS_ATTRS = {
@@ -22,21 +17,6 @@
       'data-lang': 'en'
     }
 
-    function getActiveContainer(root = document) {
-      const scope = root || document
-      const containers = scope.querySelectorAll('#giscus-container')
-
-      for (let i = containers.length - 1; i >= 0; i -= 1) {
-        const candidate = containers[i]
-        if (candidate?.isConnected) {
-          return candidate
-        }
-      }
-
-      const fallback = document.querySelector('#giscus-container')
-      return fallback?.isConnected ? fallback : null
-    }
-
     function mountGiscus(container) {
       if (!container || container.dataset.giscusHydrated === 'true') return
 
@@ -45,8 +25,8 @@
       script.async = true
       script.crossOrigin = 'anonymous'
 
-      Object.entries(GISCUS_ATTRS).forEach(([key, value]) => {
-        script.setAttribute(key, value)
+      Object.entries(GISCUS_ATTRS).forEach(function (entry) {
+        script.setAttribute(entry[0], entry[1])
       })
 
       container.dataset.giscusHydrated = 'true'
@@ -54,9 +34,10 @@
       container.appendChild(script)
     }
 
-    function schedule(root = document) {
-      const container = getActiveContainer(root)
-      if (!container) return
+    function schedule() {
+      const container = document.getElementById('giscus-container')
+      if (!container || !container.isConnected) return
+      if (container.dataset.giscusHydrated === 'true') return
 
       if (!('IntersectionObserver' in window)) {
         mountGiscus(container)
@@ -64,8 +45,13 @@
       }
 
       const observer = new IntersectionObserver(
-        (entries, currentObserver) => {
-          if (!entries.some((entry) => entry.isIntersecting)) return
+        function (entries, currentObserver) {
+          if (
+            !entries.some(function (e) {
+              return e.isIntersecting
+            })
+          )
+            return
           currentObserver.disconnect()
           mountGiscus(container)
         },
@@ -75,18 +61,6 @@
       observer.observe(container)
     }
 
-    schedule()
-
-    document.addEventListener('astro:page-load', (event) => {
-      schedule(event?.detail?.newDocument || document)
-    })
-
-    document.addEventListener('astro:after-swap', (event) => {
-      schedule(event?.detail?.newDocument || document)
-    })
-
-    window.addEventListener('popstate', () => {
-      schedule()
-    })
-  }
+    document.addEventListener('astro:page-load', schedule)
+  })()
 </script>

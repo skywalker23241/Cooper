@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -iE \"^\\(House|MapPin|Briefcase|GraduationCap|GameController|BookOpen|Code|Heart|Translate|Coffee\\)\\\\.astro$\")",
+      "WebFetch(domain:bearblog.dev)"
+    ]
+  }
+}

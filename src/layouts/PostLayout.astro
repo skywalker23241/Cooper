@@ -1,6 +1,7 @@
 ---
 import '@/styles/global.css'
 import type { PostLayoutProps } from '@/types'
+import MarkdownIt from 'markdown-it'
 import FormattedDate from '@/components/widgets/FormattedDate.astro'
 import FootnoteScroll from '@/components/widgets/FootnoteScroll.astro'
 import BaseHead from '@/components/layout/BaseHead.astro'
@@ -19,12 +20,14 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 
 import { themeConfig } from '@/config'
 
-const { title, pubDate, updatedDate, description, readingTime, toc } =
+const { title, displayTitle, pubDate, updatedDate, description, readingTime, toc } =
   Astro.props as PostLayoutProps
 
 const postSlug = Astro.url.pathname.split('/').filter(Boolean).pop() || ''
 const ogImage = `/open-graph/${postSlug}.png`
 const postDescription = description || themeConfig.site.description
+const md = new MarkdownIt({ html: false })
+const headingHtml = displayTitle ? md.renderInline(displayTitle) : title
 ---
 
 <BaseLayout
@@ -49,7 +52,7 @@ const postDescription = description || themeConfig.site.description
     <article class="prose">
       {themeConfig.post.toc && <TableOfContents toc={toc} />}
       <header class="post-header">
-        <h1>{title}</h1>
+        <h1 set:html={headingHtml} />
         <div class="post-meta">
           <FormattedDate date={pubDate} context="post" />
           {

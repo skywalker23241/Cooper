@@ -2,7 +2,7 @@ import { visit } from 'unist-util-visit'
 
 /**
  * A remark plugin that converts custom directives to embedded media HTML elements
- * Supports: link cards, Spotify, YouTube, Bilibili, X posts, and GitHub repository cards
+ * Supports: link cards, Spotify, YouTube, Bilibili, X posts, GitHub repository cards, and NetEase music cards
  */
 const embedHandlers = {
   // Link Card
@@ -124,6 +124,94 @@ const embedHandlers = {
         frameborder="no"
         framespacing="0"
         allowfullscreen="true"
+      ></iframe>
+    </figure>
+    `
+  },
+
+  // NetEase Cloud Music
+  netease: (node) => {
+    const url = node.attributes?.url ?? ''
+    const rawId = String(node.attributes?.id ?? '').trim()
+    const rawType = String(node.attributes?.type ?? '')
+      .trim()
+      .toLowerCase()
+
+    let id = rawId
+    let type = rawType === 'playlist' || rawType === 'list' ? 'playlist' : rawType === 'song' ? 'song' : ''
+
+    if (url) {
+      const decodedUrl = decodeURIComponent(url)
+
+      // NetEase outchain format:
+      // https://music.163.com/outchain/player?type=2&id=12345&auto=0&height=90
+      const outchainMatch = decodedUrl.match(/outchain\/player\?[^#]*\btype=(\d+)[^#]*\bid=(\d+)/i)
+      if (outchainMatch) {
+        const outchainType = outchainMatch[1]
+        type = outchainType === '0' ? 'playlist' : 'song'
+        id = id || outchainMatch[2]
+      }
+
+      // Standard URL formats:
+      // https://music.163.com/#/song?id=12345
+      // https://music.163.com/#/playlist?id=12345
+      // https://music.163.com/song?id=12345
+      // https://music.163.com/playlist?id=12345
+      const linkMatch = decodedUrl.match(/(?:#\/)?(song|playlist)\?[^#]*\bid=(\d+)/i)
+      if (linkMatch) {
+        type = type || linkMatch[1].toLowerCase()
+        id = id || linkMatch[2]
+      }
+    }
+
+    const normalizedId = (id.match(/\d+/) || [])[0] || ''
+    if (!normalizedId) {
+      return false
+    }
+
+    const finalType = type === 'playlist' ? 'playlist' : 'song'
+    const typeNum = finalType === 'playlist' ? '0' : '2'
+    const iframeHeight = finalType === 'playlist' ? '430' : '110'
+    const playerHeight = finalType === 'playlist' ? '430' : '90'
+    const embedUrl = `https://music.163.com/outchain/player?type=${typeNum}&id=${normalizedId}&auto=0&height=${playerHeight}`
+    const openUrl =
+      finalType === 'playlist'
+        ? `https://music.163.com/#/playlist?id=${normalizedId}`
+        : `https://music.163.com/#/song?id=${normalizedId}`
+    const audioUrl = `https://music.163.com/song/media/outer/url?id=${normalizedId}.mp3`
+    const title = finalType === 'playlist' ? 'NetEase Cloud Music playlist' : 'NetEase Cloud Music song'
+
+    if (finalType === 'song') {
+      return `
+      <figure class="netease-card netease-card--song">
+        <div class="netease-card-head">
+          <span class="netease-badge">网易云音乐 · 单曲</span>
+          <a href="${openUrl}" class="netease-open" target="_blank" rel="noopener noreferrer">打开原页</a>
+        </div>
+        <div class="netease-card-body">
+          <div class="netease-track-meta">Song ID: ${normalizedId}</div>
+          <audio controls preload="none" src="${audioUrl}">
+            当前浏览器不支持音频播放，<a href="${openUrl}" target="_blank" rel="noopener noreferrer">点击在网易云打开</a>
+          </audio>
+        </div>
+      </figure>
+      `
+    }
+
+    return `
+    <figure class="netease-card netease-card--playlist">
+      <div class="netease-card-head">
+        <span class="netease-badge">网易云音乐 · 歌单</span>
+        <a href="${openUrl}" class="netease-open" target="_blank" rel="noopener noreferrer">打开原页</a>
+      </div>
+      <iframe
+        src="${embedUrl}"
+        width="100%"
+        height="${iframeHeight}"
+        frameborder="0"
+        allowfullscreen
+        loading="lazy"
+        title="${title}"
       ></iframe>
     </figure>
     `

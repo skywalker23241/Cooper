@@ -45,12 +45,13 @@ const today = new Date()
   .site-footer a {
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.15s ease-out;
+    transition:
+      color 0.15s ease-out,
+      box-shadow 0.15s ease-out;
   }
 
   .site-footer a:hover {
     color: var(--text-primary);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    box-shadow: inset 0 -0.28em 0 color-mix(in srgb, var(--selection) 100%, transparent);
   }
 </style>

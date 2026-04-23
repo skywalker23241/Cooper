@@ -3,6 +3,10 @@
     "category": "常用推荐",
     "items": [
       {
+        "name": "Codex Usage",
+        "url": "https://chatgpt.com/codex/cloud/settings/analytics#usage"
+      },
+      {
         "name": "Any Router",
         "url": "https://anyrouter.top/console"
       },

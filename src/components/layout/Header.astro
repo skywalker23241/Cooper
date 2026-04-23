@@ -3,6 +3,7 @@ import ThemeToggle from '@/components/ui/ThemeToggle.astro'
 
 const navLinks = [
   { href: '/', label: '主页' },
+  { href: '/categories', label: '分类' },
   { href: '/now', label: '现在' },
   { href: '/nav', label: '书签' },
   { href: '/newsletter', label: '订阅' }
@@ -52,20 +53,25 @@ const currentPath = Astro.url.pathname
   }
 
   .nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.15s ease-out;
+    transition:
+      color 0.15s ease-out,
+      background-color 0.15s ease-out;
   }
 
   .nav-link:hover {
     color: var(--text-primary);
+    background-color: var(--selection);
   }
 
   .nav-link.active {
     color: var(--text-primary);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    text-decoration-thickness: 1px;
+    background-color: var(--selection);
+    font-weight: 600;
   }
 
   .site-nav :global(astro-theme-toggle) {

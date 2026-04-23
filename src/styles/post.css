@@ -68,15 +68,14 @@
 /* Links */
 .prose a {
     color: var(--text-primary);
-    text-decoration: underline;
-    text-decoration-color: var(--text-tertiary);
-    text-underline-offset: 2px;
-    transition: text-decoration-color 0.15s ease-out;
+    text-decoration: none;
+    box-shadow: inset 0 -0.28em 0 color-mix(in srgb, var(--selection) 100%, transparent);
+    transition: box-shadow 0.15s ease-out;
 }
 
 .prose a:hover {
     color: var(--text-primary);
-    text-decoration-color: var(--text-primary);
+    box-shadow: inset 0 -0.42em 0 color-mix(in srgb, var(--selection) 100%, transparent);
 }
 
 /* Paragraphs */
@@ -569,4 +568,96 @@
 /* Spotify */
 .prose iframe[src*='spotify.com'] {
     aspect-ratio: auto;
+}
+
+/* NetEase Cloud Music */
+.prose .netease-card {
+    margin: 1.25rem 0 1.75rem 0;
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--astro-code-background);
+    overflow: hidden;
+    transition: background 0.2s ease-out;
+}
+
+.prose .netease-card:hover {
+    background: color-mix(in srgb, var(--selection) 75%, transparent);
+}
+
+.prose .netease-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 0.5px solid var(--border);
+}
+
+.prose .netease-badge {
+    font-size: var(--font-size-s);
+    color: var(--text-secondary);
+    letter-spacing: 0.01em;
+}
+
+.prose .netease-open {
+    font-size: var(--font-size-s);
+    color: var(--text-primary);
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.2s ease-out;
+}
+
+.prose .netease-open:hover {
+    opacity: 1;
+    text-decoration: none;
+    box-shadow: inset 0 -0.28em 0 color-mix(in srgb, var(--selection) 100%, transparent);
+}
+
+.prose .netease-card iframe {
+    display: block;
+    width: 100%;
+    margin: 0;
+    border: none;
+    aspect-ratio: auto;
+}
+
+.prose .netease-card--song iframe {
+    min-height: 110px;
+}
+
+.prose .netease-card--playlist iframe {
+    min-height: 430px;
+}
+
+.prose .netease-card-body {
+    padding: 0.875rem 1rem 1rem 1rem;
+}
+
+.prose .netease-track-meta {
+    margin: 0 0 0.625rem 0;
+    color: var(--text-secondary);
+    font-size: var(--font-size-s);
+    font-family: var(--mono);
+    letter-spacing: 0.01em;
+    opacity: 0.85;
+}
+
+.prose .netease-card audio {
+    width: 100%;
+    height: 44px;
+    display: block;
+}
+
+@media (max-width: 560px) {
+    .prose .netease-card {
+        border-radius: 8px;
+    }
+
+    .prose .netease-card-head {
+        padding: 0.625rem 0.875rem;
+    }
+
+    .prose .netease-card-body {
+        padding: 0.75rem 0.875rem 0.875rem 0.875rem;
+    }
 }

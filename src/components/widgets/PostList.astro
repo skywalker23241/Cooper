@@ -75,17 +75,21 @@ const years = [...groups.keys()].sort((a, b) => b - a)
     display: flex;
     align-items: baseline;
     gap: 1rem;
-    padding: 0.15rem 0;
+    padding: 0.2rem 0.35rem;
     color: var(--text-primary);
     text-decoration: none;
-    transition: color 0.15s ease-out;
+    transition:
+      color 0.15s ease-out,
+      background-color 0.15s ease-out;
     line-height: 1.4;
   }
 
+  .post-link:hover {
+    background-color: var(--selection);
+  }
+
   .post-link:hover .post-title {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
+    color: var(--text-primary);
   }
 
   .post-date {

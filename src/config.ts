@@ -4,7 +4,7 @@ export const themeConfig: ThemeConfig = {
   // SITE INFO ///////////////////////////////////////////////////////////////////////////////////////////
   site: {
     website: 'https://jackcooper.qzz.io/', // Site domain
-    title: 'Cooper\'s Blog', // Site title
+    title: '雫', // Site title
     author: 'Junbo', // Author name
     description: 'I shall return to the distant realm, where knowledge knows no bounds.', // Site description
     language: 'zh_CN' // Default language
@@ -12,7 +12,7 @@ export const themeConfig: ThemeConfig = {
 
   // GENERAL SETTINGS ////////////////////////////////////////////////////////////////////////////////////
   general: {
-    contentWidth: '42rem', // Content area width
+    contentWidth: '30rem', // Content area width
     centeredLayout: true, // Use centered layout (false for left-aligned)
     themeToggle: true, // Show theme toggle button (uses system theme by default)
     postListDottedDivider: false, // Show dotted divider in post list
